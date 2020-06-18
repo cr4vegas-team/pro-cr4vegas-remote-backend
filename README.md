@@ -26,4 +26,8 @@ El objetivo principal es crear un login para autenticación y autorización, y e
 ![Diagrama Relacional](/img/cr4vegas_remoto_RELACIONAL_1.png "Diagrama Relacional")
 
 ## Instalación y configuración
-1. 
+1. Instalación de TypeORM
+```sh
+npm install --save @nestjs/typeorm typeorm mysql
+```
+2. 
