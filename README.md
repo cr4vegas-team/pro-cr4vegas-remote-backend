@@ -30,4 +30,9 @@ El objetivo principal es crear un login para autenticación y autorización, y e
 ```sh
 npm install --save @nestjs/typeorm typeorm mysql
 ```
-2. 
+
+2. Instalación de class-validator & class-transformer
+```sh
+npm i class-validator class-transformer
+```
+
