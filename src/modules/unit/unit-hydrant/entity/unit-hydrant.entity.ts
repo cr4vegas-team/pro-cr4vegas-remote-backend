@@ -4,7 +4,11 @@ import { UnitEntity } from "../../entity/unit.entity";
 @Entity('units-hydrant')
 export class UnitHydrantEntity {
 
-    @OneToOne(type => UnitEntity, { primary: true })
+    @OneToOne(type => UnitEntity, { 
+        primary: true, 
+        cascade: true, 
+        nullable: false, 
+        eager: true })
     @JoinColumn({ name: 'unit_code' })
     unit: UnitEntity;
 

@@ -1,22 +1,35 @@
 
 
-import { Module } from '@nestjs/common';
+import { Module, ClassSerializerInterceptor, Scope } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UnitHydrantModule } from './modules/unit/unit-hydrant/unit-hydrant.module';
 import { UnitModule } from './modules/unit/unit.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { MicroModule } from './modules/micro/micro.module';
 
 @Module({
 
   imports: [
     TypeOrmModule.forRoot(),
     UnitModule,
-    UnitHydrantModule
+    UnitHydrantModule,
+    MicroModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+
+  controllers: [
+    AppController
+  ],
+
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    }
+  ],
 })
 export class AppModule {
 

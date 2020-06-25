@@ -40,7 +40,7 @@ export class UnitService {
         if (foundUnit) {
             throw new ConflictException();
         } else {
-            const unit: UnitEntity = plainToClass(UnitEntity, dto);
+            const unit: UnitEntity = plainToClass(UnitEntity, dto, { enableImplicitConversion: true });
             const savedUnit: UnitEntity = await this._unitRepository.save(unit);
             return plainToClass(ReadUnitDto, savedUnit);
         }

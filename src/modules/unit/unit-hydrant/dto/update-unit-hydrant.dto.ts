@@ -1,12 +1,8 @@
-import { Type } from "class-transformer";
-import { IsBooleanString, IsNumberString } from "class-validator";
-import { ReadUnitDto } from "../../dto";
+import { IsBooleanString, IsNumberString, IsString } from "class-validator";
+import { UpdateUnitDto } from "../../dto";
 
 
-export class UpdateUnitHydrantDto {
-
-    @Type(type => ReadUnitDto)
-    unit: ReadUnitDto;
+export class UpdateUnitHydrantDto extends UpdateUnitDto {
 
     @IsNumberString()
     diameter: number;

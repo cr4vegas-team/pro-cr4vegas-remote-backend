@@ -20,6 +20,7 @@ import { UnitService } from './unit.service';
 
   exports: [
     TypeOrmModule,
+    UnitService,
   ]
 })
 export class UnitModule { }

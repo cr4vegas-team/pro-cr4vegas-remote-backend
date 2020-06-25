@@ -2,9 +2,9 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpException, ConflictException
 import { Request, Response } from 'express';
 
 enum Message {
-    MESSAGE_CONFLICT = 'El código de hidrante ya existe y no se agregó',
-    MESSAGE_BAD_REQUEST = 'Los datos enviados son incorrectos',
-    MESSAGE_NOT_FOUND = 'El hidrante a actualizar no existe'
+    MESSAGE_CONFLICT = 'El hidrante ya existe',
+    MESSAGE_BAD_REQUEST = 'Datos incorrectos',
+    MESSAGE_NOT_FOUND = 'Hidrante no encontrado'
 }
 
 @Catch(HttpException)
@@ -26,12 +26,13 @@ export class UnitHydrantExceptionFilter implements ExceptionFilter {
         if (exception instanceof ConflictException) {
             json = this.getResponseJSON(Message.MESSAGE_CONFLICT);
         }
-        if (exception instanceof BadRequestException) {
+        else if (exception instanceof BadRequestException) {
             json = this.getResponseJSON(Message.MESSAGE_BAD_REQUEST);
         }
-        if (exception instanceof NotFoundException) {
+        else if (exception instanceof NotFoundException) {
             json = this.getResponseJSON(Message.MESSAGE_NOT_FOUND);
         }
+
         response.json(json);
     }
 
@@ -41,8 +42,6 @@ export class UnitHydrantExceptionFilter implements ExceptionFilter {
             timestamp: new Date().toISOString(),
             path: this.request.url,
             message,
-            data: this.exception.getResponse()['data'],
-            required: this.exception.getResponse()['required']
         }
     }
 

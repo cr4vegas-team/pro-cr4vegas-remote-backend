@@ -41,8 +41,6 @@ export class UnitExceptionFilter implements ExceptionFilter {
             timestamp: new Date().toISOString(),
             path: this.request.url,
             message,
-            data: this.exception.getResponse()['data'],
-            required: this.exception.getResponse()['required']
         }
     }
 
