@@ -21,12 +21,12 @@ export class UnitHydrantService {
         private readonly _unitRepository: Repository<UnitEntity>,
     ) { }
 
-    async findAll(): Promise<ReadUnitHydrantDto[]> {
+    async getAll(): Promise<ReadUnitHydrantDto[]> {
         const unitsHydrant = await this._unitHydrantRepository.find();
         return unitsHydrant.map((unitHydrant: UnitHydrantEntity) => plainToClass(ReadUnitHydrantDto, unitHydrant));
     }
 
-    async findOne(unit_code: string): Promise<ReadUnitHydrantDto> {
+    async getOneByCode(unit_code: string): Promise<ReadUnitHydrantDto> {
         const unitHydrant = await this._unitHydrantRepository.findOne(unit_code);
         return plainToClass(ReadUnitHydrantDto, unitHydrant);
     }

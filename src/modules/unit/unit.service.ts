@@ -14,7 +14,7 @@ export class UnitService {
     ) { }
 
 
-    async getUnits(): Promise<ReadUnitDto[]> {
+    async getAll(): Promise<ReadUnitDto[]> {
         const foundUnits: UnitEntity[] = await this._unitRepository.find({ where: { active: true } });
 
         if (foundUnits.length > 0) {
@@ -24,7 +24,7 @@ export class UnitService {
         }
     }
 
-    async getUnitByCode(code: string): Promise<ReadUnitDto> {
+    async getOneByCode(code: string): Promise<ReadUnitDto> {
         const foundUnit: UnitEntity = await this._unitRepository.findOne(code);
 
         if (foundUnit) {
@@ -34,7 +34,7 @@ export class UnitService {
         }
     }
 
-    async createUnit(dto: CreateUnitDto): Promise<ReadUnitDto> {
+    async create(dto: CreateUnitDto): Promise<ReadUnitDto> {
         const foundUnit: UnitEntity = await this._unitRepository.findOne({ code: dto.code });
 
         if (foundUnit) {
@@ -46,7 +46,7 @@ export class UnitService {
         }
     }
 
-    async updateUnit(code: string, dto: UpdateUnitDto): Promise<ReadUnitDto> {
+    async update(code: string, dto: UpdateUnitDto): Promise<ReadUnitDto> {
         const foundUnit: UnitEntity = await this._unitRepository.findOne({ code });
 
         if (foundUnit) {
@@ -64,7 +64,7 @@ export class UnitService {
         }
     }
 
-    async deleteUnit(code: string): Promise<boolean> {
+    async delete(code: string): Promise<boolean> {
         const foundUnit: UnitEntity = await this._unitRepository.findOne({ code });
 
         if (foundUnit) {

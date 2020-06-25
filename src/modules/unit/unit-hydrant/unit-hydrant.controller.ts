@@ -16,15 +16,15 @@ export class UnitHydrantController {
     constructor(private readonly unitHydrantService: UnitHydrantService) { }
 
     @Get()
-    findAll(): Promise<ReadUnitHydrantDto[]> {
-        return this.unitHydrantService.findAll();
+    getAll(): Promise<ReadUnitHydrantDto[]> {
+        return this.unitHydrantService.getAll();
     }
 
     @Get(':code')
-    findOne(
+    getOne(
         @Param('code') code: string
     ): Promise<ReadUnitHydrantDto> {
-        return this.unitHydrantService.findOne(code);
+        return this.unitHydrantService.getOneByCode(code);
     }
 
     @Post()
