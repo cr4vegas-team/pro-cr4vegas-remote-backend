@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
-import { MicroEntity } from './entity/micro.entity';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { ReadMicroDto, CreateMicroDto, UpdateMicroDto } from './dto';
 import { plainToClass } from 'class-transformer';
+import { Repository } from 'typeorm';
 import { UnitEntity } from '../unit/entity/unit.entity';
+import { CreateMicroDto, ReadMicroDto, UpdateMicroDto } from './dto';
+import { MicroEntity } from './entity/micro.entity';
 
 @Injectable()
 export class MicroService {
@@ -43,17 +43,20 @@ export class MicroService {
         }
     }
 
-    async updateMicro(id: number, dto: UpdateMicroDto): Promise<ReadMicroDto> {
-        const unitFound: UnitEntity = await this._unitRepository.findOne(dto.unit_code);
+    async updateMicro(id: number, updateMicroDto: UpdateMicroDto): Promise<ReadMicroDto> {
+        
+        const unitFound: UnitEntity = await this._unitRepository.findOne(updateMicroDto.unit_code);
+        
         if (unitFound) {
-            const foundMicro: MicroEntity = await this._microRepository.findOne(id);
+            const foundMicro: MicroEntity = await this._microRepository.findOne({id: id});
             if (foundMicro) {
                 foundMicro.unit = unitFound;
-                foundMicro.communication = dto.communication;
-                foundMicro.priority = dto.priority;
-                foundMicro.mark = dto.mark;
-                foundMicro.model = dto.model;
-                foundMicro.code = dto.code;
+                foundMicro.communication = updateMicroDto.communication;
+                foundMicro.priority = updateMicroDto.priority;
+                foundMicro.mark = updateMicroDto.mark;
+                foundMicro.model = updateMicroDto.model;
+                foundMicro.code = updateMicroDto.code;
+                
                 const updatedMicro: MicroEntity = await this._microRepository.save(foundMicro);
                 return plainToClass(ReadMicroDto, updatedMicro);
 

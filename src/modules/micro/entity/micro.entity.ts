@@ -17,7 +17,7 @@ export class MicroEntity {
     // =======================================
 
     @Column({
-        type: 'boolean',
+        type: 'bool',
         default: false
     })
     communication: boolean;

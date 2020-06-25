@@ -21,7 +21,7 @@ export class MicroExceptionFilter implements ExceptionFilter {
         this.exception = exception;
         this.request = ctx.getRequest<Request>();
 
-        var json = this.getResponseJSON(exception.message);
+        let json = this.getResponseJSON(exception.message);
 
         if (exception instanceof ConflictException) {
             json = this.getResponseJSON(Message.MESSAGE_CONFLICT);

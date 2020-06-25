@@ -1,13 +1,13 @@
 
 
-import { Module, ClassSerializerInterceptor, Scope } from '@nestjs/common';
+import { Module, ClassSerializerInterceptor } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UnitHydrantModule } from './modules/unit/unit-hydrant/unit-hydrant.module';
 import { UnitModule } from './modules/unit/unit.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { MicroModule } from './modules/micro/micro.module';
 
 @Module({
@@ -16,7 +16,7 @@ import { MicroModule } from './modules/micro/micro.module';
     TypeOrmModule.forRoot(),
     UnitModule,
     UnitHydrantModule,
-    MicroModule
+    MicroModule,
   ],
 
   controllers: [
@@ -28,15 +28,11 @@ import { MicroModule } from './modules/micro/micro.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
-    }
+    },
   ],
 })
 export class AppModule {
 
-  constructor(private connection: Connection) {
-    if (connection.isConnected) {
-      console.log('MySQL Connected - OK');
-    }
-  }
+  constructor(private connection: Connection) { }
 
 }

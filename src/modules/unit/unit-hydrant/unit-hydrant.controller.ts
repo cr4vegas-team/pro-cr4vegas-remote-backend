@@ -1,6 +1,6 @@
 
 
-import { Body, Controller, Get, Param, Post, Put, UseFilters } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseFilters, ValidationPipe } from '@nestjs/common';
 import { ReadUnitHydrantDto } from './dto';
 import { CreateUnitHydrantDto } from './dto/create-unit-hydrant.dto';
 import { UpdateUnitHydrantDto } from './dto/update-unit-hydrant.dto';

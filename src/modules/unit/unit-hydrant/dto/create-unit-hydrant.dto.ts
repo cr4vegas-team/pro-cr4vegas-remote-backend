@@ -1,14 +1,14 @@
-import { IsBooleanString, IsNumberString, IsString } from 'class-validator';
+import { IsBoolean, IsNumber } from 'class-validator';
 import { CreateUnitDto } from "../../dto/create-unit.dto";
 
 
 
 export class CreateUnitHydrantDto extends CreateUnitDto {
 
-    @IsNumberString()
+    @IsNumber()
     diameter: number;
 
-    @IsBooleanString()
+    @IsBoolean()
     filter: boolean;
 
 }

@@ -20,10 +20,12 @@ import { UnitHydrantService } from './unit-hydrant.service';
 
   providers: [
     UnitHydrantService,
+
   ],
 
   exports: [
     TypeOrmModule,
+    
   ]
 
 })

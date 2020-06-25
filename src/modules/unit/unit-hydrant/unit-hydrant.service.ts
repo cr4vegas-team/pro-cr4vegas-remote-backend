@@ -58,6 +58,7 @@ export class UnitHydrantService {
     }
 
     async update(code: string, updateUnitHydrantDto: UpdateUnitHydrantDto): Promise<ReadUnitHydrantDto> {
+        
         const foundUnit: UnitEntity = await this._unitRepository.findOne({ code: code });
 
         if (foundUnit) {
@@ -66,8 +67,9 @@ export class UnitHydrantService {
             foundUnit.latitude = updateUnitHydrantDto.latitude;
             foundUnit.longitude = updateUnitHydrantDto.longitude;
             foundUnit.description = updateUnitHydrantDto.description;
+            
             const savedUnit: UnitEntity = await this._unitRepository.save(foundUnit);
-
+            
             const foundUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.findOne(savedUnit.code, { relations: ['unit'] });
 
             foundUnitHydrant.unit = foundUnit;

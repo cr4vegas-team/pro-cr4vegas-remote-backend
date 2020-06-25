@@ -1,20 +1,24 @@
-import { IsString, IsBooleanString, IsNumberString } from "class-validator";
+import { Exclude, Expose, Type } from "class-transformer";
+import { IsBoolean, IsNumber, IsString } from "class-validator";
 import { UnitEntity } from "src/modules/unit/entity/unit.entity";
-import { Type, Exclude, Expose } from "class-transformer";
 
 @Exclude()
 export class ReadMicroDto {
+
+    @Expose()
+    @IsNumber()
+    id: number;
 
     @Expose()
     @Type(type => UnitEntity)
     unit: UnitEntity;
 
     @Expose()
-    @IsBooleanString()
+    @IsBoolean()
     communication: boolean;
 
     @Expose()
-    @IsNumberString()
+    @IsNumber()
     priority: number;
 
     @Expose()

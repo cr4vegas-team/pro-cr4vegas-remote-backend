@@ -1,4 +1,4 @@
-import { IsString, IsBooleanString, IsNumberString } from "class-validator";
+import { IsBoolean, IsNumber, IsString } from "class-validator";
 
 
 export class UpdateMicroDto {
@@ -6,10 +6,10 @@ export class UpdateMicroDto {
     @IsString()
     unit_code: string;
 
-    @IsBooleanString()
+    @IsBoolean()
     communication: boolean;
 
-    @IsNumberString()
+    @IsNumber()
     priority: number;
 
     @IsString()
@@ -20,8 +20,5 @@ export class UpdateMicroDto {
 
     @IsString()
     code: string;
-
-    @IsBooleanString()
-    active: boolean;
 
 }
