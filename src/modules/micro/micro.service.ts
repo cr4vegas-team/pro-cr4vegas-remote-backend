@@ -69,7 +69,7 @@ export class MicroService {
     }
 
     async deleteMicro(id: number): Promise<boolean> {
-        const microFound: UnitEntity = await this._unitRepository.findOne(id);
+        const microFound: MicroEntity = await this._microRepository.findOne(id);
         if (microFound) {
             microFound.active = false;
             this._microRepository.save(microFound);
