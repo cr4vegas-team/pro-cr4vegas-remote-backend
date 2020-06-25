@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseFilters } from '@nestjs/common';
 import { CreateMicroDto, ReadMicroDto, UpdateMicroDto } from './dto';
 import { MicroService } from './micro.service';
+import { MicroExceptionFilter } from './unit.exception';
 
 @Controller('micro')
-//@UseFilters(MicroExceptionFilter)
+@UseFilters(MicroExceptionFilter)
 export class MicroController {
 
     constructor(private readonly _microService: MicroService) { }

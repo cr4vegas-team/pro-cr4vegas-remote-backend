@@ -4,7 +4,7 @@ import { Body, Controller, Get, Param, Post, Put, UseFilters, ValidationPipe } f
 import { ReadUnitHydrantDto } from './dto';
 import { CreateUnitHydrantDto } from './dto/create-unit-hydrant.dto';
 import { UpdateUnitHydrantDto } from './dto/update-unit-hydrant.dto';
-import { UnitHydrantExceptionFilter } from './exception/unit-hydrant.exception.filter';
+import { UnitHydrantExceptionFilter } from './unit-hydrant.exception.filter';
 import { UnitHydrantService } from './unit-hydrant.service';
 
 

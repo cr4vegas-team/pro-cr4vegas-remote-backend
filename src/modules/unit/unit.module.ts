@@ -1,26 +1,30 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UnitEntity } from './entity/unit.entity';
+import { UnitEntity } from './unit.entity';
 import { UnitController } from './unit.controller';
 import { UnitService } from './unit.service';
+import { UnitHydrantEntity } from './unit-hydrant/unit-hydrant.entity';
+import { UnitHydrantController } from './unit-hydrant/unit-hydrant.controller';
+import { UnitHydrantService } from './unit-hydrant/unit-hydrant.service';
 
 @Module({
 
   imports: [
-    TypeOrmModule.forFeature([UnitEntity]),
+    TypeOrmModule.forFeature([UnitEntity, UnitHydrantEntity]),
   ],
 
   controllers: [
-    UnitController
+    UnitController,
+    UnitHydrantController,
   ],
 
   providers: [
-    UnitService
+    UnitService,
+    UnitHydrantService,
   ],
 
   exports: [
     TypeOrmModule,
-    UnitService,
   ]
 })
 export class UnitModule { }

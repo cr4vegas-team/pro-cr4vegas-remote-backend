@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
-import { UnitEntity } from './entity/unit.entity';
+import { UnitEntity } from './unit.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ReadUnitDto, CreateUnitDto, UpdateUnitDto } from './dto';
@@ -16,7 +16,6 @@ export class UnitService {
 
     async getAll(): Promise<ReadUnitDto[]> {
         const foundUnits: UnitEntity[] = await this._unitRepository.find({ where: { active: true } });
-
         if (foundUnits.length > 0) {
             return foundUnits.map((unit: UnitEntity) => plainToClass(ReadUnitDto, unit));
         } else {

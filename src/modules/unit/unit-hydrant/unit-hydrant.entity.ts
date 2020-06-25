@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { UnitEntity } from "../../entity/unit.entity";
+import { UnitEntity } from "../unit.entity";
 
-@Entity('units-hydrant')
+@Entity('units-hydrants')
 export class UnitHydrantEntity {
 
     @OneToOne(type => UnitEntity, { 

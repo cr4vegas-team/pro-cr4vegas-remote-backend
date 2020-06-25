@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UnitEntity } from '../unit/entity/unit.entity';
-import { MicroEntity } from './entity/micro.entity';
+import { UnitEntity } from '../unit/unit.entity';
+import { MicroEntity } from './micro.entity';
 import { MicroController } from './micro.controller';
 import { MicroService } from './micro.service';
 

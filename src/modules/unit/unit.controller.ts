@@ -1,6 +1,6 @@
 import { Controller, Get, Param, UseFilters } from '@nestjs/common';
 import { ReadUnitDto } from './dto/read-unit.dto';
-import { UnitExceptionFilter } from './exception/unit.exception';
+import { UnitExceptionFilter } from './unit.exception';
 import { UnitService } from './unit.service';
 
 @Controller('unit')

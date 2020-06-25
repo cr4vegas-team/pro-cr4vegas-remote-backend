@@ -1,6 +1,6 @@
 import { Exclude, Expose, Type } from "class-transformer";
 import { IsBoolean, IsNumber, IsString } from "class-validator";
-import { UnitEntity } from "src/modules/unit/entity/unit.entity";
+import { UnitEntity } from "../../../modules/unit/unit.entity";
 
 @Exclude()
 export class ReadMicroDto {

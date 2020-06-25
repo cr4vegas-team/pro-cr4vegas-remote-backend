@@ -1,6 +1,7 @@
 
 import { IsNumber, IsString } from "class-validator";
-import { Exclude, Expose } from "class-transformer";
+import { Exclude, Expose, Type } from "class-transformer";
+import { MicroEntity } from "src/modules/micro/micro.entity";
 
 @Exclude()
 export class ReadUnitDto {
@@ -8,6 +9,10 @@ export class ReadUnitDto {
     @Expose()
     @IsString()
     code: string;
+
+    @Expose()
+    @Type(type => MicroEntity)
+    micros: MicroEntity[];
 
     @Expose()
     @IsNumber()

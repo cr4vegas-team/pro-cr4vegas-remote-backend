@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn, OneToMany, JoinColumn } from "typeorm";
+import { MicroEntity } from "../../modules/micro/micro.entity";
 
 @Entity('units')
 export class UnitEntity {
@@ -9,6 +10,11 @@ export class UnitEntity {
         unique: true,
     })
     code: string;
+
+    // =======================================
+
+    @OneToMany(type => MicroEntity, micro => micro.unit, {eager: true})
+    micros: MicroEntity[];
 
     // =======================================
 

@@ -2,9 +2,9 @@ import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestj
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { UnitEntity } from '../unit/entity/unit.entity';
+import { UnitEntity } from '../unit/unit.entity';
 import { CreateMicroDto, ReadMicroDto, UpdateMicroDto } from './dto';
-import { MicroEntity } from './entity/micro.entity';
+import { MicroEntity } from './micro.entity';
 
 @Injectable()
 export class MicroService {

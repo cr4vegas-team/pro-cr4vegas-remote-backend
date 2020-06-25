@@ -4,11 +4,11 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { UnitEntity } from '../entity/unit.entity';
+import { UnitEntity } from '../unit.entity';
 import { ReadUnitHydrantDto } from './dto';
 import { CreateUnitHydrantDto } from './dto/create-unit-hydrant.dto';
 import { UpdateUnitHydrantDto } from './dto/update-unit-hydrant.dto';
-import { UnitHydrantEntity } from './entity/unit-hydrant.entity';
+import { UnitHydrantEntity } from './unit-hydrant.entity';
 
 
 @Injectable()

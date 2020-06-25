@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
-import { UnitEntity } from "src/modules/unit/entity/unit.entity";
-import { type } from "os";
+import { SensorEntity } from "../../modules/sensor/sensor.entity";
+import { UnitEntity } from "../../modules/unit/unit.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('micros')
 export class MicroEntity {
@@ -10,9 +10,14 @@ export class MicroEntity {
 
     // =======================================
 
-    @ManyToOne(type => UnitEntity)
+    @ManyToOne(type => UnitEntity, unit => unit.micros/* , { eager: true } */)
     @JoinColumn({ name: 'unit_code' })
     unit: UnitEntity;
+
+    // =======================================
+
+    @OneToMany(type => SensorEntity, sensor => sensor.micro)
+    sensors: SensorEntity[];
 
     // =======================================
 
@@ -64,18 +69,15 @@ export class MicroEntity {
 
     // =======================================
 
-    @Column({
+    @CreateDateColumn({
         type: "timestamp",
-        default: () => "CURRENT_TIMESTAMP"
     })
     created: Date;
 
     // =======================================
 
-    @Column({
+    @UpdateDateColumn({
         type: "timestamp",
-        default: () => "CURRENT_TIMESTAMP",
-        onUpdate: "CURRENT_TIMESTAMP"
     })
     updated: Date;
 
