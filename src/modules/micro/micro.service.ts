@@ -1,9 +1,11 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
+import { UnitExceptionMSG } from '../unit/unit-exception-messages';
 import { UnitEntity } from '../unit/unit.entity';
 import { CreateMicroDto, ReadMicroDto, UpdateMicroDto } from './dto';
+import { MicroExceptionMSG } from './micro-exception-msg';
 import { MicroEntity } from './micro.entity';
 
 @Injectable()
@@ -16,67 +18,79 @@ export class MicroService {
         private readonly _unitRepository: Repository<UnitEntity>,
     ) { }
 
-
-    async getMicros(): Promise<ReadMicroDto[]> {
-        const foundMicros: MicroEntity[] = await this._microRepository.find();
+    async getAll(): Promise<ReadMicroDto[]> {
+        const foundMicros: MicroEntity[] = await this._microRepository.find({ where: { active: true } });
+        if (foundMicros.length === 0) {
+            throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
+        }
         return foundMicros.map((micro: MicroEntity) => plainToClass(ReadMicroDto, micro));
     }
 
-    async getMicroById(id: number): Promise<ReadMicroDto> {
-        const foundMicro: MicroEntity = await this._microRepository.findOne(id);
-        if (foundMicro) {
-            return plainToClass(ReadMicroDto, foundMicro);
-        } else {
-            throw new NotFoundException();
+    async getAllByUnit(unit_code: string): Promise<ReadMicroDto[]> {
+        const foundUnit: UnitEntity = await this._unitRepository.findOne(unit_code);
+        if (!foundUnit) {
+            throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
         }
+        const foundMicro: MicroEntity[] = await this._microRepository.find({ where: { unit: foundUnit, active: true } });
+        return foundMicro.map((micro: MicroEntity) => plainToClass(ReadMicroDto, micro));
     }
 
-    async createMicro(dto: CreateMicroDto): Promise<ReadMicroDto> {
-        const unitFound: UnitEntity = await this._unitRepository.findOne(dto.unit_code);
-        if (unitFound) {
-            const micro: MicroEntity = plainToClass(MicroEntity, dto, { enableImplicitConversion: true });
-            micro.unit = unitFound;
-            const savedMicro: MicroEntity = await this._microRepository.save(micro);
-            return plainToClass(ReadMicroDto, savedMicro);
-        } else {
-            throw new HttpException('No se encontró la unidad relacionada', HttpStatus.NOT_FOUND);
+    async getOneById(id: number): Promise<ReadMicroDto> {
+        const foundMicro: MicroEntity = await this._microRepository.findOne(id, { where: { active: true } });
+        if (!foundMicro) {
+            throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
         }
+        return plainToClass(ReadMicroDto, foundMicro);
     }
 
-    async updateMicro(id: number, updateMicroDto: UpdateMicroDto): Promise<ReadMicroDto> {
-        
-        const unitFound: UnitEntity = await this._unitRepository.findOne(updateMicroDto.unit_code);
-        
-        if (unitFound) {
-            const foundMicro: MicroEntity = await this._microRepository.findOne({id: id});
-            if (foundMicro) {
-                foundMicro.unit = unitFound;
-                foundMicro.communication = updateMicroDto.communication;
-                foundMicro.priority = updateMicroDto.priority;
-                foundMicro.mark = updateMicroDto.mark;
-                foundMicro.model = updateMicroDto.model;
-                foundMicro.code = updateMicroDto.code;
-                
-                const updatedMicro: MicroEntity = await this._microRepository.save(foundMicro);
-                return plainToClass(ReadMicroDto, updatedMicro);
-
-            } else {
-                throw new NotFoundException();
-            }
-        } else {
-            throw new HttpException('No se encontró la unidad relacionada', HttpStatus.NOT_FOUND);
+    async create(dto: CreateMicroDto): Promise<ReadMicroDto> {
+        const foundUnit: UnitEntity = await this._unitRepository.findOne(dto.unit_code, { where: { active: true } });
+        if (!foundUnit) {
+            throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
         }
+        const micro: MicroEntity = plainToClass(MicroEntity, dto, { enableImplicitConversion: true });
+        micro.unit = foundUnit;
+        const savedMicro: MicroEntity = await this._microRepository.save(micro);
+        return plainToClass(ReadMicroDto, savedMicro);
     }
 
-    async deleteMicro(id: number): Promise<boolean> {
-        const microFound: MicroEntity = await this._microRepository.findOne(id);
-        if (microFound) {
-            microFound.active = false;
-            this._microRepository.save(microFound);
-            return true;
-        } else {
-            throw new NotFoundException();
+    async update(id: number, dto: UpdateMicroDto): Promise<ReadMicroDto> {
+        const foundUnit: UnitEntity = await this._unitRepository.findOne(dto.unit_code, { where: { active: true } });
+        if (!foundUnit) {
+            throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
         }
+        const foundMicro: MicroEntity = await this._microRepository.findOne(id, { where: { active: true } });
+        if (!foundMicro) {
+            throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
+        }
+        foundMicro.unit = foundUnit;
+        foundMicro.communication = dto.communication;
+        foundMicro.priority = dto.priority;
+        foundMicro.mark = dto.mark;
+        foundMicro.model = dto.model;
+        foundMicro.code = dto.code;
+        const updatedMicro: MicroEntity = await this._microRepository.save(foundMicro);
+        return plainToClass(ReadMicroDto, updatedMicro);
+    }
+
+    async delete(id: number): Promise<boolean> {
+        const foundMicro: MicroEntity = await this._microRepository.findOne(id, { where: { active: true } });
+        if (!foundMicro) {
+            throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
+        }
+        foundMicro.active = false;
+        const updateResult: UpdateResult = await this._microRepository.update(id, foundMicro);
+        return updateResult.affected > 0;
+    }
+
+    async activate(id: number): Promise<boolean> {
+        const foundMicro: MicroEntity = await this._microRepository.findOne(id, { where: { active: false } });
+        if (!foundMicro) {
+            throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
+        }
+        foundMicro.active = true;
+        const updateResult: UpdateResult = await this._microRepository.update(id, foundMicro);
+        return updateResult.affected > 0;
     }
 
 }

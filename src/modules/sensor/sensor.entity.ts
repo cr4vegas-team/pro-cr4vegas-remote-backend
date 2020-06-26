@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToOne, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
 import { MicroEntity } from "../micro/micro.entity";
 import { SensorTypeEntity } from "./sensor-type/sensor-type.entity";
 
@@ -11,13 +11,15 @@ export class SensorEntity {
 
     // =======================================
 
-    @ManyToOne(type => MicroEntity, micro => micro.sensors, { eager: true })
+    @ManyToOne(type => MicroEntity, micro => micro.sensors, {
+        eager: true
+    })
     @JoinColumn({ name: 'micro_id' })
     micro: MicroEntity;
 
     // =======================================
 
-    @OneToOne(type => SensorTypeEntity, {
+    @ManyToOne(type => SensorTypeEntity, {
         nullable: false,
         eager: true
     })

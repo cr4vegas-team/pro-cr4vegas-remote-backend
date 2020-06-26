@@ -1,10 +1,8 @@
-import { Controller, Get, Param, UseFilters } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ReadUnitDto } from './dto/read-unit.dto';
-import { UnitExceptionFilter } from './unit.exception';
 import { UnitService } from './unit.service';
 
 @Controller('unit')
-@UseFilters(UnitExceptionFilter)
 export class UnitController {
 
     constructor(private readonly _unitService: UnitService) { }

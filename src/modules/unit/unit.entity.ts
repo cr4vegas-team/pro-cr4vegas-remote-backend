@@ -13,7 +13,7 @@ export class UnitEntity {
 
     // =======================================
 
-    @OneToMany(type => MicroEntity, micro => micro.unit, {eager: true})
+    @OneToMany(type => MicroEntity, micro => micro.unit/* , {eager: true} */)
     micros: MicroEntity[];
 
     // =======================================

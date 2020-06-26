@@ -10,7 +10,7 @@ export class MicroEntity {
 
     // =======================================
 
-    @ManyToOne(type => UnitEntity, unit => unit.micros/* , { eager: true } */)
+    @ManyToOne(type => UnitEntity, unit => unit.micros, { eager: true })
     @JoinColumn({ name: 'unit_code' })
     unit: UnitEntity;
 

@@ -15,8 +15,14 @@ export class CreateSensorDto {
     @IsString()
     model: string;
 
+    @IsString()
+    code: string;
+
     @IsBoolean()
     save: boolean;
+
+    @IsBoolean()
+    limits: boolean;
 
     @IsNumber()
     min: number;

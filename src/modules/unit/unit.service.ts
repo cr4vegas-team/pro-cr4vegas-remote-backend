@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
 import { UnitEntity } from './unit.entity';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ReadUnitDto, CreateUnitDto, UpdateUnitDto } from './dto';
 import { plainToClass } from 'class-transformer';
+import { UnitExceptionMSG } from './unit-exception-messages';
 
 @Injectable()
 export class UnitService {
@@ -13,70 +14,20 @@ export class UnitService {
         private readonly _unitRepository: Repository<UnitEntity>,
     ) { }
 
-
     async getAll(): Promise<ReadUnitDto[]> {
         const foundUnits: UnitEntity[] = await this._unitRepository.find({ where: { active: true } });
-        if (foundUnits.length > 0) {
-            return foundUnits.map((unit: UnitEntity) => plainToClass(ReadUnitDto, unit));
-        } else {
-            throw new NotFoundException();
+        if (foundUnits.length === 0) {
+            throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
         }
+        return foundUnits.map((unit: UnitEntity) => plainToClass(ReadUnitDto, unit));
     }
 
     async getOneByCode(code: string): Promise<ReadUnitDto> {
-        const foundUnit: UnitEntity = await this._unitRepository.findOne(code);
-
-        if (foundUnit) {
-            return plainToClass(ReadUnitDto, foundUnit);
-        } else {
-            throw new NotFoundException();
+        const foundUnit: UnitEntity = await this._unitRepository.findOne(code, { where: { active: true } });
+        if (!foundUnit) {
+            throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
         }
+        return plainToClass(ReadUnitDto, foundUnit);
     }
 
-    async create(dto: CreateUnitDto): Promise<ReadUnitDto> {
-        const foundUnit: UnitEntity = await this._unitRepository.findOne({ code: dto.code });
-
-        if (foundUnit) {
-            throw new ConflictException();
-        } else {
-            const unit: UnitEntity = plainToClass(UnitEntity, dto, { enableImplicitConversion: true });
-            const savedUnit: UnitEntity = await this._unitRepository.save(unit);
-            return plainToClass(ReadUnitDto, savedUnit);
-        }
-    }
-
-    async update(code: string, dto: UpdateUnitDto): Promise<ReadUnitDto> {
-        const foundUnit: UnitEntity = await this._unitRepository.findOne({ code });
-
-        if (foundUnit) {
-            foundUnit.code = dto.code;
-            foundUnit.altitude = dto.altitude;
-            foundUnit.latitude = dto.latitude;
-            foundUnit.longitude = dto.longitude;
-            foundUnit.description = dto.description;
-
-            const updatedUnit: UnitEntity = await this._unitRepository.save(foundUnit);
-            return plainToClass(ReadUnitDto, updatedUnit);
-
-        } else {
-            throw new NotFoundException();
-        }
-    }
-
-    async delete(code: string): Promise<boolean> {
-        const foundUnit: UnitEntity = await this._unitRepository.findOne({ code });
-
-        if (foundUnit) {
-            foundUnit.active = false;
-            const updatedUnit: UnitEntity = await this._unitRepository.save(foundUnit);
-            if (updatedUnit) {
-                return true;
-            } else {
-                return false;
-            }
-
-        } else {
-            throw new NotFoundException();
-        }
-    }
 }

@@ -26,8 +26,16 @@ export class ReadSensorDto {
     model: string;
 
     @Expose()
+    @IsString()
+    code: string;
+
+    @Expose()
     @IsBoolean()
     save: boolean;
+
+    @Expose()
+    @IsBoolean()
+    limits: boolean;
 
     @Expose()
     @IsNumber()

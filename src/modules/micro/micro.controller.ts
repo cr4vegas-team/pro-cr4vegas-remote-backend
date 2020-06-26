@@ -1,31 +1,34 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseFilters } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Patch } from '@nestjs/common';
 import { CreateMicroDto, ReadMicroDto, UpdateMicroDto } from './dto';
 import { MicroService } from './micro.service';
-import { MicroExceptionFilter } from './unit.exception';
 
 @Controller('micro')
-@UseFilters(MicroExceptionFilter)
 export class MicroController {
 
     constructor(private readonly _microService: MicroService) { }
 
     @Get()
     getAll(): Promise<ReadMicroDto[]> {
-        return this._microService.getMicros();
+        return this._microService.getAll();
+    }
+
+    @Get(':unit_code')
+    getAllByUnit(@Param() unit_code: string): Promise<ReadMicroDto[]> {
+        return this._microService.getAllByUnit(unit_code);
     }
 
     @Get(':id')
     getOneById(
         @Param('id') id: number
     ): Promise<ReadMicroDto> {
-        return this._microService.getMicroById(id);
+        return this._microService.getOneById(id);
     }
 
     @Post()
     create(
         @Body() createMicroDto: CreateMicroDto
     ): Promise<ReadMicroDto> {
-        return this._microService.createMicro(createMicroDto);
+        return this._microService.create(createMicroDto);
     }
 
     @Put(':id')
@@ -34,14 +37,21 @@ export class MicroController {
         @Body() updateMicroDto: UpdateMicroDto
     ): Promise<ReadMicroDto> {
         console.log(updateMicroDto);
-        return this._microService.updateMicro(id, updateMicroDto);
+        return this._microService.update(id, updateMicroDto);
     }
 
     @Delete(':id')
     delete(
         @Param('id') id: number
     ): Promise<boolean> {
-        return this._microService.deleteMicro(id);
+        return this._microService.delete(id);
+    }
+
+    @Patch(':id')
+    activate(
+        @Param('id') id: number
+    ): Promise<boolean> {
+        return this._microService.activate(id);
     }
 
 }
