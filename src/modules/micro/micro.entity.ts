@@ -11,7 +11,7 @@ export class MicroEntity {
     // =======================================
 
     @ManyToOne(type => UnitEntity, unit => unit.micros, { eager: true })
-    @JoinColumn({ name: 'unit_code' })
+    @JoinColumn({ name: 'unit_id', referencedColumnName: "id" })
     unit: UnitEntity;
 
     // =======================================

@@ -1,11 +1,15 @@
 import { Exclude, Expose } from "class-transformer";
-import { IsString } from "class-validator";
+import { IsString, IsNumber } from "class-validator";
 
 @Exclude()
 export class ReadSensorTypeDto {
 
     @Expose()
+    @IsNumber()
+    id: number;
+
+    @Expose()
     @IsString()
-    type: string;
+    name: string;
 
 }

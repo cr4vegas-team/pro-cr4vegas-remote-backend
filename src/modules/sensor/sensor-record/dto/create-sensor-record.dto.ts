@@ -1,9 +1,12 @@
-import { IsString } from "class-validator";
+import { IsString, IsNumber } from "class-validator";
 
 
 export class CreateSensorRecordDto {
 
+    @IsNumber()
+    sensor_id: number;
+
     @IsString()
-    type: string;
+    message: string;
 
 }

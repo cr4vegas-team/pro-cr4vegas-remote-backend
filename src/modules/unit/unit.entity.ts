@@ -1,20 +1,26 @@
-import { Column, Entity, PrimaryColumn, OneToMany, JoinColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { MicroEntity } from "../../modules/micro/micro.entity";
 
 @Entity('units')
 export class UnitEntity {
 
-    @PrimaryColumn({
-        type: 'varchar',
-        length: '10',
-        unique: true,
-    })
-    code: string;
+    @PrimaryGeneratedColumn('increment')
+    id: number;
 
     // =======================================
 
-    @OneToMany(type => MicroEntity, micro => micro.unit/* , {eager: true} */)
+    @OneToMany(type => MicroEntity, micro => micro.unit, {})
     micros: MicroEntity[];
+
+    // =======================================
+
+    @Column({
+        type: 'varchar',
+        length: 20,
+        nullable: false,
+        unique: true
+    })
+    code: string;
 
     // =======================================
 

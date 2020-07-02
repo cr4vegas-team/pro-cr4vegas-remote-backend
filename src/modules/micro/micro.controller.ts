@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Patch, Query } from '@nestjs/common';
 import { CreateMicroDto, ReadMicroDto, UpdateMicroDto } from './dto';
 import { MicroService } from './micro.service';
+import { MicrosRO, MicroRO } from './micro.interfaces';
 
 @Controller('micro')
 export class MicroController {
@@ -8,49 +9,50 @@ export class MicroController {
     constructor(private readonly _microService: MicroService) { }
 
     @Get()
-    getAll(): Promise<ReadMicroDto[]> {
-        return this._microService.getAll();
+    getAll(@Query() query): Promise<MicrosRO> {
+        return this._microService.getAll(query);
     }
 
-    @Get(':unit_code')
-    getAllByUnit(@Param() unit_code: string): Promise<ReadMicroDto[]> {
-        return this._microService.getAllByUnit(unit_code);
+    @Get('unit')
+    getAllByUnit(@Query('unit_code') unit_code: string, @Query() query): Promise<MicrosRO> {
+        return this._microService.getAllByUnit(unit_code, query);
     }
 
-    @Get(':id')
+    @Get('id')
     getOneById(
-        @Param('id') id: number
-    ): Promise<ReadMicroDto> {
-        return this._microService.getOneById(id);
+        @Query('id') id: number,
+        @Query() query
+    ): Promise<MicroRO> {
+        return this._microService.getOneById(id, query);
     }
 
     @Post()
     create(
         @Body() createMicroDto: CreateMicroDto
-    ): Promise<ReadMicroDto> {
+    ): Promise<MicroRO> {
         return this._microService.create(createMicroDto);
     }
 
     @Put(':id')
     update(
         @Param('id') id: number,
-        @Body() updateMicroDto: UpdateMicroDto
-    ): Promise<ReadMicroDto> {
-        console.log(updateMicroDto);
-        return this._microService.update(id, updateMicroDto);
+        @Body() updateMicroDto: UpdateMicroDto,
+        @Query() query: any
+    ): Promise<MicroRO> {
+        return this._microService.update(id, updateMicroDto, query);
     }
 
     @Delete(':id')
     delete(
         @Param('id') id: number
-    ): Promise<boolean> {
+    ): Promise<MicroRO> {
         return this._microService.delete(id);
     }
 
     @Patch(':id')
     activate(
         @Param('id') id: number
-    ): Promise<boolean> {
+    ): Promise<MicroRO> {
         return this._microService.activate(id);
     }
 

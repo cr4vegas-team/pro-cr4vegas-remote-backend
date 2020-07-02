@@ -1,22 +1,45 @@
-import { Type, Exclude, Expose } from 'class-transformer';
-import { IsBooleanString, IsNumberString, IsNotEmpty, IsDefined } from 'class-validator';
-import { ReadUnitDto } from '../../dto';
-import { CreateUnitDto } from "../../dto/create-unit.dto";
+import { Exclude, Expose, Type, Transform, TransformPlainToClass } from 'class-transformer';
+import { IsBoolean, IsNumber } from 'class-validator';
+import { UnitEntity } from '../../unit.entity';
 
 
 @Exclude()
 export class ReadUnitHydrantDto {
 
     @Expose()
-    @Type(type => ReadUnitDto)
-    unit: ReadUnitDto;
+    @IsNumber()
+    id: number;
 
     @Expose()
-    @IsNumberString()
-    diameter: number;
+    @Type(type => UnitEntity)
+    unit: UnitEntity;
 
     @Expose()
-    @IsBooleanString()
-    filter: boolean;
+    @IsNumber()
+    size: number;
+
+    @Expose()
+    @IsBoolean()
+    valve: boolean;
+
+    @Expose()
+    @IsBoolean()
+    bouy_alarm: boolean;
+
+    @Expose()
+    @IsBoolean()
+    bouy_high: boolean;
+
+    @Expose()
+    @IsBoolean()
+    bouy_medium: boolean;
+
+    @Expose()
+    @IsNumber()
+    flow: number;
+
+    @Expose()
+    @IsNumber()
+    counter: number;
 
 }

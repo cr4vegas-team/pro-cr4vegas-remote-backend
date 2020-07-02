@@ -1,7 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn } from "typeorm";
 import { SensorEntity } from "../sensor.entity";
 
-@Entity('sensors-records')
+@Entity('sensors_records')
 export class SensorRecordEntity {
 
     @PrimaryGeneratedColumn('increment')
@@ -13,6 +13,15 @@ export class SensorRecordEntity {
     })
     sensor: SensorEntity;
 
-    
+    @Column({
+        type: 'varchar',
+        length: 255,
+    })
+    message: string;
+
+    @CreateDateColumn({
+        type: 'timestamp',
+    })
+    created: Date;
 
 }

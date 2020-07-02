@@ -3,12 +3,11 @@ import { IsBoolean, IsNumber, IsString } from "class-validator";
 
 export class UpdateSensorDto {
 
-
     @IsNumber()
     micro_id: number;
 
-    @IsString()
-    sensor_type: string;
+    @IsNumber()
+    sensor_id: number;
 
     @IsString()
     mark: string;

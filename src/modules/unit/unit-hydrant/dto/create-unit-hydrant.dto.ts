@@ -1,14 +1,22 @@
-import { IsBoolean, IsNumber } from 'class-validator';
+import { IsBoolean, IsNumber, Matches } from 'class-validator';
 import { CreateUnitDto } from "../../dto/create-unit.dto";
 
 
 
 export class CreateUnitHydrantDto extends CreateUnitDto {
 
-    @IsNumber()
-    diameter: number;
+    size: number;
 
-    @IsBoolean()
-    filter: boolean;
+    valve: boolean;
+
+    bouy_alarm: boolean;
+
+    bouy_high: boolean;
+
+    bouy_medium: boolean;
+
+    flow: number;
+
+    counter: number;
 
 }

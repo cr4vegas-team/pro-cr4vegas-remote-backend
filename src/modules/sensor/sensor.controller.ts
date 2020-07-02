@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Patch, UsePipes, Query } from '@nestjs/common';
 import { CreateSensorDto, ReadSensorDto, UpdateSensorDto } from './dto';
 import { SensorService } from './sensor.service';
+import { NumberArrayValidationPipe } from 'src/global/pipes/number-array-validation.pipe';
 
 @Controller('sensor')
 export class SensorController {
@@ -9,14 +10,14 @@ export class SensorController {
         private readonly _sensorService: SensorService
     ) { }
 
-    @Get()
-    getAll(): Promise<ReadSensorDto[]> {
-        return this._sensorService.getAll();
+    @Get(':id/:rows')
+    getAll(@Param('id') id: number, @Param('rows') rows: number): Promise<ReadSensorDto[]> {
+        return this._sensorService.getAll(id, rows);
     }
 
-    @Get(':id')
+    @Get()
     getOneById(
-        @Param('id') id: number
+        @Query('id') id: number
     ): Promise<ReadSensorDto> {
         return this._sensorService.getOneById(id);
     }
@@ -36,18 +37,20 @@ export class SensorController {
         return this._sensorService.update(id, updateSensorDto);
     }
 
-    @Delete(':id')
+    @Delete()
+    @UsePipes(NumberArrayValidationPipe)
     delete(
-        @Param('id') id: number
+        @Query('ids') ids: number[]
     ): Promise<boolean> {
-        return this._sensorService.delete(id);
+        return this._sensorService.delete(ids);
     }
 
-    @Patch(':id')
+    @Patch()
+    @UsePipes(NumberArrayValidationPipe)
     activate(
-        @Param('id') id: number
+        @Query('id') ids: number[]
     ): Promise<boolean> {
-        return this._sensorService.activate(id);
+        return this._sensorService.activate(ids);
     }
 
 }

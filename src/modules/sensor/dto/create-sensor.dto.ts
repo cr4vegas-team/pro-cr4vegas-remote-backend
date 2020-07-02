@@ -6,8 +6,8 @@ export class CreateSensorDto {
     @IsNumber()
     micro_id: number;
 
-    @IsString()
-    sensor_type: string;
+    @IsNumber()
+    sensor_id: number;
 
     @IsString()
     mark: string;

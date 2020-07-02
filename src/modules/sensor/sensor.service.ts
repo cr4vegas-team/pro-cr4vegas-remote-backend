@@ -22,8 +22,11 @@ export class SensorService {
         private readonly _sensorTypeRepository: Repository<SensorTypeEntity>,
     ) { }
 
-    async getAll(): Promise<ReadSensorDto[]> {
-        const foundSensors: SensorEntity[] = await this._sensorRepository.find({ where: { active: true } });
+    async getAll(id: number, rows: number): Promise<ReadSensorDto[]> {
+        const foundSensors: SensorEntity[] = await this._sensorRepository.createQueryBuilder('sensors')
+            .where("sensors.id > :id", { id })
+            .limit(rows)
+            .getMany();
         if (foundSensors.length === 0) {
             throw new NotFoundException(SensorExceptionMSG.NOT_FOUND);
         }
@@ -43,7 +46,7 @@ export class SensorService {
         if (!foundMicro) {
             throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
         }
-        const foundSensorType: SensorTypeEntity = await this._sensorTypeRepository.findOne(dto.sensor_type, { where: { active: true } });
+        const foundSensorType: SensorTypeEntity = await this._sensorTypeRepository.findOne(dto.sensor_id, { where: { active: true } });
         if (!foundSensorType) {
             throw new NotFoundException(SensorTypeExceptionMSG.NOT_FOUND);
         }
@@ -59,7 +62,7 @@ export class SensorService {
         if (!foundMicro) {
             throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
         }
-        const foundSensorType: SensorTypeEntity = await this._sensorTypeRepository.findOne(dto.sensor_type, { where: { active: true } });
+        const foundSensorType: SensorTypeEntity = await this._sensorTypeRepository.findOne(dto.sensor_id, { where: { active: true } });
         if (!foundSensorType) {
             throw new NotFoundException(SensorTypeExceptionMSG.NOT_FOUND);
         }
@@ -78,23 +81,29 @@ export class SensorService {
         return plainToClass(ReadSensorDto, updatedSensor);
     }
 
-    async delete(id: number): Promise<boolean> {
-        const foundSensor: SensorEntity = await this._sensorRepository.findOne(id, { where: {active: true } });
-        if (!foundSensor) {
-            throw new NotFoundException(SensorExceptionMSG.NOT_FOUND);
+    async delete(ids: number[]): Promise<boolean> {
+        let affected = false;
+        for (let id of ids) {
+            const foundSensor: SensorEntity = await this._sensorRepository.findOne(id, { where: { active: true } });
+            if (foundSensor) {
+                foundSensor.active = false;
+                const updateResult: UpdateResult = await this._sensorRepository.update(id, foundSensor);
+                if (updateResult.affected > 0) affected = true;
+            }
         }
-        foundSensor.active = false;
-        const updateResult: UpdateResult = await this._sensorRepository.update(id, foundSensor);
-        return updateResult.affected > 0;
+        return affected;
     }
 
-    async activate(id: number): Promise<boolean> {
-        const foundSensor: SensorEntity = await this._sensorRepository.findOne(id, { where: { active: false } });
-        if (!foundSensor) {
-            throw new NotFoundException(SensorExceptionMSG.NOT_FOUND);
+    async activate(ids: number[]): Promise<boolean> {
+        let affected = false;
+        for (let id of ids) {
+            const foundSensor: SensorEntity = await this._sensorRepository.findOne(id, { where: { active: false } });
+            if (foundSensor) {
+                foundSensor.active = true;
+                const updateResult: UpdateResult = await this._sensorRepository.update(id, foundSensor);
+                if (updateResult.affected > 0) affected = true;
+            }
         }
-        foundSensor.active = true;
-        const updateResult: UpdateResult = await this._sensorRepository.update(id, foundSensor);
-        return updateResult.affected > 0;
+        return affected;
     }
 }

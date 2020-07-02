@@ -1,6 +1,4 @@
-
-
-import { Module, ClassSerializerInterceptor } from '@nestjs/common';
+import { Module, ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { AppController } from './app.controller';
@@ -27,13 +25,18 @@ import { GlobalExceptionFilter } from './global/global.exception.filter';
   providers: [
     AppService,
     {
-      provide: APP_INTERCEPTOR,
-      useClass: ClassSerializerInterceptor,
-    },
-    {
       provide: APP_FILTER,
       useClass: GlobalExceptionFilter
-    }
+    },
+    {
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+        transformOptions: { enableImplicitConversion: true },
+      })
+    },
   ],
 })
 export class AppModule {

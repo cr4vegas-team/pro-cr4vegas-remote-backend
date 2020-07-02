@@ -4,48 +4,47 @@ import { UnitEntity } from "../unit.entity";
 @Entity('units-hydrants')
 export class UnitHydrantEntity {
 
-    @OneToOne(type => UnitEntity, {
-        primary: true,
-        cascade: true,
-        nullable: false,
-        eager: true
-    })
-    @JoinColumn({ name: 'unit_code' })
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    // =======================================
+
+    @OneToOne(type => UnitEntity, { 
+        onUpdate: 'CASCADE', 
+        onDelete: 'RESTRICT', 
+        nullable: false, 
+        eager: true, 
+        cascade: true })
+    @JoinColumn({ 
+        name: 'unit_id', 
+        referencedColumnName: 'id' })
     unit: UnitEntity;
 
     // =======================================
 
-    @Column()
-    diameter: number;
+    @Column({type: 'int'})
+    size: number;
 
     // =======================================
 
-    @Column({ default: false })
-    filter: boolean;
+    @Column({type: 'bool'})
+    valve: boolean;
 
     // =======================================
 
-    @Column({
-        type: 'boolean',
-        default: true
-    })
-    active: boolean;
+    @Column({type: 'bool'})
+    bouy_alarm: boolean;
 
-    // =======================================
+    @Column({type: 'bool'})
+    bouy_high: boolean;
 
-    @Column({
-        type: "timestamp",
-        default: () => "CURRENT_TIMESTAMP"
-    })
-    created: Date;
+    @Column({type: 'bool'})
+    bouy_medium: boolean;
 
-    // =======================================
+    @Column({type: 'float'})
+    flow: number;
 
-    @Column({
-        type: "timestamp",
-        default: () => "CURRENT_TIMESTAMP",
-        onUpdate: "CURRENT_TIMESTAMP"
-    })
-    updated: Date;
+    @Column({type: 'int'})
+    counter: number;
 
 }

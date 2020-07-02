@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
-import { UnitEntity } from './unit.entity';
-import { Repository, UpdateResult } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ReadUnitDto, CreateUnitDto, UpdateUnitDto } from './dto';
+import { Repository } from 'typeorm';
+import { ReadUnitDto } from './dto';
+import { UnitEntity } from './unit.entity';
+import { UnitRO, UnitsRO } from './unit.interfaces';
 import { plainToClass } from 'class-transformer';
-import { UnitExceptionMSG } from './unit-exception-messages';
 
 @Injectable()
 export class UnitService {
@@ -14,20 +14,34 @@ export class UnitService {
         private readonly _unitRepository: Repository<UnitEntity>,
     ) { }
 
-    async getAll(): Promise<ReadUnitDto[]> {
-        const foundUnits: UnitEntity[] = await this._unitRepository.find({ where: { active: true } });
-        if (foundUnits.length === 0) {
-            throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
+    async getAll(query): Promise<UnitsRO> {
+        const qb = await this._unitRepository.createQueryBuilder('units');
+        qb.where("1 = 1");
+        const unitsCount: number = await qb.getCount();
+        if ('active' in query) {
+            qb.andWhere("units.active = :active", { active: `${query.active}` });
         }
-        return foundUnits.map((unit: UnitEntity) => plainToClass(ReadUnitDto, unit));
+        if ('id' in query) {
+            qb.andWhere("units.id > :id", { id: `${query.id}` });
+        }
+        if ('limit' in query) {
+            qb.limit(query.limit);
+        }
+        qb.orderBy("units.created", "DESC");
+        const foundUnits = await qb.getMany();
+        const units = foundUnits.map((unit: UnitEntity) => plainToClass(ReadUnitDto, unit));
+        return { units, unitsCount };
     }
 
-    async getOneByCode(code: string): Promise<ReadUnitDto> {
-        const foundUnit: UnitEntity = await this._unitRepository.findOne(code, { where: { active: true } });
-        if (!foundUnit) {
-            throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
+    async getOneByCode(code: string, active?: boolean): Promise<UnitRO> {
+        let foundUnit: UnitEntity = null;
+        if (active !== undefined) {
+            foundUnit = await this._unitRepository.findOne({ where: { code, active } });
+        } else {
+            foundUnit = await this._unitRepository.findOne({ where: { code } });
         }
-        return plainToClass(ReadUnitDto, foundUnit);
+        const unit = plainToClass(ReadUnitDto, foundUnit);
+        return { unit };
     }
 
 }

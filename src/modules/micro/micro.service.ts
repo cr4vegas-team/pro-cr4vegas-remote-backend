@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository, UpdateResult } from 'typeorm';
@@ -7,6 +7,7 @@ import { UnitEntity } from '../unit/unit.entity';
 import { CreateMicroDto, ReadMicroDto, UpdateMicroDto } from './dto';
 import { MicroExceptionMSG } from './micro-exception-msg';
 import { MicroEntity } from './micro.entity';
+import { MicrosRO, MicroRO } from './micro.interfaces';
 
 @Injectable()
 export class MicroService {
@@ -18,51 +19,78 @@ export class MicroService {
         private readonly _unitRepository: Repository<UnitEntity>,
     ) { }
 
-    async getAll(): Promise<ReadMicroDto[]> {
-        const foundMicros: MicroEntity[] = await this._microRepository.find({ where: { active: true } });
-        if (foundMicros.length === 0) {
-            throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
+    async getAll(query: any): Promise<MicrosRO> {
+        const qb = this._microRepository.createQueryBuilder("micros");
+        qb.where("1 = 1");
+        const microsCount: number = await qb.getCount();
+        if ('active' in query) {
+            qb.andWhere("micros.active = :active", { active: `${query.active}` });
         }
-        return foundMicros.map((micro: MicroEntity) => plainToClass(ReadMicroDto, micro));
+        if ('id' in query) {
+            qb.andWhere("micros.id > :id", { id: `${query.id}` });
+        }
+        if ('limit' in query) {
+            qb.limit(query.limit);
+        }
+        qb.orderBy("micros.created");
+        const foundMicros = await qb.getMany();
+        const micros = foundMicros.map(micro => plainToClass(ReadMicroDto, micro));
+        return { micros, microsCount };
     }
 
-    async getAllByUnit(unit_code: string): Promise<ReadMicroDto[]> {
-        const foundUnit: UnitEntity = await this._unitRepository.findOne(unit_code);
+    async getAllByUnit(unit_code: string, query): Promise<MicrosRO> {
+        const qb = this._microRepository.createQueryBuilder("micros");
+        qb.leftJoinAndSelect("micros.unit", "unit");
+        qb.where("unit.code = :code", { code: unit_code });
+        const microsCount: number = await qb.getCount();
+        if ('active' in query) {
+            qb.andWhere("micros.active = :active", { active: `${query.active}` });
+        }
+        if ('id' in query) {
+            qb.andWhere("micros.id > :id", { id: query.id });
+        }
+        if ('limit' in query) {
+            qb.limit(query.limit);
+        }
+        const foundMicros = await qb.getMany();
+        const micros = foundMicros.map(micro => plainToClass(ReadMicroDto, micro));
+        return { micros, microsCount };
+    }
+
+    async getOneById(id: number, query: any): Promise<MicroRO> {
+        if (isNaN(id)) throw new BadRequestException(MicroExceptionMSG.BAD_REQUEST);
+        const qb = this._microRepository.createQueryBuilder("micros");
+        qb.where("micros.id = :id", { id });
+        if ('active' in query) {
+            qb.andWhere("micros.active = :active", { active: `${query.active}` });
+        }
+        const micro = await qb.getOne();
+        return { micro };
+    }
+
+    async create(dto: CreateMicroDto): Promise<MicroRO> {
+        const foundUnit: UnitEntity = await this._unitRepository.findOne(dto.unit_id, { where: { active: true } });
         if (!foundUnit) {
             throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
         }
-        const foundMicro: MicroEntity[] = await this._microRepository.find({ where: { unit: foundUnit, active: true } });
-        return foundMicro.map((micro: MicroEntity) => plainToClass(ReadMicroDto, micro));
+        const newMicro: MicroEntity = plainToClass(MicroEntity, dto, { enableImplicitConversion: true });
+        newMicro.unit = foundUnit;
+        const savedMicro: MicroEntity = await this._microRepository.save(newMicro);
+        const micro = plainToClass(ReadMicroDto, savedMicro);
+        return { micro };
     }
 
-    async getOneById(id: number): Promise<ReadMicroDto> {
-        const foundMicro: MicroEntity = await this._microRepository.findOne(id, { where: { active: true } });
-        if (!foundMicro) {
-            throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
-        }
-        return plainToClass(ReadMicroDto, foundMicro);
-    }
-
-    async create(dto: CreateMicroDto): Promise<ReadMicroDto> {
-        const foundUnit: UnitEntity = await this._unitRepository.findOne(dto.unit_code, { where: { active: true } });
+    async update(id: number, dto: UpdateMicroDto, query: any): Promise<MicroRO> {
+        const foundUnit: UnitEntity = await this._unitRepository.findOne(dto.unit_id, { where: { active: true } });
         if (!foundUnit) {
             throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
         }
-        const micro: MicroEntity = plainToClass(MicroEntity, dto, { enableImplicitConversion: true });
-        micro.unit = foundUnit;
-        const savedMicro: MicroEntity = await this._microRepository.save(micro);
-        return plainToClass(ReadMicroDto, savedMicro);
-    }
-
-    async update(id: number, dto: UpdateMicroDto): Promise<ReadMicroDto> {
-        const foundUnit: UnitEntity = await this._unitRepository.findOne(dto.unit_code, { where: { active: true } });
-        if (!foundUnit) {
-            throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
+        const qb = this._microRepository.createQueryBuilder("micros");
+        qb.where("micros.id = :id", { id });
+        if ('active' in query) {
+            qb.andWhere("micros.active = :active", { active: `${query.active}` });
         }
-        const foundMicro: MicroEntity = await this._microRepository.findOne(id, { where: { active: true } });
-        if (!foundMicro) {
-            throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
-        }
+        const foundMicro = await qb.getOne();
         foundMicro.unit = foundUnit;
         foundMicro.communication = dto.communication;
         foundMicro.priority = dto.priority;
@@ -70,27 +98,30 @@ export class MicroService {
         foundMicro.model = dto.model;
         foundMicro.code = dto.code;
         const updatedMicro: MicroEntity = await this._microRepository.save(foundMicro);
-        return plainToClass(ReadMicroDto, updatedMicro);
+        const micro = plainToClass(ReadMicroDto, updatedMicro);
+        return { micro };
     }
 
-    async delete(id: number): Promise<boolean> {
+    async delete(id: number): Promise<MicroRO> {
         const foundMicro: MicroEntity = await this._microRepository.findOne(id, { where: { active: true } });
         if (!foundMicro) {
             throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
         }
         foundMicro.active = false;
-        const updateResult: UpdateResult = await this._microRepository.update(id, foundMicro);
-        return updateResult.affected > 0;
+        const updateResult: MicroEntity = await this._microRepository.save(foundMicro);
+        const micro = plainToClass(ReadMicroDto, updateResult);
+        return { micro };
     }
 
-    async activate(id: number): Promise<boolean> {
+    async activate(id: number): Promise<MicroRO> {
         const foundMicro: MicroEntity = await this._microRepository.findOne(id, { where: { active: false } });
         if (!foundMicro) {
             throw new NotFoundException(MicroExceptionMSG.NOT_FOUND);
         }
         foundMicro.active = true;
-        const updateResult: UpdateResult = await this._microRepository.update(id, foundMicro);
-        return updateResult.affected > 0;
+        const updateResult: MicroEntity = await this._microRepository.save(foundMicro);
+        const micro = plainToClass(ReadMicroDto, updateResult);
+        return { micro };
     }
 
 }

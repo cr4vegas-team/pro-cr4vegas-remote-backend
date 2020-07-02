@@ -3,8 +3,8 @@ import { IsBoolean, IsNumber, IsString } from "class-validator";
 
 export class CreateMicroDto {
 
-    @IsString()
-    unit_code: string;
+    @IsNumber()
+    unit_id: number;
 
     @IsBoolean()
     communication: boolean;

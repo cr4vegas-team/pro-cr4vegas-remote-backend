@@ -23,7 +23,7 @@ export class SensorEntity {
         nullable: false,
         eager: true
     })
-    @JoinColumn({ name: 'sensor_type' })
+    @JoinColumn({ name: 'sensor_id' })
     sensor_type: SensorTypeEntity;
 
     // =======================================

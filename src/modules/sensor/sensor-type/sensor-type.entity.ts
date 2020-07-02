@@ -1,14 +1,19 @@
-import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity('sensors_types')
 export class SensorTypeEntity {
 
-    @PrimaryColumn({
+    @PrimaryGeneratedColumn('increment')
+    id: number;
+
+    // =======================================
+    
+    @Column({
         type: 'varchar',
-        length: '15'
+        length: 15
     })
-    type: string;
+    name: string;
 
     // =======================================
 
@@ -17,19 +22,5 @@ export class SensorTypeEntity {
         default: true
     })
     active: boolean;
-
-    // =======================================
-
-    @CreateDateColumn({
-        type: "timestamp",
-    })
-    created: Date;
-
-    // =======================================
-
-    @UpdateDateColumn({
-        type: "timestamp",
-    })
-    updated: Date;
 
 }
