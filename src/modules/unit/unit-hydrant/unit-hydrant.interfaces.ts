@@ -1,11 +1,11 @@
-import { ReadUnitHydrantDto } from "./dto";
-
+import { UnitHydrantEntity } from "./unit-hydrant.entity";
 
 export interface UnitHydrantRO {
-    unitHydrant: ReadUnitHydrantDto;
+    unitHydrant: UnitHydrantEntity;
 }
 
 export interface UnitsHydrantsRO {
-    unitsHydrants: ReadUnitHydrantDto[];
-    unitsHydrantsCount: number;
+    unitsHydrants: UnitHydrantEntity[];
+    count: number;
+    
 }
