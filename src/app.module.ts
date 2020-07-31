@@ -1,21 +1,29 @@
-import { Module, ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module, ValidationPipe } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Connection } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import configuration from './config/configuration';
+import { GLOBAL } from './global/constants/global.constant';
+import { AllExceptionsFilter } from './global/filters/all.exception.filter';
 import { UnitModule } from './modules/unit/unit.module';
-import { APP_INTERCEPTOR, APP_PIPE, APP_FILTER } from '@nestjs/core';
-import { MicroModule } from './modules/micro/micro.module';
-import { SensorModule } from './modules/sensor/sensor.module';
-import { GlobalExceptionFilter } from './global/global.exception.filter';
+import { WrapModule } from './modules/wrap/wrap.module';
 
 @Module({
 
   imports: [
-    TypeOrmModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env.development.local'],
+      load: [configuration],
+    }),
+    TypeOrmModule.forRootAsync({
+      useFactory: (configService: ConfigService) => (configService.get<Object>(GLOBAL.DATABASE)),
+      inject: [ConfigService],
+    }),
     UnitModule,
-    MicroModule,
-    SensorModule,
+    WrapModule,
   ],
 
   controllers: [
@@ -26,21 +34,20 @@ import { GlobalExceptionFilter } from './global/global.exception.filter';
     AppService,
     {
       provide: APP_FILTER,
-      useClass: GlobalExceptionFilter
+      useClass: AllExceptionsFilter
     },
     {
       provide: APP_PIPE,
       useValue: new ValidationPipe({
         whitelist: true,
-        forbidNonWhitelisted: true,
         transform: true,
         transformOptions: { enableImplicitConversion: true },
       })
     },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor
+    },
   ],
 })
-export class AppModule {
-
-  constructor(private connection: Connection) { }
-
-}
+export class AppModule { }

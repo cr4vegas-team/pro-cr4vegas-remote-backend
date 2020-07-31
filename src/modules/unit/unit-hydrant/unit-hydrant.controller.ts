@@ -1,58 +1,48 @@
-
-
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
-import { CreateUnitHydrantDto } from './dto/create-unit-hydrant.dto';
-import { UpdateUnitHydrantDto } from './dto/update-unit-hydrant.dto';
 import { UnitHydrantRO, UnitsHydrantsRO } from './unit-hydrant.interfaces';
 import { UnitHydrantService } from './unit-hydrant.service';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { UnitHydrantDto } from './unit-hydrant.dto';
 
-
-
+@ApiTags('unit-hydrant')
 @Controller('unit-hydrant')
 export class UnitHydrantController {
 
-    constructor(private readonly unitHydrantService: UnitHydrantService) { }
+    constructor(private readonly _unitHydrantService: UnitHydrantService) { }
 
+    @ApiQuery({ name: 'active', type: Number, required: false })
+    @ApiQuery({ name: 'id', type: Number, required: false })
+    @ApiQuery({ name: 'limit', type: Number, required: false })
     @Get()
-    getAll(@Query() query: any): Promise<UnitsHydrantsRO> {
-        return this.unitHydrantService.getAll(query);
+    findAll(@Query() query: Object): Promise<UnitsHydrantsRO> {
+        return this._unitHydrantService.findAll(query);
     }
 
-    @Get(':code')
-    getOne(
-        @Param('code') code: string,
-        @Query() query: any
-    ): Promise<UnitHydrantRO> {
-        return this.unitHydrantService.getOneByCode(code, query);
+    @ApiQuery({ name: 'active', type: Number, required: false })
+    @ApiQuery({ name: 'id', type: Number, required: false })
+    @Get('one')
+    findOne(@Query() query: Object): Promise<UnitHydrantRO> {
+        return this._unitHydrantService.findOneById(query);
     }
 
     @Post()
-    create(
-        @Body() createUnitHydrantDto: CreateUnitHydrantDto
-    ): Promise<UnitHydrantRO> {
-        return this.unitHydrantService.create(createUnitHydrantDto);
+    createOne(@Body() dto: UnitHydrantDto): Promise<UnitHydrantRO> {
+        return this._unitHydrantService.createOne(dto);
     }
 
-    @Put(':code')
-    update(
-        @Param('code') code: string,
-        @Body() updateUnitHydrantDto: UpdateUnitHydrantDto
-    ): Promise<UnitHydrantRO> {
-        return this.unitHydrantService.update(code, updateUnitHydrantDto);
+    @Put(':id')
+    updateOne(@Param('id') id: number, @Body() dto: UnitHydrantDto): Promise<UnitHydrantRO> {
+        return this._unitHydrantService.updateOne(id, dto);
     }
 
-    @Delete(':code')
-    delete(
-        @Param('code') code: string,
-    ): Promise<UnitHydrantRO> {
-        return this.unitHydrantService.delete(code);
+    @Delete(':id')
+    deleteOne(@Param('id') id: number): Promise<Boolean> {
+        return this._unitHydrantService.deleteOne(id);
     }
 
-    @Patch(':code')
-    activate(
-        @Param('code') code: string,
-    ): Promise<UnitHydrantRO> {
-        return this.unitHydrantService.activate(code);
+    @Patch(':id')
+    activateOne(@Param('id') id: number): Promise<Boolean> {
+        return this._unitHydrantService.activateOne(id);
     }
 
 }

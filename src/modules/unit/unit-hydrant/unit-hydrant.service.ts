@@ -1,17 +1,15 @@
-
-
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { UnitEntity } from '../unit.entity';
-import { ReadUnitHydrantDto } from './dto';
-import { CreateUnitHydrantDto } from './dto/create-unit-hydrant.dto';
-import { UpdateUnitHydrantDto } from './dto/update-unit-hydrant.dto';
-import { UnitHydrantExceptionMSG } from './unit-hydrant-exception-messages';
+import { UnitType } from '../unit/unit-types.constant';
 import { UnitHydrantEntity } from './unit-hydrant.entity';
+import { UnitEntity } from '../unit/unit.entity';
+import { UnitHydrantExceptionMSG } from './unit-hydrant-exception-messages';
 import { UnitHydrantRO, UnitsHydrantsRO } from './unit-hydrant.interfaces';
-
+import { UnitService } from '../unit/unit.service';
+import { UnitHydrantDto } from './unit-hydrant.dto';
+import { UnitDto } from '../unit/unit.dto';
+import { UnitExceptionMSG } from '../unit/unit-exception.msg';
 
 @Injectable()
 export class UnitHydrantService {
@@ -19,14 +17,13 @@ export class UnitHydrantService {
     constructor(
         @InjectRepository(UnitHydrantEntity)
         private readonly _unitHydrantRepository: Repository<UnitHydrantEntity>,
-        @InjectRepository(UnitEntity)
-        private readonly _unitRepository: Repository<UnitEntity>,
+        private readonly _unitService: UnitService,
     ) { }
 
-    async getAll(query: any): Promise<UnitsHydrantsRO> {
-        const qb = await this._unitHydrantRepository.createQueryBuilder('units_hydrants');
+    async findAll(query): Promise<UnitsHydrantsRO> {
+        const qb = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
+            .leftJoinAndSelect('units_hydrants.unit', 'unit');
         qb.where("1 = 1");
-        qb.leftJoinAndSelect("units_hydrants.unit", "unit");
         const unitsHydrantsCount: number = await qb.getCount();
         if ('active' in query) {
             qb.andWhere("unit.active = :active", { active: `${query.active}` });
@@ -38,105 +35,91 @@ export class UnitHydrantService {
             qb.limit(query.limit);
         }
         qb.orderBy("unit.created", "DESC");
-        const foundUnitsHydrants: UnitHydrantEntity[] = await qb.getMany();
-        const unitsHydrants: ReadUnitHydrantDto[] = foundUnitsHydrants.map(unitHydrant => plainToClass(ReadUnitHydrantDto, unitHydrant, { enableImplicitConversion: true }))
-        return { unitsHydrants, unitsHydrantsCount };
+        const foundUnitsHydrants: UnitHydrantEntity[] = await qb.getMany()
+        return { unitsHydrants: foundUnitsHydrants, count: unitsHydrantsCount };
     }
 
-    async getOneByCode(code: string, query: any): Promise<UnitHydrantRO> {
-        const qb = this._unitHydrantRepository.createQueryBuilder('units_hydrants');
-        qb.leftJoinAndSelect("units_hydrants.unit", "unit");
-        qb.where("unit.code = :code", { code });
+    async findOneById(query): Promise<UnitHydrantRO> {
+        const qb = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
+            .leftJoinAndSelect('units_hydrants.unit', 'unit');
+        qb.where("1 = 1");
         if ('active' in query) {
-            qb.andWhere("units_hydrants.unit.active = :active", { active: `${query.active}` });
+            qb.andWhere("units.active = :active", { active: `${query.active}` });
+        }
+        if ('id' in query) {
+            qb.andWhere("units_hydrants.id = :id", { id: `${query.id}` });
+        }
+        if ('code' in query) {
+            qb.andWhere("units_hydrants.code = :code", { code: `${query.code}` });
         }
         const foundUnitHydrant: UnitHydrantEntity = await qb.getOne();
-        const unitHydrant: ReadUnitHydrantDto = plainToClass(ReadUnitHydrantDto, foundUnitHydrant);
-        return { unitHydrant };
+        return { unitHydrant: foundUnitHydrant };
     }
 
-    async create(dto: CreateUnitHydrantDto): Promise<UnitHydrantRO> {
-        const qb = this._unitHydrantRepository.createQueryBuilder("units_hydrants")
-            .leftJoinAndSelect("units_hydrants.unit", "unit")
-            .where("unit.code = :code", { code: dto.code });
-        const foundUnit = await qb.getOne();
-        if (foundUnit) {
-            if (!(await foundUnit).unit) {
-                throw new Error("Unit & UnitHydrant references error");
-            }
+    async createOne(dto: UnitHydrantDto): Promise<UnitHydrantRO> {
+        const foundUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
+            .where('units_hydrants.code = :code', { code: dto.code }).getOne();
+        if (foundUnitHydrant) {
             throw new ConflictException(UnitHydrantExceptionMSG.CONFLICT);
         }
-        const unit: UnitEntity = new UnitEntity();
-        unit.code = dto.code;
-        unit.altitude = dto.altitude;
-        unit.latitude = dto.latitude;
-        unit.longitude = dto.longitude;
-        unit.description = dto.description;
-        const savedUnit: UnitEntity = await this._unitRepository.save(unit);
-        let unitHydrant: UnitHydrantEntity = new UnitHydrantEntity();
-        unitHydrant.unit = savedUnit;
-        unitHydrant.size = dto.size;
-        unitHydrant.valve = dto.valve;
-        unitHydrant.bouy_alarm = dto.bouy_alarm;
-        unitHydrant.bouy_high = dto.bouy_high;
-        unitHydrant.bouy_medium = dto.bouy_medium;
-        unitHydrant.flow = dto.flow;
-        unitHydrant.counter = dto.counter;
-        const savedUnitHydrant = await this._unitHydrantRepository.save(unitHydrant);
-        unitHydrant = plainToClass(ReadUnitHydrantDto, savedUnitHydrant);
-        return { unitHydrant };
+        let unitDto: UnitDto = new UnitDto();
+        unitDto.altitude = dto.altitude;
+        unitDto.longitude = dto.longitude;
+        unitDto.latitude = dto.latitude;
+        unitDto.unitType = dto.unitType;
+        unitDto.description = dto.description;
+        const savedUnit: UnitEntity = (await this._unitService.createOne(unitDto)).unit;
+        let newUnitHydrant: UnitHydrantEntity = new UnitHydrantEntity();
+        newUnitHydrant.unit = savedUnit;
+        newUnitHydrant.code = dto.code;
+        newUnitHydrant.diameter = dto.diameter;
+        newUnitHydrant.filter = dto.filter > 0 ? true : false;
+        const savedUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.save(newUnitHydrant);
+        return { unitHydrant: savedUnitHydrant };
     }
 
-    async update(code: string, dto: UpdateUnitHydrantDto): Promise<UnitHydrantRO> {
-        const qb = this._unitHydrantRepository.createQueryBuilder("units_hydrants")
-            .leftJoinAndSelect("units_hydrants.unit", "unit")
-            .where("unit.code = :code", { code });
-        const foundUnitHydrant: UnitHydrantEntity = await qb.getOne();
+    async updateOne(id: number, dto: UnitHydrantDto): Promise<UnitHydrantRO> {
+        const foundUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
+            .leftJoinAndSelect('units_hydrants.unit', 'unit')
+            .where('units_hydrants.id = :id', { id }).getOne();
         if (!foundUnitHydrant) {
             throw new NotFoundException(UnitHydrantExceptionMSG.NOT_FOUND);
         }
-        foundUnitHydrant.size = dto.size;
-        foundUnitHydrant.valve = dto.valve;
-        foundUnitHydrant.bouy_alarm = dto.bouy_alarm;
-        foundUnitHydrant.bouy_high = dto.bouy_high;
-        foundUnitHydrant.bouy_medium = dto.bouy_medium;
-        foundUnitHydrant.flow = dto.flow;
-        foundUnitHydrant.unit.code = dto.code;
+        foundUnitHydrant.code = dto.code;
+        foundUnitHydrant.diameter = dto.diameter;
+        foundUnitHydrant.filter = dto.filter > 0 ? true : false;
         foundUnitHydrant.unit.altitude = dto.altitude;
         foundUnitHydrant.unit.latitude = dto.latitude;
         foundUnitHydrant.unit.longitude = dto.longitude;
         foundUnitHydrant.unit.description = dto.description;
-        const updatedUnitHydrant = await this._unitHydrantRepository.save(foundUnitHydrant);
-        const unitHydrant = plainToClass(ReadUnitHydrantDto, updatedUnitHydrant);
-        return { unitHydrant };
+        foundUnitHydrant.unit.unitType = UnitType[dto.unitType];
+        let updateUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.save(foundUnitHydrant);
+        return { unitHydrant: updateUnitHydrant };
     }
 
-    async delete(code: string): Promise<UnitHydrantRO> {
-        const qb = this._unitHydrantRepository.createQueryBuilder('units_hydrants');
-        qb.leftJoinAndSelect("units_hydrants.unit", "unit")
-        qb.where("unit.active = :active", { active: true })
-        qb.andWhere("unit.code = :code", { code });
-        const foundUnitHydrant: UnitHydrantEntity = await qb.getOne();
+    async deleteOne(id: number): Promise<Boolean> {
+        const foundUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
+            .leftJoinAndSelect('units_hydrants.unit', 'unit')
+            .where('units_hydrants.id = :id', { id }).getOne();
         if (!foundUnitHydrant) {
             throw new NotFoundException(UnitHydrantExceptionMSG.NOT_FOUND);
         }
         foundUnitHydrant.unit.active = false;
-        const unitHydrant = await this._unitHydrantRepository.save(foundUnitHydrant);
-        return { unitHydrant };
+        return await this._unitService.deleteOne(foundUnitHydrant.unit.id);
     }
 
-    async activate(code: string): Promise<UnitHydrantRO> {
-        const qb = this._unitHydrantRepository.createQueryBuilder('units_hydrants');
-        qb.leftJoinAndSelect("units_hydrants.unit", "unit")
-        qb.where("unit.active = :active", { active: false })
-        qb.andWhere("unit.code = :code", { code });
-        const foundUnitHydrant: UnitHydrantEntity = await qb.getOne();
+    async activateOne(id: number): Promise<Boolean> {
+        const foundUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
+            .leftJoinAndSelect('units_hydrants.unit', 'unit')
+            .where('units_hydrants.id = :id', { id }).getOne();
         if (!foundUnitHydrant) {
             throw new NotFoundException(UnitHydrantExceptionMSG.NOT_FOUND);
         }
+        if (!foundUnitHydrant.unit) {
+            throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
+        }
         foundUnitHydrant.unit.active = true;
-        const unitHydrant = await this._unitHydrantRepository.save(foundUnitHydrant);
-        return { unitHydrant };
+        return await this._unitService.deleteOne(foundUnitHydrant.unit.id);
     }
 
 }
