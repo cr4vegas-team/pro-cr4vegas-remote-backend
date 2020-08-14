@@ -10,8 +10,6 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
 
-  console.log(configService);
-
   app.setGlobalPrefix(configService.get(CONFIG.APP_GLOBAL_PREFIX));
 
   const options = new DocumentBuilder()
@@ -21,7 +19,9 @@ async function bootstrap() {
     .addTag('cr4vegas')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swagger', app, document);
+
+  app.enableCors();
 
   await app.listen(configService.get(CONFIG.APP_PORT));
 

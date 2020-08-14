@@ -1,16 +1,31 @@
 
-import { IsIn, IsInt, IsNotEmpty, IsNumber, IsString } from "class-validator";
-import { UnitType } from "./unit-types.constant";
 import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsNotEmpty, IsNumber } from "class-validator";
 
 export class UnitDto {
 
-    @ApiProperty({ enum: UnitType })
+    /* @ApiProperty({ enum: UnitType })
     @IsIn(Object.values(UnitType).filter(value => typeof value === 'string'))
-    unitType: UnitType;
+    unitType: UnitType; */
 
     @ApiProperty()
-    @IsInt()
+    @IsNumber()
+    stationId: number;
+
+    @ApiProperty()
+    @IsNumber()
+    sectorId: number;
+
+    @ApiProperty()
+    @IsArray()
+    setsIds: number[];
+
+    @ApiProperty()
+    @IsNotEmpty()
+    code: string;
+
+    @ApiProperty()
+    @IsNumber()
     altitude: number;
 
     @ApiProperty()

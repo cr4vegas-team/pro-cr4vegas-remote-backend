@@ -6,7 +6,7 @@
   "password": "root",
   "database": "cr4vegas_remote_test",
   "entities": [
-    "dist/**/*.entity{.ts,.js}"
+    "src/modules/**/*.entity{.ts,.js}"
   ],
   "synchronize": true,
   "seeds": [

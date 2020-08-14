@@ -14,36 +14,30 @@ export class SetService {
         private readonly _setRepository: Repository<SetEntity>
     ) { }
 
-    async findAll(query): Promise<SetsRO> {
+    async findAll(active?: number): Promise<SetsRO> {
         const qb = await this._setRepository.createQueryBuilder('sets');
+        qb.leftJoinAndSelect("sets.units", "units");
         qb.leftJoinAndSelect('sets.setType', 'setType');
         qb.where("1 = 1");
+        if (!isNaN(active)) {
+            qb.andWhere("sets.active = :active", { active });
+        }
         const setsCount: number = await qb.getCount();
-        if ('active' in query) {
-            qb.andWhere("sets.active = :active", { active: `${query.active}` });
-        }
-        if ('id' in query) {
-            qb.andWhere("sets.id > :id", { id: `${query.id}` });
-        }
-        if ('limit' in query) {
-            qb.limit(query.limit);
-        }
         qb.orderBy("sets.created", "DESC");
         const foundStations: SetEntity[] = await qb.getMany();
         return { sets: foundStations, count: setsCount };
     }
 
-    async findOne(query): Promise<SetRO> {
+    async findOne(id: number, active?: number): Promise<SetRO> {
         const qb = await this._setRepository.createQueryBuilder('sets');
-        qb.where("1 = 1");
-        if ('active' in query) {
-            qb.andWhere("sets.active = :active", { active: `${query.active}` });
+        qb.leftJoinAndSelect("sets.units", "units");
+        qb.leftJoinAndSelect('sets.setType', 'setType');
+        qb.where("sets.id = :id", { id });
+        if (!isNaN(active)) {
+            qb.andWhere("sets.active = :active", { active });
         }
-        if ('id' in query) {
-            qb.andWhere("sets.id = :id", { id: `${query.id}` });
-        }
-        const foundStation: SetEntity = await qb.getOne();
-        return { set: foundStation };
+        const foundSet: SetEntity = await qb.getOne();
+        return { set: foundSet };
     }
 
     async createOne(dto: SetDto): Promise<SetRO> {
@@ -55,22 +49,25 @@ export class SetService {
         return { set: savedStation };
     }
 
-    async updateOne(id: number, dto: SetDto): Promise<SetRO> {
-        let foundStation: SetEntity = await this._setRepository.findOne(id);
-        if (!foundStation) {
-            console.log(id);
+    async updateOne(id: number, dto: SetDto): Promise<boolean> {
+        const foundSet: SetEntity = await this._setRepository.createQueryBuilder('sets')
+            .where("sets.id = :id", { id })
+            .getOne();
+        if (!foundSet) {
             throw new NotFoundException(SetExceptionMSG.NOT_FOUND_ID);
         }
-        foundStation.code = dto.code;
-        foundStation.name = dto.name;
-        foundStation.description = dto.description;
-        let updatedStation: SetEntity = await this._setRepository.save(foundStation);
-        return { set: updatedStation };
+        foundSet.code = dto.code;
+        foundSet.name = dto.name;
+        foundSet.description = dto.description;
+        let updatedStation: SetEntity = await this._setRepository.save(foundSet);
+        return updatedStation ? true : false;
     }
 
     async deleteOne(id: number): Promise<Boolean> {
-        let foundStation: SetEntity = await this._setRepository.findOne(id);
-        if (!foundStation) {
+        const foundSet: SetEntity = await this._setRepository.createQueryBuilder('sets')
+            .where("sets.id = :id", { id })
+            .getOne();
+        if (!foundSet) {
             throw new NotFoundException(SetExceptionMSG.NOT_FOUND_ID);
         }
         let updatedStation: UpdateResult = await this._setRepository.update(id, { active: false });
@@ -78,8 +75,10 @@ export class SetService {
     }
 
     async activateOne(id: number): Promise<Boolean> {
-        let foundStation: SetEntity = await this._setRepository.findOne(id);
-        if (!foundStation) {
+        const foundSet: SetEntity = await this._setRepository.createQueryBuilder('sets')
+            .where("sets.id = :id", { id })
+            .getOne();
+        if (!foundSet) {
             throw new NotFoundException(SetExceptionMSG.NOT_FOUND_ID);
         }
         let updatedUnit: UpdateResult = await this._setRepository.update(id, { active: true });

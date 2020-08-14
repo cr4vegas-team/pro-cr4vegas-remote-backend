@@ -1,23 +1,21 @@
 
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsBooleanString, IsIn, IsInt, IsNumber, IsNumberString, IsOptional, Max, MaxLength, Min } from "class-validator";
-import { UnitDto } from "../unit/unit.dto";
+import { IsIn, IsNumber, ValidateNested } from "class-validator";
+import { UnitDto } from '../unit/unit.dto';
 
 
-export class UnitHydrantDto extends UnitDto {
-
-    @ApiProperty()
-    @MaxLength(45)
-    code: string;
+export class UnitHydrantDto {
 
     @ApiProperty()
-    @IsInt()
+    @ValidateNested()
+    unit: UnitDto;
+
+    @ApiProperty()
+    @IsNumber()
     diameter: number;
 
     @ApiProperty()
-    @IsInt()
-    @IsIn([0,1])
-    @IsOptional()
+    @IsIn([0, 1])
     filter: number;
 
 }

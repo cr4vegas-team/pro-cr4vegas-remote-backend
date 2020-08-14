@@ -3,12 +3,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import configuration from './config/configuration';
 import { CONFIG } from './config/config.constant';
 import { AllExceptionsFilter } from './global/filters/all.exception.filter';
 import { UnitModule } from './modules/unit/unit.module';
 import { WrapModule } from './modules/wrap/wrap.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
 
@@ -24,6 +24,7 @@ import { WrapModule } from './modules/wrap/wrap.module';
     }),
     UnitModule,
     WrapModule,
+    AuthModule,
   ],
 
   controllers: [
@@ -31,7 +32,6 @@ import { WrapModule } from './modules/wrap/wrap.module';
   ],
 
   providers: [
-    AppService,
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter
@@ -49,5 +49,7 @@ import { WrapModule } from './modules/wrap/wrap.module';
       useClass: ClassSerializerInterceptor
     },
   ],
+  exports: [
+  ]
 })
 export class AppModule { }

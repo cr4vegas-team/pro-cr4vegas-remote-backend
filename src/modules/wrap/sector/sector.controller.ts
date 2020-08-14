@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
-import { ApiQuery } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/modules/auth/auth/jwt-auth.guard';
 import { SectorDto } from './sector.dto';
 import { SectorRO, SectorsRO } from './sector.interfaces';
 import { SectorService } from './sector.service';
 
+@ApiTags('sector')
+@UseGuards(JwtAuthGuard)
 @Controller('sector')
 export class SectorController {
 
@@ -12,18 +15,16 @@ export class SectorController {
     ) { }
 
     @ApiQuery({ name: 'active', type: Number, required: false })
-    @ApiQuery({ name: 'id', type: Number, required: false })
-    @ApiQuery({ name: 'limit', type: Number, required: false })
     @Get()
-    findAll(@Query() query: Object): Promise<SectorsRO> {
-        return this._sectorService.findAll(query);
+    findAll(@Query('active') active: number): Promise<SectorsRO> {
+        return this._sectorService.findAll(active);
     }
 
     @ApiQuery({ name: 'active', type: Number, required: false })
-    @ApiQuery({ name: 'id', type: Number, required: false })
-    @Get('one')
-    findOne(@Query() query: Object): Promise<SectorRO> {
-        return this._sectorService.findOne(query);
+    @ApiParam({ name: 'id', type: Number, required: true })
+    @Get(':id')
+    findOne(@Param('id') id: number, @Query('active') active: number): Promise<SectorRO> {
+        return this._sectorService.findOne(id, active);
     }
 
     @Post()
@@ -32,7 +33,7 @@ export class SectorController {
     }
 
     @Put(':id')
-    updateOne(@Param('id') id: number, @Body() dto: SectorDto): Promise<SectorRO> {
+    updateOne(@Param('id') id: number, @Body() dto: SectorDto): Promise<boolean> {
         return this._sectorService.updateOne(id, dto);
     }
 

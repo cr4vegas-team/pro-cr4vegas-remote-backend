@@ -3,6 +3,7 @@ export default () => ({
     app: {
         port: parseInt(process.env.CR4VEGAS_BACK_APP_PORT, 10) || 3000,
         global_prefix: process.env.CR4VEGAS_BACK_APP_GLOBAL_PREFIX,
+        jwt_secret: process.env.CR4VEGAS_BACK_JWT_SECRET,
     },
     database: {
         type: process.env.CR4VEGAS_BACK_DB_TYPE || "mysql",

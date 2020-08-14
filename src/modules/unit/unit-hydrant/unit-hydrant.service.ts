@@ -1,15 +1,14 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UNITS_HYDRANTS_TEST } from 'src/database/static_data/units-hydrants';
 import { Repository } from 'typeorm';
 import { UnitType } from '../unit/unit-types.constant';
-import { UnitHydrantEntity } from './unit-hydrant.entity';
 import { UnitEntity } from '../unit/unit.entity';
-import { UnitHydrantExceptionMSG } from './unit-hydrant-exception-messages';
-import { UnitHydrantRO, UnitsHydrantsRO } from './unit-hydrant.interfaces';
 import { UnitService } from '../unit/unit.service';
+import { UnitHydrantExceptionMSG } from './unit-hydrant-exception-messages';
 import { UnitHydrantDto } from './unit-hydrant.dto';
-import { UnitDto } from '../unit/unit.dto';
-import { UnitExceptionMSG } from '../unit/unit-exception.msg';
+import { UnitHydrantEntity } from './unit-hydrant.entity';
+import { UnitHydrantRO, UnitsHydrantsRO } from './unit-hydrant.interfaces';
 
 @Injectable()
 export class UnitHydrantService {
@@ -18,39 +17,33 @@ export class UnitHydrantService {
         @InjectRepository(UnitHydrantEntity)
         private readonly _unitHydrantRepository: Repository<UnitHydrantEntity>,
         private readonly _unitService: UnitService,
-    ) { }
+    ) {
+        UNITS_HYDRANTS_TEST.forEach(unitHydrant => {
+            this.createOne(unitHydrant);
+        })
 
-    async findAll(query): Promise<UnitsHydrantsRO> {
+    }
+
+    async findAll(active?: number): Promise<UnitsHydrantsRO> {
         const qb = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
-            .leftJoinAndSelect('units_hydrants.unit', 'unit');
+            .leftJoinAndSelect('units_hydrants.unit', 'unit')
+            .leftJoinAndSelect('unit.sector', 'sector');
         qb.where("1 = 1");
+        if (!isNaN(active)) {
+            qb.andWhere("unit.active = :active", { active });
+        }
         const unitsHydrantsCount: number = await qb.getCount();
-        if ('active' in query) {
-            qb.andWhere("unit.active = :active", { active: `${query.active}` });
-        }
-        if ('id' in query) {
-            qb.andWhere("units_hydrants.id > :id", { id: `${query.id}` });
-        }
-        if ('limit' in query) {
-            qb.limit(query.limit);
-        }
         qb.orderBy("unit.created", "DESC");
         const foundUnitsHydrants: UnitHydrantEntity[] = await qb.getMany()
         return { unitsHydrants: foundUnitsHydrants, count: unitsHydrantsCount };
     }
 
-    async findOneById(query): Promise<UnitHydrantRO> {
+    async findOneByCode(code: string, active?: number): Promise<UnitHydrantRO> {
         const qb = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
             .leftJoinAndSelect('units_hydrants.unit', 'unit');
-        qb.where("1 = 1");
-        if ('active' in query) {
-            qb.andWhere("units.active = :active", { active: `${query.active}` });
-        }
-        if ('id' in query) {
-            qb.andWhere("units_hydrants.id = :id", { id: `${query.id}` });
-        }
-        if ('code' in query) {
-            qb.andWhere("units_hydrants.code = :code", { code: `${query.code}` });
+        qb.where("units_hydrants.code = :code", { code });
+        if (!isNaN(active)) {
+            qb.andWhere("unit.active = :active", { active });
         }
         const foundUnitHydrant: UnitHydrantEntity = await qb.getOne();
         return { unitHydrant: foundUnitHydrant };
@@ -58,68 +51,54 @@ export class UnitHydrantService {
 
     async createOne(dto: UnitHydrantDto): Promise<UnitHydrantRO> {
         const foundUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
-            .where('units_hydrants.code = :code', { code: dto.code }).getOne();
+            .where('units_hydrants.code = :code', { code: dto.unit.code }).getOne();
         if (foundUnitHydrant) {
             throw new ConflictException(UnitHydrantExceptionMSG.CONFLICT);
         }
-        let unitDto: UnitDto = new UnitDto();
-        unitDto.altitude = dto.altitude;
-        unitDto.longitude = dto.longitude;
-        unitDto.latitude = dto.latitude;
-        unitDto.unitType = dto.unitType;
-        unitDto.description = dto.description;
-        const savedUnit: UnitEntity = (await this._unitService.createOne(unitDto)).unit;
-        let newUnitHydrant: UnitHydrantEntity = new UnitHydrantEntity();
-        newUnitHydrant.unit = savedUnit;
-        newUnitHydrant.code = dto.code;
+        const newUnit: UnitEntity = (await this._unitService.createOne(dto.unit, UnitType.HYDRANT)).unit;
+        const newUnitHydrant: UnitHydrantEntity = new UnitHydrantEntity();
+        newUnitHydrant.unit = newUnit;
+        newUnitHydrant.code = dto.unit.code;
         newUnitHydrant.diameter = dto.diameter;
-        newUnitHydrant.filter = dto.filter > 0 ? true : false;
+        newUnitHydrant.filter = dto.filter;
         const savedUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.save(newUnitHydrant);
         return { unitHydrant: savedUnitHydrant };
     }
 
-    async updateOne(id: number, dto: UnitHydrantDto): Promise<UnitHydrantRO> {
+    async updateOne(code: string, dto: UnitHydrantDto): Promise<boolean> {
         const foundUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
             .leftJoinAndSelect('units_hydrants.unit', 'unit')
-            .where('units_hydrants.id = :id', { id }).getOne();
+            .where('units_hydrants.code = :code', { code }).getOne();
         if (!foundUnitHydrant) {
             throw new NotFoundException(UnitHydrantExceptionMSG.NOT_FOUND);
         }
-        foundUnitHydrant.code = dto.code;
+        const updatedUnit: boolean = await this._unitService.updateOne(foundUnitHydrant.unit.id, dto.unit);
+        foundUnitHydrant.code = dto.unit.code;
         foundUnitHydrant.diameter = dto.diameter;
-        foundUnitHydrant.filter = dto.filter > 0 ? true : false;
-        foundUnitHydrant.unit.altitude = dto.altitude;
-        foundUnitHydrant.unit.latitude = dto.latitude;
-        foundUnitHydrant.unit.longitude = dto.longitude;
-        foundUnitHydrant.unit.description = dto.description;
-        foundUnitHydrant.unit.unitType = UnitType[dto.unitType];
+        foundUnitHydrant.filter = dto.filter;
         let updateUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.save(foundUnitHydrant);
-        return { unitHydrant: updateUnitHydrant };
+        return updateUnitHydrant && updatedUnit ? true : false;
     }
 
-    async deleteOne(id: number): Promise<Boolean> {
+    async deleteOne(code: string): Promise<Boolean> {
         const foundUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
             .leftJoinAndSelect('units_hydrants.unit', 'unit')
-            .where('units_hydrants.id = :id', { id }).getOne();
+            .where('units_hydrants.code = :code', { code }).getOne();
         if (!foundUnitHydrant) {
             throw new NotFoundException(UnitHydrantExceptionMSG.NOT_FOUND);
         }
-        foundUnitHydrant.unit.active = false;
         return await this._unitService.deleteOne(foundUnitHydrant.unit.id);
     }
 
-    async activateOne(id: number): Promise<Boolean> {
+    async activateOne(code: string): Promise<Boolean> {
+        console.log(code);
         const foundUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
             .leftJoinAndSelect('units_hydrants.unit', 'unit')
-            .where('units_hydrants.id = :id', { id }).getOne();
+            .where('units_hydrants.code = :code', { code }).getOne();
         if (!foundUnitHydrant) {
             throw new NotFoundException(UnitHydrantExceptionMSG.NOT_FOUND);
         }
-        if (!foundUnitHydrant.unit) {
-            throw new NotFoundException(UnitExceptionMSG.NOT_FOUND);
-        }
-        foundUnitHydrant.unit.active = true;
-        return await this._unitService.deleteOne(foundUnitHydrant.unit.id);
+        return await this._unitService.activateOne(foundUnitHydrant.unit.id);
     }
 
 }
