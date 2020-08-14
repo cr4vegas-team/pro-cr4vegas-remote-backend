@@ -1,18 +1,18 @@
+
 {
+  "name": "production",
   "type": "mysql",
-  "host": "localhost",
-  "port": 3306,
+  "host": "192.168.1.134",
+  "port": 3310,
   "username": "root",
-  "password": "root",
-  "database": "cr4vegas_remote_test",
+  "password": "cr4vegas2020",
+  "database": "cr4vegas_remote",
   "entities": [
-    "dist/**/*.entity{.ts,.js}"
+    "src/modules/**/*.entity{.ts,.js}"
   ],
-  "synchronize": true,
-  "seeds": [
-    "src/database/seeds/**/*{.ts,.js}"
-  ],
-  "factories": [
-    "src/database/factories/**/*{.ts,.js}"
-  ]
+  "migrationTablename": "migrations",
+  "migrations": ["migration/*.ts"],
+  "cli": {
+    "migrationsDir": "migration"
+  }
 }

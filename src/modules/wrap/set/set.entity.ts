@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UnitEntity } from "../../unit/unit/unit.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { SetTypeEntity } from './set-type.entity';
 
 
@@ -8,9 +9,18 @@ export class SetEntity {
     @PrimaryGeneratedColumn('increment')
     id: number;
 
+    // =======================================
+
     @ManyToOne(type => SetTypeEntity, type => type.name, { eager: true })
-    @JoinColumn({name: 'set_type', referencedColumnName: 'name'})
+    @JoinColumn({ name: 'set_type', referencedColumnName: 'name' })
     setType: SetTypeEntity;
+
+    // =======================================
+
+    @ManyToMany(type => UnitEntity, unitEntity => unitEntity.sets)
+    units: UnitEntity[];
+
+    // =======================================
 
     @Column({
         type: 'varchar',
@@ -19,6 +29,8 @@ export class SetEntity {
     })
     code: string;
 
+    // =======================================
+
     @Column({
         type: 'varchar',
         length: 45,
@@ -26,16 +38,24 @@ export class SetEntity {
     })
     name: string;
 
+    // =======================================
+
     @Column({
         type: 'text',
     })
     description: string;
 
+    // =======================================
+
     @UpdateDateColumn({ type: 'timestamp' })
     updated: Date;
 
+    // =======================================
+
     @CreateDateColumn({ type: 'timestamp' })
     created: Date;
+
+    // =======================================
 
     @Column({
         type: 'boolean',

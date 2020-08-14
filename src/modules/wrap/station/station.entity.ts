@@ -1,10 +1,18 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UnitEntity } from "../../unit/unit/unit.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('stations')
 export class StationEntity {
 
     @PrimaryGeneratedColumn('increment')
     id: number;
+
+    // =======================================
+
+    @OneToMany(type => UnitEntity, unitEntity => unitEntity.station)
+    units: UnitEntity[];
+
+    // =======================================
 
     @Column({
         type: 'varchar',
@@ -14,6 +22,8 @@ export class StationEntity {
     })
     code: string;
 
+    // =======================================
+
     @Column({
         type: 'varchar',
         length: 45,
@@ -22,16 +32,48 @@ export class StationEntity {
     })
     name: string;
 
+    // =======================================
+
+    @Column({
+        type: 'float',
+        default: 0,
+    })
+    altitude: number;
+
+    // =======================================
+
+    @Column({
+        type: 'double',
+        default: 0,
+    })
+    latitude: number;
+
+    // =======================================
+
+    @Column({
+        type: 'double',
+        default: 0,
+    })
+    longitude: number;
+
+    // =======================================
+
     @Column({
         type: 'text',
     })
     description: string;
 
+    // =======================================
+
     @UpdateDateColumn({ type: 'timestamp' })
     updated: Date;
 
+    // =======================================
+
     @CreateDateColumn({ type: 'timestamp' })
     created: Date;
+
+    // =======================================
 
     @Column({
         type: 'boolean',
