@@ -1,5 +1,8 @@
 import { Exclude } from "class-transformer";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { SectorEntity } from "../../wrap/sector/sector.entity";
+import { SetEntity } from "../../wrap/set/set.entity";
+import { StationEntity } from "../../wrap/station/station.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UnitType } from "./unit-types.constant";
 
 @Entity('units')
@@ -7,6 +10,24 @@ export class UnitEntity {
 
     @PrimaryGeneratedColumn('increment')
     id: number;
+
+    // =======================================
+
+    @ManyToOne(type => StationEntity, stationEntity => stationEntity.units, { eager: true })
+    @JoinColumn()
+    station: StationEntity;
+
+    // =======================================
+
+    @ManyToOne(type => SectorEntity, sectorEntity => sectorEntity.units)
+    @JoinColumn()
+    sector: SectorEntity;
+
+    // =======================================
+
+    @ManyToMany(type => SetEntity, setEntity => setEntity.units, { eager: true })
+    @JoinColumn()
+    sets: SetEntity[];
 
     // =======================================
 
@@ -21,6 +42,15 @@ export class UnitEntity {
     // =======================================
 
     @Column({
+        unique: true,
+        type: 'varchar',
+        length: 45
+    })
+    code: string;
+
+    // =======================================
+
+    @Column({
         type: 'float',
     })
     @Exclude()
@@ -29,14 +59,14 @@ export class UnitEntity {
     // =======================================
 
     @Column({
-        type: 'float',
+        type: 'double',
     })
     latitude: number;
 
     // =======================================
 
     @Column({
-        type: 'float',
+        type: 'double',
     })
     longitude: number;
 
@@ -51,10 +81,10 @@ export class UnitEntity {
     // =======================================
 
     @Column({
-        type: 'boolean',
-        default: true
+        type: 'tinyint',
+        default: 1
     })
-    active: boolean;
+    active: number;
 
     // =======================================
 

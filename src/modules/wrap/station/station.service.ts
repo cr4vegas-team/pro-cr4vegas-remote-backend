@@ -1,5 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { STATIONS_TEST } from 'src/database/static_data/stations';
 import { Repository, UpdateResult } from 'typeorm';
 import { StationExceptionMSG } from './station-exception.msg';
 import { StationDto } from './station.dto';
@@ -12,76 +13,86 @@ export class StationService {
     constructor(
         @InjectRepository(StationEntity)
         private readonly _stationRepository: Repository<StationEntity>,
-    ) { }
+    ) {
+        const stations: StationEntity[] = STATIONS_TEST;
+        for (const station of stations) {
+            this.createOne(station);
+        }
+    }
 
-
-    async findAll(query): Promise<StationsRO> {
+    async findAll(active?: number): Promise<StationsRO> {
         const qb = await this._stationRepository.createQueryBuilder('stations');
+        qb.leftJoinAndSelect("stations.units", "units");
         qb.where("1 = 1");
+        if (!isNaN(active)) {
+            qb.andWhere("stations.active = :active", { active });
+        }
         const stationsCount: number = await qb.getCount();
-        if ('active' in query) {
-            qb.andWhere("stations.active = :active", { active: `${query.active}` });
-        }
-        if ('id' in query) {
-            qb.andWhere("stations.id > :id", { id: `${query.id}` });
-        }
-        if ('limit' in query) {
-            qb.limit(query.limit);
-        }
         qb.orderBy("stations.created", "DESC");
         const foundStations: StationEntity[] = await qb.getMany();
         return { stations: foundStations, count: stationsCount };
     }
 
-    async findOne(query): Promise<StationRO> {
+    async findOne(id: number, active?: number): Promise<StationRO> {
         const qb = await this._stationRepository.createQueryBuilder('stations');
-        qb.where("1 = 1");
-        if ('active' in query) {
-            qb.andWhere("stations.active = :active", { active: `${query.active}` });
-        }
-        if ('id' in query) {
-            qb.andWhere("stations.id = :id", { id: `${query.id}` });
+        qb.leftJoinAndSelect('stations.units', 'units')
+        qb.where("stations.id = :id", { id });
+        if (!isNaN(active)) {
+            qb.andWhere("stations.active = :active", { active });
         }
         const foundStation: StationEntity = await qb.getOne();
         return { station: foundStation };
     }
 
     async createOne(dto: StationDto): Promise<StationRO> {
-        let newStation: StationEntity = new StationEntity();
+        const foundStation: StationEntity = await this._stationRepository.createQueryBuilder('stations')
+            .where('stations.code = :code', { code: dto.code })
+            .orWhere('stations.name = :name', { name: dto.name })
+            .getOne();
+        if (foundStation) {
+            throw new ConflictException(StationExceptionMSG.CONFLICT_CODE);
+        }
+        const newStation: StationEntity = new StationEntity();
         newStation.code = dto.code;
         newStation.name = dto.name;
         newStation.description = dto.description;
-        let savedStation: StationEntity = await this._stationRepository.save(newStation);
+        newStation.altitude = dto.altitude;
+        newStation.latitude = dto.latitude;
+        newStation.longitude = dto.longitude;
+        const savedStation: StationEntity = await this._stationRepository.save(newStation);
         return { station: savedStation };
     }
 
-    async updateOne(id: number, dto: StationDto): Promise<StationRO> {
-        let foundStation: StationEntity = await this._stationRepository.findOne(id);
+    async updateOne(id: number, dto: StationDto): Promise<boolean> {
+        const foundStation: StationEntity = await this._stationRepository.findOne(id);
         if (!foundStation) {
             throw new NotFoundException(StationExceptionMSG.NOT_FOUND_ID);
         }
         foundStation.code = dto.code;
         foundStation.name = dto.name;
         foundStation.description = dto.description;
-        let updatedStation: StationEntity = await this._stationRepository.save(foundStation);
-        return { station: updatedStation };
+        foundStation.altitude = dto.altitude;
+        foundStation.latitude = dto.latitude;
+        foundStation.longitude = dto.longitude;
+        const updatedStation: StationEntity = await this._stationRepository.save(foundStation);
+        return updatedStation ? true : false;
     }
 
-    async deleteOne(id: number): Promise<Boolean> {
-        let foundStation: StationEntity = await this._stationRepository.findOne(id);
+    async deleteOne(id: number): Promise<boolean> {
+        const foundStation: StationEntity = await this._stationRepository.findOne(id);
         if (!foundStation) {
             throw new NotFoundException(StationExceptionMSG.NOT_FOUND_ID);
         }
-        let updatedStation: UpdateResult = await this._stationRepository.update(id, { active: false });
+        const updatedStation: UpdateResult = await this._stationRepository.update(id, { active: false });
         return updatedStation.affected > 0;
     }
 
-    async activateOne(id: number): Promise<Boolean> {
-        let foundStation: StationEntity = await this._stationRepository.findOne(id);
+    async activateOne(id: number): Promise<boolean> {
+        const foundStation: StationEntity = await this._stationRepository.findOne(id);
         if (!foundStation) {
             throw new NotFoundException(StationExceptionMSG.NOT_FOUND_ID);
         }
-        let updatedSector: UpdateResult = await this._stationRepository.update(id, { active: true });
+        const updatedSector: UpdateResult = await this._stationRepository.update(id, { active: true });
         return updatedSector.affected > 0;
     }
 

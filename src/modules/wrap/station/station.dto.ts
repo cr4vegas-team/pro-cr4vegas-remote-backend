@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { IsNumber, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
 
 export class StationDto {
@@ -20,5 +20,17 @@ export class StationDto {
     @IsString()
     @IsOptional()
     description: string;
+
+    @ApiProperty()
+    @IsNumber()
+    altitude: number;
+
+    @ApiProperty()
+    @IsNumber()
+    latitude: number;
+
+    @ApiProperty()
+    @IsNumber()
+    longitude: number;
 
 }

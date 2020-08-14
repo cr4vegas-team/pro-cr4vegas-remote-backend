@@ -1,32 +1,38 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ApiProperty } from "@nestjs/swagger";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
 import { UnitEntity } from "../unit/unit.entity";
 
 
 @Entity('units_hydrants')
 export class UnitHydrantEntity {
 
-    @PrimaryGeneratedColumn('increment')
-    id: number;
-
-    @Column({
+    @PrimaryColumn({
         unique: true,
         type: 'varchar',
         length: 45
     })
     code: string;
 
+    // =======================================
+
     @OneToOne(type => UnitEntity, { eager: true })
-    @JoinColumn({ name: 'unit_id', referencedColumnName: 'id' })
+    @JoinColumn()
     unit: UnitEntity;
 
+    // =======================================
+
     @Column({
-        type: 'int'
+        type: 'int',
+        default: 0,
     })
     diameter: number;
 
+    // =======================================
+
     @Column({
-        type: 'boolean',
+        type: 'tinyint',
+        default: 0,
     })
-    filter: boolean;
+    filter: number;
 
 }
