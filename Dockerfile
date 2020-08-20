@@ -1,17 +1,18 @@
 FROM node:12.16.3
 
-WORKDIR /usr/src/code
-
-COPY . .
-
-RUN npm install && npm run build
+RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 
-RUN mv ../code/dist  ../code/node_modules . && rm -R ../code
+COPY ./package.json /usr/src/app
+
+RUN npm install
+
+ADD ./dist /usr/src/app
 
 EXPOSE 8881
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "main.js"]
+
 
 

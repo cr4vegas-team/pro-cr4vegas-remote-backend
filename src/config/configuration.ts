@@ -1,7 +1,7 @@
 
 export default () => ({
     app: {
-        port: parseInt(process.env.CR4VEGAS_BACK_APP_PORT, 10) || 3000,
+        port: parseInt(process.env.CR4VEGAS_BACK_APP_PORT, 10) || 8881,
         global_prefix: process.env.CR4VEGAS_BACK_APP_GLOBAL_PREFIX,
         jwt_secret: process.env.CR4VEGAS_BACK_JWT_SECRET,
     },
@@ -14,7 +14,7 @@ export default () => ({
         database: process.env.CR4VEGAS_BACK_DB_DATABASE || "cr4vegas_remote_test",
         synchronize: Boolean(process.env.CR4VEGAS_BACK_DB_SYNCHRONIZE) || true,
         entities: [
-            "dist/modules/**/*.entity{.ts,.js}"
+            __dirname + "/../**/*.entity{.ts,.js}"
         ],
         seeds: [
             "src/database/seeds/**/*{.ts,.js}"

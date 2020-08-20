@@ -2,10 +2,10 @@
 {
   "name": "production",
   "type": "mysql",
-  "host": "192.168.1.134",
+  "host": "server.rubenfgr.com",
   "port": 3310,
-  "username": "root",
-  "password": "cr4vegas2020",
+  "username": "test",
+  "password": "test",
   "database": "cr4vegas_remote",
   "entities": [
     "src/modules/**/*.entity{.ts,.js}"
