@@ -13,3 +13,4 @@ RUN mv ../code/dist  ../code/node_modules . && rm -R ../code
 EXPOSE 8881
 
 CMD ["node", "dist/main.js"]
+
