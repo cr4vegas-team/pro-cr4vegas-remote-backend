@@ -5,15 +5,8 @@ const app_module_1 = require("./app.module");
 const swagger_1 = require("@nestjs/swagger");
 const config_1 = require("@nestjs/config");
 const config_constant_1 = require("./config/config.constant");
-const fs = require("fs");
 async function bootstrap() {
-    const httpsOptions = {
-        key: fs.readFileSync('./secrets/privkey.pem'),
-        cert: fs.readFileSync('./secrets/cert.pem'),
-    };
-    const app = await core_1.NestFactory.create(app_module_1.AppModule, {
-        httpsOptions,
-    });
+    const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const configService = app.get(config_1.ConfigService);
     app.setGlobalPrefix(configService.get(config_constant_1.CONFIG.APP_GLOBAL_PREFIX));
     const options = new swagger_1.DocumentBuilder()

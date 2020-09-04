@@ -15,20 +15,32 @@ const unit_hydrant_controller_1 = require("./unit-hydrant/unit-hydrant.controlle
 const unit_hydrant_entity_1 = require("./unit-hydrant/unit-hydrant.entity");
 const unit_hydrant_service_1 = require("./unit-hydrant/unit-hydrant.service");
 const wrap_module_1 = require("../wrap/wrap.module");
+const unit_pond_controller_1 = require("./unit-pond/unit-pond.controller");
+const unit_pond_service_1 = require("./unit-pond/unit-pond.service");
+const unit_pond_entity_1 = require("./unit-pond/unit-pond.entity");
+const unit_controller_1 = require("./unit/unit.controller");
+const unit_generic_controller_1 = require("./unit-generic/unit-generic.controller");
+const unit_generic_service_1 = require("./unit-generic/unit-generic.service");
+const unit_generic_entity_1 = require("./unit-generic/unit-generic.entity");
 let UnitModule = class UnitModule {
 };
 UnitModule = __decorate([
     common_1.Module({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([unit_entity_1.UnitEntity, unit_hydrant_entity_1.UnitHydrantEntity]),
+            typeorm_1.TypeOrmModule.forFeature([unit_entity_1.UnitEntity, unit_hydrant_entity_1.UnitHydrantEntity, unit_pond_entity_1.UnitPondEntity, unit_generic_entity_1.UnitGenericEntity]),
             wrap_module_1.WrapModule,
         ],
         controllers: [
             unit_hydrant_controller_1.UnitHydrantController,
+            unit_pond_controller_1.UnitPondController,
+            unit_controller_1.UnitController,
+            unit_generic_controller_1.UnitGenericController,
         ],
         providers: [
             unit_service_1.UnitService,
             unit_hydrant_service_1.UnitHydrantService,
+            unit_pond_service_1.UnitPondService,
+            unit_generic_service_1.UnitGenericService,
         ],
         exports: [
             typeorm_1.TypeOrmModule,

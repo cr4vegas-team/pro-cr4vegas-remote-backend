@@ -11,7 +11,7 @@ export class SetEntity {
 
     // =======================================
 
-    @ManyToOne(type => SetTypeEntity, type => type.name, { eager: true })
+    @ManyToOne(type => SetTypeEntity, type => type.name, { eager: true, cascade: true })
     @JoinColumn({ name: 'set_type', referencedColumnName: 'name' })
     setType: SetTypeEntity;
 

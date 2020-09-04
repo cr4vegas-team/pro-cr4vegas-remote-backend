@@ -20,7 +20,7 @@ __decorate([
     __metadata("design:type", Number)
 ], SetEntity.prototype, "id", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => set_type_entity_1.SetTypeEntity, type => type.name, { eager: true }),
+    typeorm_1.ManyToOne(type => set_type_entity_1.SetTypeEntity, type => type.name, { eager: true, cascade: true }),
     typeorm_1.JoinColumn({ name: 'set_type', referencedColumnName: 'name' }),
     __metadata("design:type", set_type_entity_1.SetTypeEntity)
 ], SetEntity.prototype, "setType", void 0);

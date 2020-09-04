@@ -16,76 +16,55 @@ exports.UnitHydrantController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const jwt_auth_guard_1 = require("../../auth/auth/jwt-auth.guard");
-const unit_hydrant_dto_1 = require("./unit-hydrant.dto");
+const unit_hydrant_create_dto_1 = require("./dto/unit-hydrant-create.dto");
+const unit_hydrant_update_dto_1 = require("./dto/unit-hydrant-update.dto");
 const unit_hydrant_service_1 = require("./unit-hydrant.service");
 let UnitHydrantController = class UnitHydrantController {
     constructor(_unitHydrantService) {
         this._unitHydrantService = _unitHydrantService;
     }
-    findAll(active) {
-        return this._unitHydrantService.findAll(active);
+    findAll() {
+        return this._unitHydrantService.findAll();
     }
-    findOne(code, active) {
-        return this._unitHydrantService.findOneByCode(code, active);
+    findOne(id) {
+        return this._unitHydrantService.findOneById(id);
     }
     createOne(dto) {
         return this._unitHydrantService.createOne(dto);
     }
-    updateOne(code, dto) {
-        return this._unitHydrantService.updateOne(code, dto);
-    }
-    deleteOne(code) {
-        return this._unitHydrantService.deleteOne(code);
-    }
-    activateOne(code) {
-        return this._unitHydrantService.activateOne(code);
+    updateOne(dto) {
+        return this._unitHydrantService.updateOne(dto);
     }
 };
 __decorate([
-    swagger_1.ApiQuery({ name: 'active', type: Boolean, required: false }),
     common_1.Get(),
-    __param(0, common_1.Query('active')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UnitHydrantController.prototype, "findAll", null);
 __decorate([
-    swagger_1.ApiParam({ name: 'code', type: String, required: true }),
-    swagger_1.ApiQuery({ name: 'active', type: Boolean, required: false }),
-    common_1.Get(':code'),
-    __param(0, common_1.Param('code')), __param(1, common_1.Query('active')),
+    swagger_1.ApiParam({ name: 'id', type: String, required: true }),
+    common_1.Get(':id'),
+    __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], UnitHydrantController.prototype, "findOne", null);
 __decorate([
     common_1.Post(),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [unit_hydrant_dto_1.UnitHydrantDto]),
+    __metadata("design:paramtypes", [unit_hydrant_create_dto_1.UnitHydrantCreateDto]),
     __metadata("design:returntype", Promise)
 ], UnitHydrantController.prototype, "createOne", null);
 __decorate([
-    common_1.Put(':code'),
-    __param(0, common_1.Param('code')), __param(1, common_1.Body()),
+    swagger_1.ApiBody({ type: unit_hydrant_update_dto_1.UnitHydrantUpdateDto }),
+    common_1.Put(),
+    __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, unit_hydrant_dto_1.UnitHydrantDto]),
+    __metadata("design:paramtypes", [unit_hydrant_update_dto_1.UnitHydrantUpdateDto]),
     __metadata("design:returntype", Promise)
 ], UnitHydrantController.prototype, "updateOne", null);
-__decorate([
-    common_1.Delete(':code'),
-    __param(0, common_1.Param('code')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], UnitHydrantController.prototype, "deleteOne", null);
-__decorate([
-    common_1.Patch(':code'),
-    __param(0, common_1.Param('code')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], UnitHydrantController.prototype, "activateOne", null);
 UnitHydrantController = __decorate([
     swagger_1.ApiTags('unit-hydrant'),
     common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),

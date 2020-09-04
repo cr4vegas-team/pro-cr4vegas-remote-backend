@@ -15,37 +15,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StationService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const stations_1 = require("../../../database/static_data/stations");
+const class_transformer_1 = require("class-transformer");
 const typeorm_2 = require("typeorm");
 const station_exception_msg_1 = require("./station-exception.msg");
 const station_entity_1 = require("./station.entity");
 let StationService = class StationService {
     constructor(_stationRepository) {
         this._stationRepository = _stationRepository;
-        const stations = stations_1.STATIONS_TEST;
-        for (const station of stations) {
-            this.createOne(station);
-        }
     }
-    async findAll(active) {
-        const qb = await this._stationRepository.createQueryBuilder('stations');
-        qb.leftJoinAndSelect("stations.units", "units");
-        qb.where("1 = 1");
-        if (!isNaN(active)) {
-            qb.andWhere("stations.active = :active", { active });
-        }
+    async findAll() {
+        const qb = await this._stationRepository.createQueryBuilder('stations')
+            .leftJoinAndSelect("stations.units", "units")
+            .orderBy("stations.created", "DESC");
         const stationsCount = await qb.getCount();
-        qb.orderBy("stations.created", "DESC");
         const foundStations = await qb.getMany();
         return { stations: foundStations, count: stationsCount };
     }
-    async findOne(id, active) {
-        const qb = await this._stationRepository.createQueryBuilder('stations');
-        qb.leftJoinAndSelect('stations.units', 'units');
-        qb.where("stations.id = :id", { id });
-        if (!isNaN(active)) {
-            qb.andWhere("stations.active = :active", { active });
-        }
+    async findOne(id) {
+        const qb = await this._stationRepository.createQueryBuilder('stations')
+            .leftJoinAndSelect('stations.units', 'units')
+            .where("stations.id = :id", { id });
         const foundStation = await qb.getOne();
         return { station: foundStation };
     }
@@ -57,29 +46,20 @@ let StationService = class StationService {
         if (foundStation) {
             throw new common_1.ConflictException(station_exception_msg_1.StationExceptionMSG.CONFLICT_CODE);
         }
-        const newStation = new station_entity_1.StationEntity();
-        newStation.code = dto.code;
-        newStation.name = dto.name;
-        newStation.description = dto.description;
-        newStation.altitude = dto.altitude;
-        newStation.latitude = dto.latitude;
-        newStation.longitude = dto.longitude;
+        const newStation = class_transformer_1.plainToClass(station_entity_1.StationEntity, dto);
         const savedStation = await this._stationRepository.save(newStation);
         return { station: savedStation };
     }
-    async updateOne(id, dto) {
-        const foundStation = await this._stationRepository.findOne(id);
+    async updateOne(dto) {
+        let foundStation = await this._stationRepository.createQueryBuilder('stations')
+            .where('stations.id = :id', { id: dto.id })
+            .getOne();
         if (!foundStation) {
             throw new common_1.NotFoundException(station_exception_msg_1.StationExceptionMSG.NOT_FOUND_ID);
         }
-        foundStation.code = dto.code;
-        foundStation.name = dto.name;
-        foundStation.description = dto.description;
-        foundStation.altitude = dto.altitude;
-        foundStation.latitude = dto.latitude;
-        foundStation.longitude = dto.longitude;
+        foundStation = class_transformer_1.plainToClass(station_entity_1.StationEntity, dto);
         const updatedStation = await this._stationRepository.save(foundStation);
-        return updatedStation ? true : false;
+        return { station: updatedStation };
     }
     async deleteOne(id) {
         const foundStation = await this._stationRepository.findOne(id);

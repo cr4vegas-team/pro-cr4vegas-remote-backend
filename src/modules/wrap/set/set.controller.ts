@@ -1,6 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
-import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { SetDto } from './set.dto';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
+import { SetCreateDto } from './dto/set-create.dto';
+import { SetUpdateDto } from './dto/set-update.dto';
+import { SetTypeEntity } from './set-type.entity';
 import { SetRO, SetsRO } from './set.interfaces';
 import { SetService } from './set.service';
 
@@ -12,27 +14,25 @@ export class SetController {
         private readonly _setService: SetService
     ) { }
 
-    @ApiQuery({ name: 'active', type: Number, required: false })
     @Get()
-    findAll(@Query('active') active: number): Promise<SetsRO> {
-        return this._setService.findAll(active);
+    findAll(): Promise<SetsRO> {
+        return this._setService.findAll();
     }
 
-    @ApiQuery({ name: 'active', type: Number, required: false })
     @ApiParam({ name: 'id', type: Number, required: true })
     @Get(':id')
-    findOne(@Param('id') id: number, @Query('active') active: number): Promise<SetRO> {
-        return this._setService.findOne(id, active);
+    findOne(@Param('id') id: number): Promise<SetRO> {
+        return this._setService.findOneById(id);
     }
 
     @Post()
-    createOne(@Body() dto: SetDto): Promise<SetRO> {
+    createOne(@Body() dto: SetCreateDto): Promise<SetRO> {
         return this._setService.createOne(dto);
     }
 
-    @Put(':id')
-    updateOne(@Param('id') id: number, @Body() dto: SetDto): Promise<boolean> {
-        return this._setService.updateOne(id, dto);
+    @Put()
+    updateOne(@Body() dto: SetUpdateDto): Promise<SetRO> {
+        return this._setService.updateOne(dto);
     }
 
     @Delete(':id')
@@ -45,4 +45,18 @@ export class SetController {
         return this._setService.activateOne(id);
     }
 
+    @Post('set-type')
+    insertSetType(@Body() dto: SetTypeEntity): Promise<SetTypeEntity> {
+        return this._setService.insertSetType(dto);
+    }
+
+    @Delete('set-type/:name')
+    deleteSetType(@Param('name') name: string): Promise<boolean> {
+        return this._setService.deleteSetType(name);
+    }
+
+    @Put('set-type/:name')
+    updateSetType(@Param('name') oldName: string, @Query('newName') newName: string): Promise<SetTypeEntity> {
+        return this._setService.updateSetType(oldName, newName);
+    }
 }

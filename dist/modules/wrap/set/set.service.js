@@ -15,57 +15,55 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const class_transformer_1 = require("class-transformer");
 const typeorm_2 = require("typeorm");
 const set_exception_msg_1 = require("./set-exception.msg");
+const set_type_entity_1 = require("./set-type.entity");
 const set_entity_1 = require("./set.entity");
 let SetService = class SetService {
-    constructor(_setRepository) {
+    constructor(_setRepository, _setTypeRepository) {
         this._setRepository = _setRepository;
+        this._setTypeRepository = _setTypeRepository;
     }
-    async findAll(active) {
-        const qb = await this._setRepository.createQueryBuilder('sets');
-        qb.leftJoinAndSelect("sets.units", "units");
-        qb.leftJoinAndSelect('sets.setType', 'setType');
-        qb.where("1 = 1");
-        if (!isNaN(active)) {
-            qb.andWhere("sets.active = :active", { active });
-        }
+    async findAll() {
+        const qb = await this._setRepository.createQueryBuilder('sets')
+            .leftJoinAndSelect("sets.units", "units")
+            .leftJoinAndSelect('sets.setType', 'setType')
+            .orderBy("sets.created", "DESC");
         const setsCount = await qb.getCount();
-        qb.orderBy("sets.created", "DESC");
         const foundStations = await qb.getMany();
         return { sets: foundStations, count: setsCount };
     }
-    async findOne(id, active) {
-        const qb = await this._setRepository.createQueryBuilder('sets');
-        qb.leftJoinAndSelect("sets.units", "units");
-        qb.leftJoinAndSelect('sets.setType', 'setType');
-        qb.where("sets.id = :id", { id });
-        if (!isNaN(active)) {
-            qb.andWhere("sets.active = :active", { active });
-        }
+    async findOneById(id) {
+        const qb = await this._setRepository.createQueryBuilder('sets')
+            .leftJoinAndSelect("sets.units", "units")
+            .leftJoinAndSelect('sets.setType', 'setType')
+            .where("sets.id = :id", { id });
         const foundSet = await qb.getOne();
         return { set: foundSet };
     }
     async createOne(dto) {
-        const newStation = new set_entity_1.SetEntity();
-        newStation.code = dto.code;
-        newStation.name = dto.name;
-        newStation.description = dto.description;
-        const savedStation = await this._setRepository.save(newStation);
+        const foundSet = await this._setRepository.createQueryBuilder('sets')
+            .where("sets.code = :code", { code: dto.code })
+            .orWhere("sets.name = :name", { name: dto.name })
+            .getOne();
+        if (foundSet) {
+            throw new common_1.ConflictException(set_exception_msg_1.SetExceptionMSG.CONFLICT_CODE);
+        }
+        const newSet = class_transformer_1.plainToClass(set_entity_1.SetEntity, dto);
+        const savedStation = await this._setRepository.save(newSet);
         return { set: savedStation };
     }
-    async updateOne(id, dto) {
-        const foundSet = await this._setRepository.createQueryBuilder('sets')
-            .where("sets.id = :id", { id })
+    async updateOne(dto) {
+        let foundSet = await this._setRepository.createQueryBuilder('sets')
+            .where("sets.id = :id", { id: dto.id })
             .getOne();
         if (!foundSet) {
             throw new common_1.NotFoundException(set_exception_msg_1.SetExceptionMSG.NOT_FOUND_ID);
         }
-        foundSet.code = dto.code;
-        foundSet.name = dto.name;
-        foundSet.description = dto.description;
-        const updatedStation = await this._setRepository.save(foundSet);
-        return updatedStation ? true : false;
+        foundSet = class_transformer_1.plainToClass(set_entity_1.SetEntity, dto);
+        const updatedSet = await this._setRepository.save(foundSet);
+        return { set: updatedSet };
     }
     async deleteOne(id) {
         const foundSet = await this._setRepository.createQueryBuilder('sets')
@@ -87,11 +85,45 @@ let SetService = class SetService {
         const updatedUnit = await this._setRepository.update(id, { active: true });
         return updatedUnit.affected > 0;
     }
+    async insertSetType(setType) {
+        const foundSetType = await this._setTypeRepository.createQueryBuilder('sets-types')
+            .where('sets-types.name = :name', { name: setType.name })
+            .getOne();
+        if (foundSetType) {
+            throw new common_1.ConflictException(set_exception_msg_1.SetExceptionMSG.CONFLICT_TYPE);
+        }
+        return await this._setTypeRepository.save(setType);
+    }
+    async updateSetType(oldName, newName) {
+        const foundSetType = await this._setTypeRepository.createQueryBuilder('sets-types')
+            .where('sets-types.name = :name', { name: oldName })
+            .getOne();
+        if (!foundSetType) {
+            throw new common_1.NotFoundException(set_exception_msg_1.SetExceptionMSG.NOT_FOUND_TYPE);
+        }
+        foundSetType.name = newName;
+        return await this._setTypeRepository.save(foundSetType);
+    }
+    async deleteSetType(name) {
+        const foundSetType = await this._setTypeRepository.createQueryBuilder('sets-types')
+            .where('sets-types.name = :name', { name })
+            .getOne();
+        if (!foundSetType) {
+            throw new common_1.NotFoundException(set_exception_msg_1.SetExceptionMSG.NOT_FOUND_TYPE);
+        }
+        const foundSet = await this._setRepository.createQueryBuilder('sets').where('sets.setType = :name', { name }).getOne();
+        if (foundSet) {
+            throw new common_1.BadRequestException(set_exception_msg_1.SetExceptionMSG.SET_TYPE_LINKED);
+        }
+        return (await this._setTypeRepository.delete(name)).affected > 0;
+    }
 };
 SetService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_1.InjectRepository(set_entity_1.SetEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, typeorm_1.InjectRepository(set_type_entity_1.SetTypeEntity)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], SetService);
 exports.SetService = SetService;
 //# sourceMappingURL=set.service.js.map

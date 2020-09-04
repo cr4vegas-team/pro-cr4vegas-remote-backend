@@ -15,7 +15,7 @@ const sector_entity_1 = require("../../wrap/sector/sector.entity");
 const set_entity_1 = require("../../wrap/set/set.entity");
 const station_entity_1 = require("../../wrap/station/station.entity");
 const typeorm_1 = require("typeorm");
-const unit_types_constant_1 = require("./unit-types.constant");
+const unit_type_enum_1 = require("./unit-type.enum");
 let UnitEntity = class UnitEntity {
 };
 __decorate([
@@ -28,21 +28,21 @@ __decorate([
     __metadata("design:type", station_entity_1.StationEntity)
 ], UnitEntity.prototype, "station", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => sector_entity_1.SectorEntity, sectorEntity => sectorEntity.units),
+    typeorm_1.ManyToOne(type => sector_entity_1.SectorEntity, sectorEntity => sectorEntity.units, { eager: true }),
     typeorm_1.JoinColumn(),
     __metadata("design:type", sector_entity_1.SectorEntity)
 ], UnitEntity.prototype, "sector", void 0);
 __decorate([
     typeorm_1.ManyToMany(type => set_entity_1.SetEntity, setEntity => setEntity.units, { eager: true }),
-    typeorm_1.JoinColumn(),
+    typeorm_1.JoinTable(),
     __metadata("design:type", Array)
 ], UnitEntity.prototype, "sets", void 0);
 __decorate([
     typeorm_1.Column({
         name: 'unit_type',
         type: 'enum',
-        enum: unit_types_constant_1.UnitType,
-        nullable: false,
+        enum: unit_type_enum_1.UnitTypeEnum,
+        default: unit_type_enum_1.UnitTypeEnum.NA,
     }),
     __metadata("design:type", String)
 ], UnitEntity.prototype, "unitType", void 0);
@@ -50,10 +50,19 @@ __decorate([
     typeorm_1.Column({
         unique: true,
         type: 'varchar',
-        length: 45
+        length: 45,
+        default: unit_type_enum_1.UnitTypeEnum.NA,
     }),
     __metadata("design:type", String)
 ], UnitEntity.prototype, "code", void 0);
+__decorate([
+    typeorm_1.Column({
+        type: 'varchar',
+        length: 45,
+        default: unit_type_enum_1.UnitTypeEnum.NA,
+    }),
+    __metadata("design:type", String)
+], UnitEntity.prototype, "table", void 0);
 __decorate([
     typeorm_1.Column({
         type: 'float',

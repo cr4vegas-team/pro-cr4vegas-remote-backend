@@ -41,6 +41,7 @@ import { AuthModule } from './modules/auth/auth.module';
       useValue: new ValidationPipe({
         whitelist: true,
         transform: true,
+        forbidNonWhitelisted: true,
         transformOptions: { enableImplicitConversion: true },
       })
     },

@@ -12,6 +12,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const sector_controller_1 = require("./sector/sector.controller");
 const sector_entity_1 = require("./sector/sector.entity");
 const sector_service_1 = require("./sector/sector.service");
+const set_type_entity_1 = require("./set/set-type.entity");
 const set_controller_1 = require("./set/set.controller");
 const set_entity_1 = require("./set/set.entity");
 const set_service_1 = require("./set/set.service");
@@ -23,7 +24,7 @@ let WrapModule = class WrapModule {
 WrapModule = __decorate([
     common_1.Module({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([station_entity_1.StationEntity, set_entity_1.SetEntity, sector_entity_1.SectorEntity]),
+            typeorm_1.TypeOrmModule.forFeature([station_entity_1.StationEntity, set_entity_1.SetEntity, sector_entity_1.SectorEntity, set_type_entity_1.SetTypeEntity]),
         ],
         controllers: [
             station_controller_1.StationController, sector_controller_1.SectorController, set_controller_1.SetController

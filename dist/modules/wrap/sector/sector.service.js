@@ -17,30 +17,30 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const sector_entity_1 = require("./sector.entity");
-const set_exception_msg_1 = require("./set-exception.msg");
+const sector_exception_msg_1 = require("./sector-exception.msg");
+const class_transformer_1 = require("class-transformer");
+const unit_generic_entity_1 = require("../../unit/unit-generic/unit-generic.entity");
+const unit_hydrant_entity_1 = require("../../unit/unit-hydrant/unit-hydrant.entity");
+const unit_pond_entity_1 = require("../../unit/unit-pond/unit-pond.entity");
 let SectorService = class SectorService {
     constructor(_sectorRepository) {
         this._sectorRepository = _sectorRepository;
     }
-    async findAll(active) {
-        const qb = await this._sectorRepository.createQueryBuilder('sectors');
-        qb.leftJoinAndSelect("sectors.units", "units");
-        qb.where("1 = 1");
-        if (!isNaN(active)) {
-            qb.andWhere("sectors.active = :active", { active });
-        }
+    async findAll() {
+        const qb = await this._sectorRepository.createQueryBuilder('sectors')
+            .leftJoin("sectors.units", "unit")
+            .leftJoinAndSelect(unit_generic_entity_1.UnitGenericEntity, 'unit_generic', 'unit_generic.unitId = unit.id')
+            .leftJoinAndSelect(unit_hydrant_entity_1.UnitHydrantEntity, 'unit_hydrant', 'unit_hydrant.unitId = unit.id')
+            .leftJoinAndSelect(unit_pond_entity_1.UnitPondEntity, 'unit_pond', 'unit_pond.unitId = unit.id')
+            .orderBy("sectors.created", "DESC");
         const stationsCount = await qb.getCount();
-        qb.orderBy("sectors.created", "DESC");
         const foundSectors = await qb.getMany();
         return { sectors: foundSectors, count: stationsCount };
     }
-    async findOne(id, active) {
-        const qb = await this._sectorRepository.createQueryBuilder('sectors');
-        qb.leftJoinAndSelect("sectors.units", "units");
-        qb.where("sectors.id = :id", { id });
-        if (!isNaN(active)) {
-            qb.andWhere("sectors.active = :active", { active });
-        }
+    async findOne(id) {
+        const qb = await this._sectorRepository.createQueryBuilder('sectors')
+            .leftJoinAndSelect("sectors.units", "units")
+            .where("sectors.id = :id", { id });
         const foundSector = await qb.getOne();
         return { sector: foundSector };
     }
@@ -50,47 +50,40 @@ let SectorService = class SectorService {
             .orWhere('sectors.name = :name', { name: dto.name })
             .getOne();
         if (foundSector) {
-            throw new common_1.ConflictException(set_exception_msg_1.SectorExceptionMSG.CONFLICT);
+            throw new common_1.ConflictException(sector_exception_msg_1.SectorExceptionMSG.CONFLICT);
         }
-        const newStation = new sector_entity_1.SectorEntity();
-        newStation.code = dto.code;
-        newStation.name = dto.name;
-        newStation.description = dto.description;
-        const savedSector = await this._sectorRepository.save(newStation);
+        const newSector = class_transformer_1.plainToClass(sector_entity_1.SectorEntity, dto);
+        const savedSector = await this._sectorRepository.save(newSector);
         return { sector: savedSector };
     }
-    async updateOne(id, dto) {
-        const foundSector = await this._sectorRepository.createQueryBuilder('sectors')
-            .where('sectors.id = :id', { id })
+    async updateOne(dto) {
+        let foundSector = await this._sectorRepository.createQueryBuilder('sectors')
+            .where('sectors.id = :id', { id: dto.id })
             .getOne();
         if (!foundSector) {
-            throw new common_1.NotFoundException(set_exception_msg_1.SectorExceptionMSG.NOT_FOUND_ID);
+            throw new common_1.NotFoundException(sector_exception_msg_1.SectorExceptionMSG.NOT_FOUND_ID);
         }
-        foundSector.code = dto.code;
-        foundSector.name = dto.name;
-        foundSector.description = dto.description;
+        foundSector = class_transformer_1.plainToClass(sector_entity_1.SectorEntity, dto);
         const updatedSector = await this._sectorRepository.save(foundSector);
-        return updatedSector ? true : false;
+        return { sector: updatedSector };
     }
     async deleteOne(id) {
         const foundSector = await this._sectorRepository.createQueryBuilder('sectors')
             .where('sectors.id = :id', { id })
             .getOne();
         if (!foundSector) {
-            throw new common_1.NotFoundException(set_exception_msg_1.SectorExceptionMSG.NOT_FOUND_ID);
+            throw new common_1.NotFoundException(sector_exception_msg_1.SectorExceptionMSG.NOT_FOUND_ID);
         }
-        const updatedSecvtor = await this._sectorRepository.update(id, { active: false });
-        return updatedSecvtor.affected > 0;
+        return (await this._sectorRepository.update(id, { active: false })).affected > 0;
     }
     async activateOne(id) {
         const foundSector = await this._sectorRepository.createQueryBuilder('sectors')
             .where('sectors.id = :id', { id })
             .getOne();
         if (!foundSector) {
-            throw new common_1.NotFoundException(set_exception_msg_1.SectorExceptionMSG.NOT_FOUND_ID);
+            throw new common_1.NotFoundException(sector_exception_msg_1.SectorExceptionMSG.NOT_FOUND_ID);
         }
-        const updatedSector = await this._sectorRepository.update(id, { active: true });
-        return updatedSector.affected > 0;
+        return (await this._sectorRepository.update(id, { active: false })).affected > 0;
     }
 };
 SectorService = __decorate([

@@ -16,23 +16,24 @@ exports.SectorController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const jwt_auth_guard_1 = require("../../auth/auth/jwt-auth.guard");
-const sector_dto_1 = require("./sector.dto");
+const sector_create_dto_1 = require("./dto/sector-create.dto");
+const sector_update_dto_1 = require("./dto/sector-update.dto");
 const sector_service_1 = require("./sector.service");
 let SectorController = class SectorController {
     constructor(_sectorService) {
         this._sectorService = _sectorService;
     }
-    findAll(active) {
-        return this._sectorService.findAll(active);
+    findAll() {
+        return this._sectorService.findAll();
     }
-    findOne(id, active) {
-        return this._sectorService.findOne(id, active);
+    findOne(id) {
+        return this._sectorService.findOne(id);
     }
     createOne(dto) {
         return this._sectorService.createOne(dto);
     }
-    updateOne(id, dto) {
-        return this._sectorService.updateOne(id, dto);
+    updateOne(dto) {
+        return this._sectorService.updateOne(dto);
     }
     deleteOne(id) {
         return this._sectorService.deleteOne(id);
@@ -42,34 +43,31 @@ let SectorController = class SectorController {
     }
 };
 __decorate([
-    swagger_1.ApiQuery({ name: 'active', type: Number, required: false }),
     common_1.Get(),
-    __param(0, common_1.Query('active')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], SectorController.prototype, "findAll", null);
 __decorate([
-    swagger_1.ApiQuery({ name: 'active', type: Number, required: false }),
     swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
     common_1.Get(':id'),
-    __param(0, common_1.Param('id')), __param(1, common_1.Query('active')),
+    __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], SectorController.prototype, "findOne", null);
 __decorate([
     common_1.Post(),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [sector_dto_1.SectorDto]),
+    __metadata("design:paramtypes", [sector_create_dto_1.SectorCreateDto]),
     __metadata("design:returntype", Promise)
 ], SectorController.prototype, "createOne", null);
 __decorate([
-    common_1.Put(':id'),
-    __param(0, common_1.Param('id')), __param(1, common_1.Body()),
+    common_1.Put(),
+    __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, sector_dto_1.SectorDto]),
+    __metadata("design:paramtypes", [sector_update_dto_1.SectorUpdateDto]),
     __metadata("design:returntype", Promise)
 ], SectorController.prototype, "updateOne", null);
 __decorate([

@@ -29,7 +29,7 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsString(),
-    class_validator_1.MinLength(5),
+    class_validator_1.MinLength(3),
     class_validator_1.MaxLength(250),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);

@@ -1,13 +1,14 @@
-import { StationDto } from './station.dto';
+import { StationCreateDto } from './dto/station-create.dto';
+import { StationUpdateDto } from './dto/station-update.dto';
 import { StationRO, StationsRO } from './station.interfaces';
 import { StationService } from './station.service';
 export declare class StationController {
     private readonly _statioService;
     constructor(_statioService: StationService);
-    findAll(active: number): Promise<StationsRO>;
-    findOne(id: number, active: number): Promise<StationRO>;
-    createOne(dto: StationDto): Promise<StationRO>;
-    updateOne(id: number, dto: StationDto): Promise<boolean>;
+    findAll(): Promise<StationsRO>;
+    findOne(id: number): Promise<StationRO>;
+    createOne(dto: StationCreateDto): Promise<StationRO>;
+    updateOne(dto: StationUpdateDto): Promise<StationRO>;
     deleteOne(id: number): Promise<boolean>;
     activateOne(id: number): Promise<boolean>;
 }

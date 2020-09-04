@@ -15,23 +15,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const set_dto_1 = require("./set.dto");
+const set_create_dto_1 = require("./dto/set-create.dto");
+const set_update_dto_1 = require("./dto/set-update.dto");
+const set_type_entity_1 = require("./set-type.entity");
 const set_service_1 = require("./set.service");
 let SetController = class SetController {
     constructor(_setService) {
         this._setService = _setService;
     }
-    findAll(active) {
-        return this._setService.findAll(active);
+    findAll() {
+        return this._setService.findAll();
     }
-    findOne(id, active) {
-        return this._setService.findOne(id, active);
+    findOne(id) {
+        return this._setService.findOneById(id);
     }
     createOne(dto) {
         return this._setService.createOne(dto);
     }
-    updateOne(id, dto) {
-        return this._setService.updateOne(id, dto);
+    updateOne(dto) {
+        return this._setService.updateOne(dto);
     }
     deleteOne(id) {
         return this._setService.deleteOne(id);
@@ -39,36 +41,42 @@ let SetController = class SetController {
     activateOne(id) {
         return this._setService.activateOne(id);
     }
+    insertSetType(dto) {
+        return this._setService.insertSetType(dto);
+    }
+    deleteSetType(name) {
+        return this._setService.deleteSetType(name);
+    }
+    updateSetType(oldName, newName) {
+        return this._setService.updateSetType(oldName, newName);
+    }
 };
 __decorate([
-    swagger_1.ApiQuery({ name: 'active', type: Number, required: false }),
     common_1.Get(),
-    __param(0, common_1.Query('active')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "findAll", null);
 __decorate([
-    swagger_1.ApiQuery({ name: 'active', type: Number, required: false }),
     swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
     common_1.Get(':id'),
-    __param(0, common_1.Param('id')), __param(1, common_1.Query('active')),
+    __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "findOne", null);
 __decorate([
     common_1.Post(),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [set_dto_1.SetDto]),
+    __metadata("design:paramtypes", [set_create_dto_1.SetCreateDto]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "createOne", null);
 __decorate([
-    common_1.Put(':id'),
-    __param(0, common_1.Param('id')), __param(1, common_1.Body()),
+    common_1.Put(),
+    __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, set_dto_1.SetDto]),
+    __metadata("design:paramtypes", [set_update_dto_1.SetUpdateDto]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "updateOne", null);
 __decorate([
@@ -85,6 +93,27 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "activateOne", null);
+__decorate([
+    common_1.Post('set-type'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [set_type_entity_1.SetTypeEntity]),
+    __metadata("design:returntype", Promise)
+], SetController.prototype, "insertSetType", null);
+__decorate([
+    common_1.Delete('set-type/:name'),
+    __param(0, common_1.Param('name')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], SetController.prototype, "deleteSetType", null);
+__decorate([
+    common_1.Put('set-type/:name'),
+    __param(0, common_1.Param('name')), __param(1, common_1.Query('newName')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], SetController.prototype, "updateSetType", null);
 SetController = __decorate([
     swagger_1.ApiTags('set'),
     common_1.Controller('set'),

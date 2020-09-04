@@ -49,6 +49,7 @@ AppModule = __decorate([
                 useValue: new common_1.ValidationPipe({
                     whitelist: true,
                     transform: true,
+                    forbidNonWhitelisted: true,
                     transformOptions: { enableImplicitConversion: true },
                 })
             },

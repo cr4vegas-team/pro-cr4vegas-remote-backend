@@ -15,97 +15,74 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitHydrantService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const units_hydrants_1 = require("../../../database/static_data/units-hydrants");
+const class_transformer_1 = require("class-transformer");
 const typeorm_2 = require("typeorm");
-const unit_types_constant_1 = require("../unit/unit-types.constant");
-const unit_service_1 = require("../unit/unit.service");
+const unit_type_table_enum_1 = require("../unit/unit-type-table.enum");
+const unit_type_enum_1 = require("../unit/unit-type.enum");
 const unit_hydrant_exception_messages_1 = require("./unit-hydrant-exception-messages");
 const unit_hydrant_entity_1 = require("./unit-hydrant.entity");
 let UnitHydrantService = class UnitHydrantService {
-    constructor(_unitHydrantRepository, _unitService) {
+    constructor(_unitHydrantRepository) {
         this._unitHydrantRepository = _unitHydrantRepository;
-        this._unitService = _unitService;
-        units_hydrants_1.UNITS_HYDRANTS_TEST.forEach(unitHydrant => {
-            this.createOne(unitHydrant);
-        });
     }
-    async findAll(active) {
+    async findAll() {
         const qb = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
             .leftJoinAndSelect('units_hydrants.unit', 'unit')
-            .leftJoinAndSelect('unit.sector', 'sector');
-        qb.where("1 = 1");
-        if (!isNaN(active)) {
-            qb.andWhere("unit.active = :active", { active });
-        }
+            .leftJoinAndSelect('unit.sector', 'sector')
+            .leftJoinAndSelect('unit.station', 'station')
+            .leftJoinAndSelect('unit.sets', 'sets')
+            .orderBy('unit.created', "DESC");
         const unitsHydrantsCount = await qb.getCount();
-        qb.orderBy("unit.created", "DESC");
         const foundUnitsHydrants = await qb.getMany();
         return { unitsHydrants: foundUnitsHydrants, count: unitsHydrantsCount };
     }
-    async findOneByCode(code, active) {
+    async findOneById(id) {
         const qb = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
-            .leftJoinAndSelect('units_hydrants.unit', 'unit');
-        qb.where("units_hydrants.code = :code", { code });
-        if (!isNaN(active)) {
-            qb.andWhere("unit.active = :active", { active });
-        }
+            .leftJoinAndSelect('units_hydrants.unit', 'unit')
+            .leftJoinAndSelect('unit.sector', 'sector')
+            .leftJoinAndSelect('unit.station', 'station')
+            .leftJoinAndSelect('unit.sets', 'sets')
+            .where("units_hydrants.id = :id", { id });
         const foundUnitHydrant = await qb.getOne();
         return { unitHydrant: foundUnitHydrant };
     }
     async createOne(dto) {
         const foundUnitHydrant = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
-            .where('units_hydrants.code = :code', { code: dto.unit.code }).getOne();
+            .leftJoinAndSelect('units_hydrants.unit', 'unit')
+            .where('unit.code = :code', { code: dto.unit.code })
+            .getOne();
         if (foundUnitHydrant) {
             throw new common_1.ConflictException(unit_hydrant_exception_messages_1.UnitHydrantExceptionMSG.CONFLICT);
         }
-        const newUnit = (await this._unitService.createOne(dto.unit, unit_types_constant_1.UnitType.HYDRANT)).unit;
-        const newUnitHydrant = new unit_hydrant_entity_1.UnitHydrantEntity();
-        newUnitHydrant.unit = newUnit;
-        newUnitHydrant.code = dto.unit.code;
-        newUnitHydrant.diameter = dto.diameter;
-        newUnitHydrant.filter = dto.filter;
+        const newUnitHydrant = class_transformer_1.plainToClass(unit_hydrant_entity_1.UnitHydrantEntity, dto);
+        newUnitHydrant.unit.unitType = unit_type_enum_1.UnitTypeEnum.UNIT_HYDRANT;
+        newUnitHydrant.unit.table = unit_type_table_enum_1.UnitTypeTableEnum.UNIT_HYDRANT;
         const savedUnitHydrant = await this._unitHydrantRepository.save(newUnitHydrant);
         return { unitHydrant: savedUnitHydrant };
     }
-    async updateOne(code, dto) {
-        const foundUnitHydrant = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
-            .leftJoinAndSelect('units_hydrants.unit', 'unit')
-            .where('units_hydrants.code = :code', { code }).getOne();
-        if (!foundUnitHydrant) {
-            throw new common_1.NotFoundException(unit_hydrant_exception_messages_1.UnitHydrantExceptionMSG.NOT_FOUND);
+    async updateOne(dto) {
+        try {
+            let foundUnitHydrant = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
+                .leftJoinAndSelect('units_hydrants.unit', 'unit')
+                .where('units_hydrants.id = :id', { id: dto.id })
+                .andWhere('unit.id = :id', { id: dto.unit.id })
+                .getOne();
+            if (!foundUnitHydrant) {
+                throw new common_1.NotFoundException(unit_hydrant_exception_messages_1.UnitHydrantExceptionMSG.NOT_FOUND);
+            }
+            foundUnitHydrant = class_transformer_1.plainToClass(unit_hydrant_entity_1.UnitHydrantEntity, dto);
+            const savedUnitHydrant = await this._unitHydrantRepository.save(foundUnitHydrant);
+            return { unitHydrant: savedUnitHydrant };
         }
-        const updatedUnit = await this._unitService.updateOne(foundUnitHydrant.unit.id, dto.unit);
-        foundUnitHydrant.code = dto.code;
-        foundUnitHydrant.diameter = dto.diameter;
-        foundUnitHydrant.filter = dto.filter;
-        const updateUnitHydrant = await this._unitHydrantRepository.update({ code }, foundUnitHydrant);
-        return updateUnitHydrant.affected > 0 && updatedUnit;
-    }
-    async deleteOne(code) {
-        const foundUnitHydrant = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
-            .leftJoinAndSelect('units_hydrants.unit', 'unit')
-            .where('units_hydrants.code = :code', { code }).getOne();
-        if (!foundUnitHydrant) {
-            throw new common_1.NotFoundException(unit_hydrant_exception_messages_1.UnitHydrantExceptionMSG.NOT_FOUND);
+        catch (error) {
+            throw new common_1.HttpException(error, common_1.HttpStatus.BAD_REQUEST);
         }
-        return await this._unitService.deleteOne(foundUnitHydrant.unit.id);
-    }
-    async activateOne(code) {
-        console.log(code);
-        const foundUnitHydrant = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
-            .leftJoinAndSelect('units_hydrants.unit', 'unit')
-            .where('units_hydrants.code = :code', { code }).getOne();
-        if (!foundUnitHydrant) {
-            throw new common_1.NotFoundException(unit_hydrant_exception_messages_1.UnitHydrantExceptionMSG.NOT_FOUND);
-        }
-        return await this._unitService.activateOne(foundUnitHydrant.unit.id);
     }
 };
 UnitHydrantService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_1.InjectRepository(unit_hydrant_entity_1.UnitHydrantEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository,
-        unit_service_1.UnitService])
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], UnitHydrantService);
 exports.UnitHydrantService = UnitHydrantService;
 //# sourceMappingURL=unit-hydrant.service.js.map

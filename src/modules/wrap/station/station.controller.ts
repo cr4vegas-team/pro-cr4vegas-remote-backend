@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { StationDto } from './station.dto';
+import { StationCreateDto } from './dto/station-create.dto';
+import { StationUpdateDto } from './dto/station-update.dto';
 import { StationRO, StationsRO } from './station.interfaces';
 import { StationService } from './station.service';
 
@@ -12,27 +13,25 @@ export class StationController {
         private readonly _statioService: StationService
     ) { }
 
-    @ApiQuery({ name: 'active', type: Number, required: false })
     @Get()
-    findAll(@Query('active') active: number): Promise<StationsRO> {
-        return this._statioService.findAll(active);
+    findAll(): Promise<StationsRO> {
+        return this._statioService.findAll();
     }
 
-    @ApiQuery({ name: 'active', type: Number, required: false })
     @ApiParam({ name: 'id', type: Number, required: true })
     @Get(':id')
-    findOne(@Param('id') id: number, @Query('active') active: number): Promise<StationRO> {
-        return this._statioService.findOne(id, active);
+    findOne(@Param('id') id: number): Promise<StationRO> {
+        return this._statioService.findOne(id);
     }
 
     @Post()
-    createOne(@Body() dto: StationDto): Promise<StationRO> {
+    createOne(@Body() dto: StationCreateDto): Promise<StationRO> {
         return this._statioService.createOne(dto);
     }
 
-    @Put(':id')
-    updateOne(@Param('id') id: number, @Body() dto: StationDto): Promise<boolean> {
-        return this._statioService.updateOne(id, dto);
+    @Put()
+    updateOne(@Body() dto: StationUpdateDto): Promise<StationRO> {
+        return this._statioService.updateOne(dto);
     }
 
     @Delete(':id')

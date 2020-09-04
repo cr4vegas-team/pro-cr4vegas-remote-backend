@@ -2,8 +2,8 @@ import { Exclude } from "class-transformer";
 import { SectorEntity } from "../../wrap/sector/sector.entity";
 import { SetEntity } from "../../wrap/set/set.entity";
 import { StationEntity } from "../../wrap/station/station.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { UnitType } from "./unit-types.constant";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UnitTypeEnum } from "./unit-type.enum";
 
 @Entity('units')
 export class UnitEntity {
@@ -19,14 +19,14 @@ export class UnitEntity {
 
     // =======================================
 
-    @ManyToOne(type => SectorEntity, sectorEntity => sectorEntity.units)
+    @ManyToOne(type => SectorEntity, sectorEntity => sectorEntity.units, { eager: true })
     @JoinColumn()
     sector: SectorEntity;
 
     // =======================================
 
     @ManyToMany(type => SetEntity, setEntity => setEntity.units, { eager: true })
-    @JoinColumn()
+    @JoinTable()
     sets: SetEntity[];
 
     // =======================================
@@ -34,19 +34,29 @@ export class UnitEntity {
     @Column({
         name: 'unit_type',
         type: 'enum',
-        enum: UnitType,
-        nullable: false,
+        enum: UnitTypeEnum,
+        default: UnitTypeEnum.NA,
     })
-    unitType: UnitType;
+    unitType: UnitTypeEnum;
 
     // =======================================
 
     @Column({
         unique: true,
         type: 'varchar',
-        length: 45
+        length: 45,
+        default: UnitTypeEnum.NA,
     })
     code: string;
+
+    // =======================================
+
+    @Column({
+        type: 'varchar',
+        length: 45,
+        default: UnitTypeEnum.NA,
+    })
+    table: string;
 
     // =======================================
 
