@@ -27,7 +27,7 @@ let SetController = class SetController {
         return this._setService.findAll();
     }
     findOne(id) {
-        return this._setService.findOneById(id);
+        return this._setService.findOneWithUnits(id);
     }
     createOne(dto) {
         return this._setService.createOne(dto);
@@ -41,25 +41,28 @@ let SetController = class SetController {
     activateOne(id) {
         return this._setService.activateOne(id);
     }
+    findAllSetTypes() {
+        return this._setService.findAllSetTypes();
+    }
     insertSetType(dto) {
         return this._setService.insertSetType(dto);
     }
     deleteSetType(name) {
         return this._setService.deleteSetType(name);
     }
-    updateSetType(oldName, newName) {
-        return this._setService.updateSetType(oldName, newName);
+    updateSetType(dto) {
+        return this._setService.updateSetType(dto);
     }
 };
 __decorate([
-    common_1.Get(),
+    common_1.Get('all'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "findAll", null);
 __decorate([
     swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
-    common_1.Get(':id'),
+    common_1.Get('one/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -94,6 +97,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "activateOne", null);
 __decorate([
+    common_1.Get('set-type'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], SetController.prototype, "findAllSetTypes", null);
+__decorate([
     common_1.Post('set-type'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
@@ -108,10 +117,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "deleteSetType", null);
 __decorate([
-    common_1.Put('set-type/:name'),
-    __param(0, common_1.Param('name')), __param(1, common_1.Query('newName')),
+    common_1.Put('set-type'),
+    __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [set_update_dto_1.SetTypeUpdateDto]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "updateSetType", null);
 SetController = __decorate([

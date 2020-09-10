@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { SetCreateDto } from './dto/set-create.dto';
-import { SetUpdateDto } from './dto/set-update.dto';
+import { SetTypeUpdateDto, SetUpdateDto } from './dto/set-update.dto';
 import { SetTypeEntity } from './set-type.entity';
 import { SetRO, SetsRO } from './set.interfaces';
 import { SetService } from './set.service';
@@ -14,15 +14,15 @@ export class SetController {
         private readonly _setService: SetService
     ) { }
 
-    @Get()
+    @Get('all')
     findAll(): Promise<SetsRO> {
         return this._setService.findAll();
     }
 
     @ApiParam({ name: 'id', type: Number, required: true })
-    @Get(':id')
+    @Get('one/:id')
     findOne(@Param('id') id: number): Promise<SetRO> {
-        return this._setService.findOneById(id);
+        return this._setService.findOneWithUnits(id);
     }
 
     @Post()
@@ -45,6 +45,11 @@ export class SetController {
         return this._setService.activateOne(id);
     }
 
+    @Get('set-type')
+    findAllSetTypes(): Promise<SetTypeEntity[]> {
+        return this._setService.findAllSetTypes();
+    }
+
     @Post('set-type')
     insertSetType(@Body() dto: SetTypeEntity): Promise<SetTypeEntity> {
         return this._setService.insertSetType(dto);
@@ -55,8 +60,8 @@ export class SetController {
         return this._setService.deleteSetType(name);
     }
 
-    @Put('set-type/:name')
-    updateSetType(@Param('name') oldName: string, @Query('newName') newName: string): Promise<SetTypeEntity> {
-        return this._setService.updateSetType(oldName, newName);
+    @Put('set-type')
+    updateSetType(@Body() dto: SetTypeUpdateDto): Promise<SetTypeEntity> {
+        return this._setService.updateSetType(dto);
     }
 }

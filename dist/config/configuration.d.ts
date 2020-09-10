@@ -15,6 +15,7 @@ declare const _default: () => {
         entities: string[];
         seeds: string[];
         factories: string[];
+        keepConnectionAlive: boolean;
     };
 };
 export default _default;

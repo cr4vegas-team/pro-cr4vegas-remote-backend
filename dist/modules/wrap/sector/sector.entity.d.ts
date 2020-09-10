@@ -7,5 +7,5 @@ export declare class SectorEntity {
     description: string;
     updated: Date;
     created: Date;
-    active: boolean;
+    active: number;
 }

@@ -20,7 +20,7 @@ __decorate([
     __metadata("design:type", Number)
 ], SetEntity.prototype, "id", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => set_type_entity_1.SetTypeEntity, type => type.name, { eager: true, cascade: true }),
+    typeorm_1.ManyToOne(type => set_type_entity_1.SetTypeEntity, type => type.name),
     typeorm_1.JoinColumn({ name: 'set_type', referencedColumnName: 'name' }),
     __metadata("design:type", set_type_entity_1.SetTypeEntity)
 ], SetEntity.prototype, "setType", void 0);
@@ -60,10 +60,10 @@ __decorate([
 ], SetEntity.prototype, "created", void 0);
 __decorate([
     typeorm_1.Column({
-        type: 'boolean',
-        default: true
+        type: 'tinyint',
+        default: 1
     }),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Number)
 ], SetEntity.prototype, "active", void 0);
 SetEntity = __decorate([
     typeorm_1.Entity('sets')

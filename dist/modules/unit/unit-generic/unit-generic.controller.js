@@ -30,10 +30,10 @@ let UnitGenericController = class UnitGenericController {
         return this._unitGenericService.findOneById(id);
     }
     createOne(dto) {
-        return this._unitGenericService.createOne(dto);
+        return this._unitGenericService.create(dto);
     }
     updateOne(dto) {
-        return this._unitGenericService.updateOne(dto);
+        return this._unitGenericService.update(dto);
     }
 };
 __decorate([

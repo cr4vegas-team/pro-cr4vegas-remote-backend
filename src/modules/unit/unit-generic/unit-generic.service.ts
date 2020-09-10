@@ -2,8 +2,11 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
+import { UnitExceptionMSG } from '../unit/unit-exception.msg';
 import { UnitTypeTableEnum } from '../unit/unit-type-table.enum';
 import { UnitTypeEnum } from '../unit/unit-type.enum';
+import { UnitEntity } from '../unit/unit.entity';
+import { UnitService } from '../unit/unit.service';
 import { UnitGenericCreateDto } from './dto/unit-generic-create.dto';
 import { UnitGenericUpdateDto } from './dto/unit-generic-update.dto';
 import { UnitGenericExceptionMSG } from './unit-generic-exception-messages';
@@ -16,9 +19,12 @@ export class UnitGenericService {
     constructor(
         @InjectRepository(UnitGenericEntity)
         private readonly _unitGenericRepository: Repository<UnitGenericEntity>,
+        private readonly _unitService: UnitService,
     ) { }
 
-    async findAll(): Promise<UnitsGenericsRO> { 
+    // ==========================================================
+    
+    async findAll(): Promise<UnitsGenericsRO> {
 
         const qb = await this._unitGenericRepository.createQueryBuilder('units_generics')
             .leftJoinAndSelect('units_generics.unit', 'unit')
@@ -32,6 +38,8 @@ export class UnitGenericService {
         return { unitsGenerics: foundUnitsGenerics, count: unitsGenericsCount };
     }
 
+    // ==========================================================
+    
     async findOneById(id: number): Promise<UnitGenericRO> {
 
         const qb = await this._unitGenericRepository.createQueryBuilder('units_generics')
@@ -45,32 +53,33 @@ export class UnitGenericService {
         return { unitGeneric: foundUnitGeneric };
     }
 
-    async createOne(dto: UnitGenericCreateDto): Promise<UnitGenericRO> {
-        const foundUnitGeneric: UnitGenericEntity = await this._unitGenericRepository.createQueryBuilder('units_generics')
-            .leftJoinAndSelect('units_generics.unit', 'unit')
-            .where('unit.code = :code', { code: dto.unit.code })
-            .getOne();
-        if (foundUnitGeneric) {
-            throw new ConflictException(UnitGenericExceptionMSG.CONFLICT);
-        }
+    // ==========================================================
+    
+    async create(dto: UnitGenericCreateDto): Promise<UnitGenericRO> {
+        const savedUnit: UnitEntity = (await this._unitService.create(dto.unit, UnitTypeEnum.UNIT_GENERIC, UnitTypeTableEnum.UNIT_GENERIC)).unit;
         const newUnitGeneric: UnitGenericEntity = plainToClass(UnitGenericEntity, dto);
-        newUnitGeneric.unit.unitType = UnitTypeEnum.UNIT_GENERIC;
-        newUnitGeneric.unit.table = UnitTypeTableEnum.UNIT_GENERIC;
+        newUnitGeneric.unit = savedUnit;
         const savedUnitGeneric: UnitGenericEntity = await this._unitGenericRepository.save(newUnitGeneric);
+
         return { unitGeneric: savedUnitGeneric };
     }
 
-    async updateOne(dto: UnitGenericUpdateDto): Promise<UnitGenericRO> {
-        let foundUnitGeneric: UnitGenericEntity = await this._unitGenericRepository.createQueryBuilder('units_generics')
-            .leftJoinAndSelect('units_generics.unit', 'unit')
-            .where('unit.id = :id', { id: dto.unit.id })
-            .orWhere('units_generics.id = :id', { id: dto.id })
-            .getOne();
+    // ==========================================================
+    
+    async update(dto: UnitGenericUpdateDto): Promise<UnitGenericRO> {
+        let foundUnitGeneric: UnitGenericEntity = await this._unitGenericRepository.findOne(dto.id)
         if (!foundUnitGeneric) {
             throw new NotFoundException(UnitGenericExceptionMSG.NOT_FOUND);
         }
-
+        let foundUnitGenericUnitId: UnitGenericEntity = await this._unitGenericRepository.createQueryBuilder('units_generics')
+            .where('units_generics.unit.id = :id', { id: dto.unit.id })
+            .getOne();
+        if (foundUnitGenericUnitId && foundUnitGenericUnitId.id !== dto.id) {
+            throw new ConflictException(UnitExceptionMSG.CONFLIC);
+        }
+        const updatedUnit: UnitEntity = (await this._unitService.update(dto.unit)).unit;
         foundUnitGeneric = plainToClass(UnitGenericEntity, dto);
+        foundUnitGeneric.unit = updatedUnit;
         const savedUnitGeneric: UnitGenericEntity = await this._unitGenericRepository.save(foundUnitGeneric);
         return { unitGeneric: savedUnitGeneric };
     }

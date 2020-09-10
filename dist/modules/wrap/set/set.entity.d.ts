@@ -9,5 +9,5 @@ export declare class SetEntity {
     description: string;
     updated: Date;
     created: Date;
-    active: boolean;
+    active: number;
 }

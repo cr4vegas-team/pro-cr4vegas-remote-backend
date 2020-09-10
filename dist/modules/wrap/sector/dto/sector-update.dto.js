@@ -28,6 +28,12 @@ __decorate([
 ], SectorUpdateDto.prototype, "code", void 0);
 __decorate([
     swagger_1.ApiProperty(),
+    class_validator_1.IsOptional(),
+    class_validator_1.IsArray(),
+    __metadata("design:type", Array)
+], SectorUpdateDto.prototype, "units", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
     class_validator_1.IsString(),
     class_validator_1.MinLength(3),
     class_validator_1.MaxLength(45),

@@ -1,6 +1,7 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
+import { UnitService } from 'src/modules/unit/unit/unit.service';
 import { Repository, UpdateResult } from 'typeorm';
 import { StationCreateDto } from './dto/station-create.dto';
 import { StationUpdateDto } from './dto/station-update.dto';
@@ -14,6 +15,8 @@ export class StationService {
     constructor(
         @InjectRepository(StationEntity)
         private readonly _stationRepository: Repository<StationEntity>,
+        @Inject(forwardRef(() => UnitService))
+        private readonly _unitService: UnitService,
     ) { }
 
     async findAll(): Promise<StationsRO> {
@@ -23,10 +26,19 @@ export class StationService {
 
         const stationsCount: number = await qb.getCount();
         const foundStations: StationEntity[] = await qb.getMany();
+        console.log(foundStations);
         return { stations: foundStations, count: stationsCount };
     }
 
     async findOne(id: number): Promise<StationRO> {
+        const qb = await this._stationRepository.createQueryBuilder('stations')
+            .where("stations.id = :id", { id });
+
+        const foundStation: StationEntity = await qb.getOne();
+        return { station: foundStation };
+    }
+
+    async findOneWithUnits(id: number): Promise<StationRO> {
         const qb = await this._stationRepository.createQueryBuilder('stations')
             .leftJoinAndSelect('stations.units', 'units')
             .where("stations.id = :id", { id });
@@ -44,6 +56,7 @@ export class StationService {
             throw new ConflictException(StationExceptionMSG.CONFLICT_CODE);
         }
         const newStation = plainToClass(StationEntity, dto);
+        newStation.units = (await this._unitService.findAllByIds(dto.units)).units;
         const savedStation: StationEntity = await this._stationRepository.save(newStation);
         return { station: savedStation };
     }
@@ -56,6 +69,7 @@ export class StationService {
             throw new NotFoundException(StationExceptionMSG.NOT_FOUND_ID);
         }
         foundStation = plainToClass(StationEntity, dto);
+        foundStation.units = (await this._unitService.findAllByIds(dto.units)).units;
         const updatedStation: StationEntity = await this._stationRepository.save(foundStation);
         return { station: updatedStation };
     }
@@ -65,7 +79,7 @@ export class StationService {
         if (!foundStation) {
             throw new NotFoundException(StationExceptionMSG.NOT_FOUND_ID);
         }
-        const updatedStation: UpdateResult = await this._stationRepository.update(id, { active: false });
+        const updatedStation: UpdateResult = await this._stationRepository.update(id, { active: 0 });
         return updatedStation.affected > 0;
     }
 
@@ -74,7 +88,7 @@ export class StationService {
         if (!foundStation) {
             throw new NotFoundException(StationExceptionMSG.NOT_FOUND_ID);
         }
-        const updatedSector: UpdateResult = await this._stationRepository.update(id, { active: true });
+        const updatedSector: UpdateResult = await this._stationRepository.update(id, { active: 1 });
         return updatedSector.affected > 0;
     }
 

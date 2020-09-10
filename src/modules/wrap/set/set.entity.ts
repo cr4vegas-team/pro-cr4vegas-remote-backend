@@ -1,5 +1,5 @@
 import { UnitEntity } from "../../unit/unit/unit.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { SetTypeEntity } from './set-type.entity';
 
 
@@ -11,7 +11,7 @@ export class SetEntity {
 
     // =======================================
 
-    @ManyToOne(type => SetTypeEntity, type => type.name, { eager: true, cascade: true })
+    @ManyToOne(type => SetTypeEntity, type => type.name)
     @JoinColumn({ name: 'set_type', referencedColumnName: 'name' })
     setType: SetTypeEntity;
 
@@ -58,9 +58,9 @@ export class SetEntity {
     // =======================================
 
     @Column({
-        type: 'boolean',
-        default: true
+        type: 'tinyint',
+        default: 1
     })
-    active: boolean;
+    active: number;
 
 }

@@ -22,15 +22,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
                 ? exception.getStatus()
                 : HttpStatus.INTERNAL_SERVER_ERROR;
 
-        /* response.status(status).json({
+        response.status(status).json({
             timestamp: new Date().toISOString(),
             path: request.url,
-            exception
-        }); */
-
-        response.status(status).json(
-            exception.response
-        );
+            message: exception.message
+        });
     }
 
 }

@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { IsArray, IsNumber, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { UnitEntity } from "src/modules/unit/unit/unit.entity";
 
 
 export class StationCreateDto {
@@ -33,4 +34,10 @@ export class StationCreateDto {
     @IsNumber()
     longitude: number;
 
+    // ==========================================================
+
+    @ApiProperty()
+    @IsOptional()
+    @IsArray()
+    units?: number[];
 }

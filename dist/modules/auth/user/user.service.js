@@ -69,6 +69,18 @@ let UserService = class UserService {
         return null;
     }
     async createOne(dto) {
+        const foundUsername = await this._userRepository.createQueryBuilder('users')
+            .where('users.username = :username', { username: dto.username })
+            .getOne();
+        if (foundUsername) {
+            throw new common_1.ConflictException(user_exception_msg_1.UserExceptionMSG.CONFLICT_USERNAME);
+        }
+        const foundEmail = await this._userRepository.createQueryBuilder('users')
+            .where('users.email = :email', { email: dto.email })
+            .getOne();
+        if (foundEmail) {
+            throw new common_1.ConflictException(user_exception_msg_1.UserExceptionMSG.CONFLICT_EMAIL);
+        }
         const newUser = new user_entity_1.UserEntity();
         newUser.username = dto.username;
         newUser.password = dto.password;

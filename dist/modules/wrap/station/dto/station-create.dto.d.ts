@@ -5,4 +5,5 @@ export declare class StationCreateDto {
     altitude: number;
     latitude: number;
     longitude: number;
+    units?: number[];
 }

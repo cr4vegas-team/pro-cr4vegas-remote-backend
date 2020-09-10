@@ -19,7 +19,7 @@ __decorate([
     __metadata("design:type", Number)
 ], UnitHydrantEntity.prototype, "id", void 0);
 __decorate([
-    typeorm_1.OneToOne(type => unit_entity_1.UnitEntity, { eager: true, cascade: true }),
+    typeorm_1.OneToOne(type => unit_entity_1.UnitEntity, { eager: true }),
     typeorm_1.JoinColumn(),
     __metadata("design:type", unit_entity_1.UnitEntity)
 ], UnitHydrantEntity.prototype, "unit", void 0);

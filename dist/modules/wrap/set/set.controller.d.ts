@@ -1,5 +1,5 @@
 import { SetCreateDto } from './dto/set-create.dto';
-import { SetUpdateDto } from './dto/set-update.dto';
+import { SetTypeUpdateDto, SetUpdateDto } from './dto/set-update.dto';
 import { SetTypeEntity } from './set-type.entity';
 import { SetRO, SetsRO } from './set.interfaces';
 import { SetService } from './set.service';
@@ -12,7 +12,8 @@ export declare class SetController {
     updateOne(dto: SetUpdateDto): Promise<SetRO>;
     deleteOne(id: number): Promise<boolean>;
     activateOne(id: number): Promise<boolean>;
+    findAllSetTypes(): Promise<SetTypeEntity[]>;
     insertSetType(dto: SetTypeEntity): Promise<SetTypeEntity>;
     deleteSetType(name: string): Promise<boolean>;
-    updateSetType(oldName: string, newName: string): Promise<SetTypeEntity>;
+    updateSetType(dto: SetTypeUpdateDto): Promise<SetTypeEntity>;
 }

@@ -8,23 +8,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const auth_service_1 = require("./auth/auth.service");
-const user_entity_1 = require("./user/user.entity");
-const user_controller_1 = require("./user/user.controller");
-const local_strategy_1 = require("./auth/local.strategy");
-const passport_1 = require("@nestjs/passport");
-const user_service_1 = require("./user/user.service");
 const config_1 = require("@nestjs/config");
-const config_constant_1 = require("../../config/config.constant");
 const jwt_1 = require("@nestjs/jwt");
+const passport_1 = require("@nestjs/passport");
+const typeorm_1 = require("@nestjs/typeorm");
+const config_constant_1 = require("../../config/config.constant");
+const auth_service_1 = require("./auth/auth.service");
 const jwt_strategy_1 = require("./auth/jwt.strategy");
+const local_strategy_1 = require("./auth/local.strategy");
+const user_controller_1 = require("./user/user.controller");
+const user_entity_1 = require("./user/user.entity");
+const user_service_1 = require("./user/user.service");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
     common_1.Module({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([user_entity_1.UserEntity]),
+            typeorm_1.TypeOrmModule.forFeature([
+                user_entity_1.UserEntity
+            ]),
             passport_1.PassportModule,
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
@@ -35,9 +37,23 @@ AuthModule = __decorate([
                 inject: [config_1.ConfigService],
             })
         ],
-        providers: [auth_service_1.AuthService, user_service_1.UserService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy, config_1.ConfigService],
-        controllers: [user_controller_1.UserController],
-        exports: [auth_service_1.AuthService]
+        providers: [
+            auth_service_1.AuthService,
+            user_service_1.UserService,
+            local_strategy_1.LocalStrategy,
+            jwt_strategy_1.JwtStrategy,
+            config_1.ConfigService
+        ],
+        controllers: [
+            user_controller_1.UserController
+        ],
+        exports: [
+            auth_service_1.AuthService,
+            user_service_1.UserService,
+            local_strategy_1.LocalStrategy,
+            jwt_strategy_1.JwtStrategy,
+            config_1.ConfigService
+        ]
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

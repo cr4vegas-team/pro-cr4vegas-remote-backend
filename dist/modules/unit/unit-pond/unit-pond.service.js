@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const class_transformer_1 = require("class-transformer");
 const typeorm_2 = require("typeorm");
+const unit_exception_msg_1 = require("../unit/unit-exception.msg");
 const unit_type_table_enum_1 = require("../unit/unit-type-table.enum");
 const unit_type_enum_1 = require("../unit/unit-type.enum");
 const unit_service_1 = require("../unit/unit.service");
@@ -49,29 +50,26 @@ let UnitPondService = class UnitPondService {
         return { unitPond: foundUnitPond };
     }
     async createOne(dto) {
-        const foundUnitPond = await this._unitPondRepository.createQueryBuilder('units_ponds')
-            .leftJoinAndSelect('units_ponds.unit', 'unit')
-            .where('unit.code = :code', { code: dto.unit.code })
-            .getOne();
-        if (foundUnitPond) {
-            throw new common_1.ConflictException(unit_pond_exception_messages_1.UnitPondExceptionMSG.CONFLICT);
-        }
+        const savedUnit = (await this._unitService.create(dto.unit, unit_type_enum_1.UnitTypeEnum.UNIT_HYDRANT, unit_type_table_enum_1.UnitTypeTableEnum.UNIT_HYDRANT)).unit;
         const newUnitPond = class_transformer_1.plainToClass(unit_pond_entity_1.UnitPondEntity, dto);
-        newUnitPond.unit.unitType = unit_type_enum_1.UnitTypeEnum.UNIT_POND;
-        newUnitPond.unit.table = unit_type_table_enum_1.UnitTypeTableEnum.UNIT_POND;
+        newUnitPond.unit = savedUnit;
         const savedUnitPond = await this._unitPondRepository.save(newUnitPond);
         return { unitPond: savedUnitPond };
     }
     async updateOne(dto) {
-        let foundUnitPond = await this._unitPondRepository.createQueryBuilder('units_ponds')
-            .leftJoinAndSelect('units_ponds.unit', 'unit')
-            .where('unit.id = :id', { id: dto.unit.id })
-            .orWhere('units_hydrants.id = :id', { id: dto.id })
-            .getOne();
+        let foundUnitPond = await this._unitPondRepository.findOne(dto.id);
         if (!foundUnitPond) {
             throw new common_1.NotFoundException(unit_pond_exception_messages_1.UnitPondExceptionMSG.NOT_FOUND);
         }
+        let foundUnitPondUnitId = await this._unitPondRepository.createQueryBuilder('units_hydrants')
+            .where('units_hydrants.unit.id = :id', { id: dto.unit.id })
+            .getOne();
+        if (foundUnitPondUnitId && foundUnitPondUnitId.id !== dto.id) {
+            throw new common_1.ConflictException(unit_exception_msg_1.UnitExceptionMSG.CONFLIC);
+        }
+        const updatedUnit = (await this._unitService.update(dto.unit)).unit;
         foundUnitPond = class_transformer_1.plainToClass(unit_pond_entity_1.UnitPondEntity, dto);
+        foundUnitPond.unit = updatedUnit;
         const savedUnitPond = await this._unitPondRepository.save(foundUnitPond);
         return { unitPond: savedUnitPond };
     }

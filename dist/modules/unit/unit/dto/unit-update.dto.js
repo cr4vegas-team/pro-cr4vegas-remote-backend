@@ -27,18 +27,22 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsOptional(),
+    class_validator_1.IsNumber(),
     __metadata("design:type", Number)
-], UnitUpdateDto.prototype, "stationId", void 0);
+], UnitUpdateDto.prototype, "station", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsOptional(),
+    class_validator_1.IsNumber(),
     __metadata("design:type", Number)
-], UnitUpdateDto.prototype, "sectorId", void 0);
+], UnitUpdateDto.prototype, "sector", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsOptional(),
+    class_validator_1.IsNumber(),
+    class_validator_1.IsArray(),
     __metadata("design:type", Array)
-], UnitUpdateDto.prototype, "setsIds", void 0);
+], UnitUpdateDto.prototype, "sets", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsNumber(),
@@ -56,7 +60,8 @@ __decorate([
 ], UnitUpdateDto.prototype, "longitude", void 0);
 __decorate([
     swagger_1.ApiProperty(),
-    class_validator_1.IsNotEmpty(),
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], UnitUpdateDto.prototype, "description", void 0);
 exports.UnitUpdateDto = UnitUpdateDto;

@@ -54,5 +54,11 @@ __decorate([
     class_validator_1.IsNumber(),
     __metadata("design:type", Number)
 ], StationUpdateDto.prototype, "longitude", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    class_validator_1.IsOptional(),
+    class_validator_1.IsArray(),
+    __metadata("design:type", Array)
+], StationUpdateDto.prototype, "units", void 0);
 exports.StationUpdateDto = StationUpdateDto;
 //# sourceMappingURL=station-update.dto.js.map

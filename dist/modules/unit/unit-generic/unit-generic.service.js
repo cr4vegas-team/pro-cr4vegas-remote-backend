@@ -17,13 +17,16 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const class_transformer_1 = require("class-transformer");
 const typeorm_2 = require("typeorm");
+const unit_exception_msg_1 = require("../unit/unit-exception.msg");
 const unit_type_table_enum_1 = require("../unit/unit-type-table.enum");
 const unit_type_enum_1 = require("../unit/unit-type.enum");
+const unit_service_1 = require("../unit/unit.service");
 const unit_generic_exception_messages_1 = require("./unit-generic-exception-messages");
 const unit_generic_entity_1 = require("./unit-generic.entity");
 let UnitGenericService = class UnitGenericService {
-    constructor(_unitGenericRepository) {
+    constructor(_unitGenericRepository, _unitService) {
         this._unitGenericRepository = _unitGenericRepository;
+        this._unitService = _unitService;
     }
     async findAll() {
         const qb = await this._unitGenericRepository.createQueryBuilder('units_generics')
@@ -46,30 +49,27 @@ let UnitGenericService = class UnitGenericService {
         const foundUnitGeneric = await qb.getOne();
         return { unitGeneric: foundUnitGeneric };
     }
-    async createOne(dto) {
-        const foundUnitGeneric = await this._unitGenericRepository.createQueryBuilder('units_generics')
-            .leftJoinAndSelect('units_generics.unit', 'unit')
-            .where('unit.code = :code', { code: dto.unit.code })
-            .getOne();
-        if (foundUnitGeneric) {
-            throw new common_1.ConflictException(unit_generic_exception_messages_1.UnitGenericExceptionMSG.CONFLICT);
-        }
+    async create(dto) {
+        const savedUnit = (await this._unitService.create(dto.unit, unit_type_enum_1.UnitTypeEnum.UNIT_GENERIC, unit_type_table_enum_1.UnitTypeTableEnum.UNIT_GENERIC)).unit;
         const newUnitGeneric = class_transformer_1.plainToClass(unit_generic_entity_1.UnitGenericEntity, dto);
-        newUnitGeneric.unit.unitType = unit_type_enum_1.UnitTypeEnum.UNIT_GENERIC;
-        newUnitGeneric.unit.table = unit_type_table_enum_1.UnitTypeTableEnum.UNIT_GENERIC;
+        newUnitGeneric.unit = savedUnit;
         const savedUnitGeneric = await this._unitGenericRepository.save(newUnitGeneric);
         return { unitGeneric: savedUnitGeneric };
     }
-    async updateOne(dto) {
-        let foundUnitGeneric = await this._unitGenericRepository.createQueryBuilder('units_generics')
-            .leftJoinAndSelect('units_generics.unit', 'unit')
-            .where('unit.id = :id', { id: dto.unit.id })
-            .orWhere('units_generics.id = :id', { id: dto.id })
-            .getOne();
+    async update(dto) {
+        let foundUnitGeneric = await this._unitGenericRepository.findOne(dto.id);
         if (!foundUnitGeneric) {
             throw new common_1.NotFoundException(unit_generic_exception_messages_1.UnitGenericExceptionMSG.NOT_FOUND);
         }
+        let foundUnitGenericUnitId = await this._unitGenericRepository.createQueryBuilder('units_generics')
+            .where('units_generics.unit.id = :id', { id: dto.unit.id })
+            .getOne();
+        if (foundUnitGenericUnitId && foundUnitGenericUnitId.id !== dto.id) {
+            throw new common_1.ConflictException(unit_exception_msg_1.UnitExceptionMSG.CONFLIC);
+        }
+        const updatedUnit = (await this._unitService.update(dto.unit)).unit;
         foundUnitGeneric = class_transformer_1.plainToClass(unit_generic_entity_1.UnitGenericEntity, dto);
+        foundUnitGeneric.unit = updatedUnit;
         const savedUnitGeneric = await this._unitGenericRepository.save(foundUnitGeneric);
         return { unitGeneric: savedUnitGeneric };
     }
@@ -77,7 +77,8 @@ let UnitGenericService = class UnitGenericService {
 UnitGenericService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_1.InjectRepository(unit_generic_entity_1.UnitGenericEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        unit_service_1.UnitService])
 ], UnitGenericService);
 exports.UnitGenericService = UnitGenericService;
 //# sourceMappingURL=unit-generic.service.js.map

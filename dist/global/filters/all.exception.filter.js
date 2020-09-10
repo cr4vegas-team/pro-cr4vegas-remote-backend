@@ -18,7 +18,11 @@ let AllExceptionsFilter = class AllExceptionsFilter {
         const status = exception instanceof common_1.HttpException
             ? exception.getStatus()
             : common_1.HttpStatus.INTERNAL_SERVER_ERROR;
-        response.status(status).json(exception.response);
+        response.status(status).json({
+            timestamp: new Date().toISOString(),
+            path: request.url,
+            message: exception.message
+        });
     }
 };
 AllExceptionsFilter = __decorate([

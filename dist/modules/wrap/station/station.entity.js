@@ -77,10 +77,10 @@ __decorate([
 ], StationEntity.prototype, "created", void 0);
 __decorate([
     typeorm_1.Column({
-        type: 'boolean',
-        default: true
+        type: 'tinyint',
+        default: 1
     }),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Number)
 ], StationEntity.prototype, "active", void 0);
 StationEntity = __decorate([
     typeorm_1.Entity('stations')

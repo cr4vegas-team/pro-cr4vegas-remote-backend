@@ -12,12 +12,12 @@ const config_1 = require("@nestjs/config");
 const core_1 = require("@nestjs/core");
 const typeorm_1 = require("@nestjs/typeorm");
 const app_controller_1 = require("./app.controller");
-const configuration_1 = require("./config/configuration");
 const config_constant_1 = require("./config/config.constant");
+const configuration_1 = require("./config/configuration");
 const all_exception_filter_1 = require("./global/filters/all.exception.filter");
+const auth_module_1 = require("./modules/auth/auth.module");
 const unit_module_1 = require("./modules/unit/unit.module");
 const wrap_module_1 = require("./modules/wrap/wrap.module");
-const auth_module_1 = require("./modules/auth/auth.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -32,9 +32,9 @@ AppModule = __decorate([
                 useFactory: (configService) => (configService.get(config_constant_1.CONFIG.DATABASE)),
                 inject: [config_1.ConfigService],
             }),
-            unit_module_1.UnitModule,
-            wrap_module_1.WrapModule,
             auth_module_1.AuthModule,
+            unit_module_1.UnitModule,
+            wrap_module_1.WrapModule
         ],
         controllers: [
             app_controller_1.AppController
@@ -58,7 +58,6 @@ AppModule = __decorate([
                 useClass: common_1.ClassSerializerInterceptor
             },
         ],
-        exports: []
     })
 ], AppModule);
 exports.AppModule = AppModule;

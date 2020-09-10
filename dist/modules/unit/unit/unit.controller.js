@@ -15,19 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const jwt_auth_guard_1 = require("../../auth/auth/jwt-auth.guard");
+const jwt_auth_guard_1 = require("../../../modules/auth/auth/jwt-auth.guard");
 const unit_service_1 = require("./unit.service");
 let UnitController = class UnitController {
     constructor(_unitService) {
         this._unitService = _unitService;
     }
-    deleteOne(id) {
+    findAll() {
+        return this._unitService.findAll();
+    }
+    delete(id) {
         return this._unitService.delete(id);
     }
-    activateOne(id) {
+    activate(id) {
         return this._unitService.activate(id);
     }
 };
+__decorate([
+    common_1.Get(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UnitController.prototype, "findAll", null);
 __decorate([
     swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
     common_1.Delete(':id'),
@@ -35,7 +44,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], UnitController.prototype, "deleteOne", null);
+], UnitController.prototype, "delete", null);
 __decorate([
     swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
     common_1.Patch(':id'),
@@ -43,7 +52,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], UnitController.prototype, "activateOne", null);
+], UnitController.prototype, "activate", null);
 UnitController = __decorate([
     common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
     common_1.Controller('unit'),

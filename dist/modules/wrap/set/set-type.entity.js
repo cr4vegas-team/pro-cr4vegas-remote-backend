@@ -10,10 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetTypeEntity = void 0;
+const swagger_1 = require("@nestjs/swagger");
+const class_validator_1 = require("class-validator");
 const typeorm_1 = require("typeorm");
 let SetTypeEntity = class SetTypeEntity {
 };
 __decorate([
+    swagger_1.ApiProperty(),
+    class_validator_1.IsString(),
     typeorm_1.PrimaryColumn({
         type: 'varchar',
         length: 45
@@ -21,7 +25,7 @@ __decorate([
     __metadata("design:type", String)
 ], SetTypeEntity.prototype, "name", void 0);
 SetTypeEntity = __decorate([
-    typeorm_1.Entity('sets-types')
+    typeorm_1.Entity('sets_types')
 ], SetTypeEntity);
 exports.SetTypeEntity = SetTypeEntity;
 //# sourceMappingURL=set-type.entity.js.map

@@ -6,4 +6,5 @@ export declare class StationUpdateDto {
     altitude: number;
     latitude: number;
     longitude: number;
+    units?: number[];
 }

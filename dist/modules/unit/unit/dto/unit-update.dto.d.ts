@@ -1,9 +1,9 @@
 export declare class UnitUpdateDto {
     id: number;
     code: string;
-    stationId?: number | null;
-    sectorId?: number | null;
-    setsIds?: number[] | null;
+    station?: number;
+    sector?: number;
+    sets?: number[];
     altitude: number;
     latitude: number;
     longitude: number;

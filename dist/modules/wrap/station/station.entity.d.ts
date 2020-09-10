@@ -10,5 +10,5 @@ export declare class StationEntity {
     description: string;
     updated: Date;
     created: Date;
-    active: boolean;
+    active: number;
 }

@@ -9,10 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SetUpdateDto = void 0;
+exports.SetTypeUpdateDto = exports.SetUpdateDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-const set_type_entity_1 = require("../set-type.entity");
+const unit_entity_1 = require("../../../unit/unit/unit.entity");
 class SetUpdateDto {
 }
 __decorate([
@@ -29,9 +29,9 @@ __decorate([
 ], SetUpdateDto.prototype, "code", void 0);
 __decorate([
     swagger_1.ApiProperty(),
-    class_validator_1.ValidateNested(),
-    __metadata("design:type", set_type_entity_1.SetTypeEntity)
-], SetUpdateDto.prototype, "setTypeName", void 0);
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
+], SetUpdateDto.prototype, "setType", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsString(),
@@ -45,5 +45,24 @@ __decorate([
     class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], SetUpdateDto.prototype, "description", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    class_validator_1.IsOptional(),
+    class_validator_1.IsArray(),
+    __metadata("design:type", Array)
+], SetUpdateDto.prototype, "units", void 0);
 exports.SetUpdateDto = SetUpdateDto;
+class SetTypeUpdateDto {
+}
+__decorate([
+    swagger_1.ApiProperty(),
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
+], SetTypeUpdateDto.prototype, "oldName", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
+], SetTypeUpdateDto.prototype, "newName", void 0);
+exports.SetTypeUpdateDto = SetTypeUpdateDto;
 //# sourceMappingURL=set-update.dto.js.map

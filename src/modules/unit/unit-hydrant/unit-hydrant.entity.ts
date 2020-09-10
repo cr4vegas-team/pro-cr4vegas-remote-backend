@@ -10,7 +10,7 @@ export class UnitHydrantEntity {
 
     // =======================================
 
-    @OneToOne(type => UnitEntity, { eager: true, cascade: true })
+    @OneToOne(type => UnitEntity, { eager: true})
     @JoinColumn()
     unit: UnitEntity;
 

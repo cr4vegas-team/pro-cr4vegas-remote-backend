@@ -10,11 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitEntity = void 0;
-const class_transformer_1 = require("class-transformer");
+const typeorm_1 = require("typeorm");
 const sector_entity_1 = require("../../wrap/sector/sector.entity");
 const set_entity_1 = require("../../wrap/set/set.entity");
 const station_entity_1 = require("../../wrap/station/station.entity");
-const typeorm_1 = require("typeorm");
 const unit_type_enum_1 = require("./unit-type.enum");
 let UnitEntity = class UnitEntity {
 };
@@ -23,17 +22,17 @@ __decorate([
     __metadata("design:type", Number)
 ], UnitEntity.prototype, "id", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => station_entity_1.StationEntity, stationEntity => stationEntity.units, { eager: true }),
+    typeorm_1.ManyToOne(type => station_entity_1.StationEntity, stationEntity => stationEntity.units),
     typeorm_1.JoinColumn(),
     __metadata("design:type", station_entity_1.StationEntity)
 ], UnitEntity.prototype, "station", void 0);
 __decorate([
-    typeorm_1.ManyToOne(type => sector_entity_1.SectorEntity, sectorEntity => sectorEntity.units, { eager: true }),
+    typeorm_1.ManyToOne(type => sector_entity_1.SectorEntity, sectorEntity => sectorEntity.units),
     typeorm_1.JoinColumn(),
     __metadata("design:type", sector_entity_1.SectorEntity)
 ], UnitEntity.prototype, "sector", void 0);
 __decorate([
-    typeorm_1.ManyToMany(type => set_entity_1.SetEntity, setEntity => setEntity.units, { eager: true }),
+    typeorm_1.ManyToMany(type => set_entity_1.SetEntity, setEntity => setEntity.units),
     typeorm_1.JoinTable(),
     __metadata("design:type", Array)
 ], UnitEntity.prototype, "sets", void 0);
@@ -67,7 +66,6 @@ __decorate([
     typeorm_1.Column({
         type: 'float',
     }),
-    class_transformer_1.Exclude(),
     __metadata("design:type", Number)
 ], UnitEntity.prototype, "altitude", void 0);
 __decorate([

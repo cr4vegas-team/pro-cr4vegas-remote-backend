@@ -1,26 +1,27 @@
 
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsOptional } from "class-validator";
-import { UnitTypeTableEnum } from '../unit-type-table.enum';
-import { UnitTypeEnum } from '../unit-type.enum';
+import { IsArray, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
 
 export class UnitCreateDto {
 
     @ApiProperty()
-    @IsNotEmpty()
+    @IsString()
     code: string;
-    
-    @ApiProperty()
-    @IsOptional()
-    stationId?: number | null;
 
     @ApiProperty()
     @IsOptional()
-    sectorId?: number | null;
+    @IsNumber()
+    station?: number;
 
     @ApiProperty()
     @IsOptional()
-    setsIds?: number[] | null;
+    @IsNumber()
+    sector?: number;
+
+    @ApiProperty()
+    @IsOptional()
+    @IsArray()
+    sets?: number[];
 
     @ApiProperty()
     @IsNumber()
@@ -28,14 +29,19 @@ export class UnitCreateDto {
 
     @ApiProperty()
     @IsNumber()
+    @Min(-90)
+    @Max(90)
     latitude: number;
 
     @ApiProperty()
     @IsNumber()
+    @Min(-90)
+    @Max(90)
     longitude: number;
 
     @ApiProperty()
-    @IsNotEmpty()
+    @IsString()
+    @IsOptional()
     description: string;
 
 }

@@ -52,8 +52,8 @@ export class SectorEntity {
     // =======================================
     
     @Column({
-        type: 'boolean',
-        default: true
+        type: 'tinyint',
+        default: 1
     })
-    active: boolean;
+    active: number;
 }

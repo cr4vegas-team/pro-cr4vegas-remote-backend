@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiParam, ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiParam } from '@nestjs/swagger';
 import { UnitHydrantUpdateDto } from '../unit-hydrant/dto/unit-hydrant-update.dto';
 import { UnitGenericCreateDto } from './dto/unit-generic-create.dto';
 import { UnitGenericUpdateDto } from './dto/unit-generic-update.dto';
@@ -11,10 +11,14 @@ export class UnitGenericController {
 
     constructor(private readonly _unitGenericService: UnitGenericService) { }
 
+    // ==========================================================
+
     @Get()
     findAll(): Promise<UnitsGenericsRO> {
         return this._unitGenericService.findAll();
     }
+
+    // ==========================================================
 
     @ApiParam({ name: 'id', type: String, required: true })
     @Get(':id')
@@ -22,15 +26,19 @@ export class UnitGenericController {
         return this._unitGenericService.findOneById(id);
     }
 
+    // ==========================================================
+
     @Post()
     createOne(@Body() dto: UnitGenericCreateDto): Promise<UnitGenericRO> {
-        return this._unitGenericService.createOne(dto);
+        return this._unitGenericService.create(dto);
     }
+
+    // ==========================================================
 
     @ApiBody({ type: UnitHydrantUpdateDto })
     @Put()
     updateOne(@Body() dto: UnitGenericUpdateDto): Promise<UnitGenericRO> {
-        return this._unitGenericService.updateOne(dto);
+        return this._unitGenericService.update(dto);
     }
 
 }

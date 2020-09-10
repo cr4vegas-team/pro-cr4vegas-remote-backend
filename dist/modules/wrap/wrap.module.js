@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WrapModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const unit_module_1 = require("../unit/unit.module");
 const sector_controller_1 = require("./sector/sector.controller");
 const sector_entity_1 = require("./sector/sector.entity");
 const sector_service_1 = require("./sector/sector.service");
@@ -24,10 +25,18 @@ let WrapModule = class WrapModule {
 WrapModule = __decorate([
     common_1.Module({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([station_entity_1.StationEntity, set_entity_1.SetEntity, sector_entity_1.SectorEntity, set_type_entity_1.SetTypeEntity]),
+            typeorm_1.TypeOrmModule.forFeature([
+                station_entity_1.StationEntity,
+                set_entity_1.SetEntity,
+                sector_entity_1.SectorEntity,
+                set_type_entity_1.SetTypeEntity
+            ]),
+            common_1.forwardRef(() => unit_module_1.UnitModule),
         ],
         controllers: [
-            station_controller_1.StationController, sector_controller_1.SectorController, set_controller_1.SetController
+            station_controller_1.StationController,
+            sector_controller_1.SectorController,
+            set_controller_1.SetController
         ],
         providers: [
             station_service_1.StationService,
@@ -35,9 +44,9 @@ WrapModule = __decorate([
             set_service_1.SetService,
         ],
         exports: [
+            station_service_1.StationService,
             sector_service_1.SectorService,
             set_service_1.SetService,
-            station_service_1.StationService,
         ]
     })
 ], WrapModule);

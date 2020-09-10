@@ -1,6 +1,6 @@
 
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class UnitUpdateDto {
 
@@ -14,15 +14,19 @@ export class UnitUpdateDto {
 
     @ApiProperty()
     @IsOptional()
-    stationId?: number | null;
+    @IsNumber()
+    station?: number;
 
     @ApiProperty()
     @IsOptional()
-    sectorId?: number | null;
+    @IsNumber()
+    sector?: number;
 
     @ApiProperty()
     @IsOptional()
-    setsIds?: number[] | null;
+    @IsNumber()
+    @IsArray()
+    sets?: number[];
 
     @ApiProperty()
     @IsNumber()
@@ -37,7 +41,8 @@ export class UnitUpdateDto {
     longitude: number;
 
     @ApiProperty()
-    @IsNotEmpty()
+    @IsString()
+    @IsOptional()
     description: string;
 
 }

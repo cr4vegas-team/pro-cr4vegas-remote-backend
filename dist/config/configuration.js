@@ -8,10 +8,10 @@ exports.default = () => ({
     },
     database: {
         type: process.env.CR4VEGAS_BACK_DB_TYPE || "mysql",
-        host: process.env.CR4VEGAS_BACK_DB_HOST || "localhost",
+        host: process.env.CR4VEGAS_BACK_DB_HOST || "172.20.48.1",
         port: Number(process.env.CR4VEGAS_BACK_DB_PORT) || 3306,
         username: process.env.CR4VEGAS_BACK_DB_USERNAME || "root",
-        password: process.env.CR4VEGAS_BACK_DB_PASSWORD || "root",
+        password: process.env.CR4VEGAS_BACK_DB_PASSWORD || "mysql1819",
         database: process.env.CR4VEGAS_BACK_DB_DATABASE || "cr4vegas_remote_test",
         synchronize: Boolean(process.env.CR4VEGAS_BACK_DB_SYNCHRONIZE) || true,
         entities: [
@@ -22,7 +22,8 @@ exports.default = () => ({
         ],
         factories: [
             "src/database/factories/**/*{.ts,.js}"
-        ]
+        ],
+        keepConnectionAlive: true,
     },
 });
 //# sourceMappingURL=configuration.js.map

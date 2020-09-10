@@ -27,7 +27,7 @@ let SectorController = class SectorController {
         return this._sectorService.findAll();
     }
     findOne(id) {
-        return this._sectorService.findOne(id);
+        return this._sectorService.findOneWithUnits(id);
     }
     createOne(dto) {
         return this._sectorService.createOne(dto);

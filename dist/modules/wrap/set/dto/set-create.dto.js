@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetCreateDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-const set_type_entity_1 = require("../set-type.entity");
 class SetCreateDto {
 }
 __decorate([
@@ -24,9 +23,9 @@ __decorate([
 ], SetCreateDto.prototype, "code", void 0);
 __decorate([
     swagger_1.ApiProperty(),
-    class_validator_1.ValidateNested(),
-    __metadata("design:type", set_type_entity_1.SetTypeEntity)
-], SetCreateDto.prototype, "setTypeName", void 0);
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
+], SetCreateDto.prototype, "setType", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsString(),
@@ -40,5 +39,11 @@ __decorate([
     class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], SetCreateDto.prototype, "description", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    class_validator_1.IsOptional(),
+    class_validator_1.IsArray(),
+    __metadata("design:type", Array)
+], SetCreateDto.prototype, "units", void 0);
 exports.SetCreateDto = SetCreateDto;
 //# sourceMappingURL=set-create.dto.js.map

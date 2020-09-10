@@ -26,7 +26,7 @@ let StationController = class StationController {
         return this._statioService.findAll();
     }
     findOne(id) {
-        return this._statioService.findOne(id);
+        return this._statioService.findOneWithUnits(id);
     }
     createOne(dto) {
         return this._statioService.createOne(dto);

@@ -17,13 +17,16 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const class_transformer_1 = require("class-transformer");
 const typeorm_2 = require("typeorm");
+const unit_exception_msg_1 = require("../unit/unit-exception.msg");
 const unit_type_table_enum_1 = require("../unit/unit-type-table.enum");
 const unit_type_enum_1 = require("../unit/unit-type.enum");
+const unit_service_1 = require("../unit/unit.service");
 const unit_hydrant_exception_messages_1 = require("./unit-hydrant-exception-messages");
 const unit_hydrant_entity_1 = require("./unit-hydrant.entity");
 let UnitHydrantService = class UnitHydrantService {
-    constructor(_unitHydrantRepository) {
+    constructor(_unitHydrantRepository, _unitService) {
         this._unitHydrantRepository = _unitHydrantRepository;
+        this._unitService = _unitService;
     }
     async findAll() {
         const qb = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
@@ -47,42 +50,35 @@ let UnitHydrantService = class UnitHydrantService {
         return { unitHydrant: foundUnitHydrant };
     }
     async createOne(dto) {
-        const foundUnitHydrant = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
-            .leftJoinAndSelect('units_hydrants.unit', 'unit')
-            .where('unit.code = :code', { code: dto.unit.code })
-            .getOne();
-        if (foundUnitHydrant) {
-            throw new common_1.ConflictException(unit_hydrant_exception_messages_1.UnitHydrantExceptionMSG.CONFLICT);
-        }
+        const savedUnit = (await this._unitService.create(dto.unit, unit_type_enum_1.UnitTypeEnum.UNIT_HYDRANT, unit_type_table_enum_1.UnitTypeTableEnum.UNIT_HYDRANT)).unit;
         const newUnitHydrant = class_transformer_1.plainToClass(unit_hydrant_entity_1.UnitHydrantEntity, dto);
-        newUnitHydrant.unit.unitType = unit_type_enum_1.UnitTypeEnum.UNIT_HYDRANT;
-        newUnitHydrant.unit.table = unit_type_table_enum_1.UnitTypeTableEnum.UNIT_HYDRANT;
+        newUnitHydrant.unit = savedUnit;
         const savedUnitHydrant = await this._unitHydrantRepository.save(newUnitHydrant);
         return { unitHydrant: savedUnitHydrant };
     }
     async updateOne(dto) {
-        try {
-            let foundUnitHydrant = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
-                .leftJoinAndSelect('units_hydrants.unit', 'unit')
-                .where('units_hydrants.id = :id', { id: dto.id })
-                .andWhere('unit.id = :id', { id: dto.unit.id })
-                .getOne();
-            if (!foundUnitHydrant) {
-                throw new common_1.NotFoundException(unit_hydrant_exception_messages_1.UnitHydrantExceptionMSG.NOT_FOUND);
-            }
-            foundUnitHydrant = class_transformer_1.plainToClass(unit_hydrant_entity_1.UnitHydrantEntity, dto);
-            const savedUnitHydrant = await this._unitHydrantRepository.save(foundUnitHydrant);
-            return { unitHydrant: savedUnitHydrant };
+        let foundUnitHydrant = await this._unitHydrantRepository.findOne(dto.id);
+        if (!foundUnitHydrant) {
+            throw new common_1.NotFoundException(unit_hydrant_exception_messages_1.UnitHydrantExceptionMSG.NOT_FOUND);
         }
-        catch (error) {
-            throw new common_1.HttpException(error, common_1.HttpStatus.BAD_REQUEST);
+        let foundUnitHydrantUnitId = await this._unitHydrantRepository.createQueryBuilder('units_hydrants')
+            .where('units_hydrants.unit.id = :id', { id: dto.unit.id })
+            .getOne();
+        if (foundUnitHydrantUnitId && foundUnitHydrantUnitId.id !== dto.id) {
+            throw new common_1.ConflictException(unit_exception_msg_1.UnitExceptionMSG.CONFLIC);
         }
+        const updatedUnit = (await this._unitService.update(dto.unit)).unit;
+        foundUnitHydrant = class_transformer_1.plainToClass(unit_hydrant_entity_1.UnitHydrantEntity, dto);
+        foundUnitHydrant.unit = updatedUnit;
+        const savedUnitHydrant = await this._unitHydrantRepository.save(foundUnitHydrant);
+        return { unitHydrant: savedUnitHydrant };
     }
 };
 UnitHydrantService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_1.InjectRepository(unit_hydrant_entity_1.UnitHydrantEntity)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        unit_service_1.UnitService])
 ], UnitHydrantService);
 exports.UnitHydrantService = UnitHydrantService;
 //# sourceMappingURL=unit-hydrant.service.js.map

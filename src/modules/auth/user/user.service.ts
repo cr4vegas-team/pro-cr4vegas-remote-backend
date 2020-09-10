@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { AuthLoginDto } from '../auth/auth-login.dto';
@@ -67,6 +67,18 @@ export class UserService {
     }
 
     async createOne(dto: CreateUserDto): Promise<UserRO> {
+        const foundUsername: UserEntity = await this._userRepository.createQueryBuilder('users')
+            .where('users.username = :username', {username: dto.username})
+            .getOne();
+        if(foundUsername) {
+            throw new ConflictException(UserExceptionMSG.CONFLICT_USERNAME);
+        }
+        const foundEmail: UserEntity = await this._userRepository.createQueryBuilder('users')
+            .where('users.email = :email', {email: dto.email})
+            .getOne();
+        if(foundEmail) {
+            throw new ConflictException(UserExceptionMSG.CONFLICT_EMAIL);
+        }
         const newUser: UserEntity = new UserEntity();
         newUser.username = dto.username;
         newUser.password = dto.password;

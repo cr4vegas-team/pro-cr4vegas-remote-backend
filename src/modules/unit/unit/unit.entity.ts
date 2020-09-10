@@ -1,8 +1,7 @@
-import { Exclude } from "class-transformer";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { SectorEntity } from "../../wrap/sector/sector.entity";
 import { SetEntity } from "../../wrap/set/set.entity";
 import { StationEntity } from "../../wrap/station/station.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UnitTypeEnum } from "./unit-type.enum";
 
 @Entity('units')
@@ -13,19 +12,19 @@ export class UnitEntity {
 
     // =======================================
 
-    @ManyToOne(type => StationEntity, stationEntity => stationEntity.units, { eager: true })
+    @ManyToOne(type => StationEntity, stationEntity => stationEntity.units)
     @JoinColumn()
     station: StationEntity;
 
     // =======================================
 
-    @ManyToOne(type => SectorEntity, sectorEntity => sectorEntity.units, { eager: true })
+    @ManyToOne(type => SectorEntity, sectorEntity => sectorEntity.units)
     @JoinColumn()
     sector: SectorEntity;
 
     // =======================================
 
-    @ManyToMany(type => SetEntity, setEntity => setEntity.units, { eager: true })
+    @ManyToMany(type => SetEntity, setEntity => setEntity.units)
     @JoinTable()
     sets: SetEntity[];
 
@@ -63,7 +62,6 @@ export class UnitEntity {
     @Column({
         type: 'float',
     })
-    @Exclude()
     altitude: number;
 
     // =======================================

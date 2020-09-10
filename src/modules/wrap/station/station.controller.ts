@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
-import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { StationCreateDto } from './dto/station-create.dto';
 import { StationUpdateDto } from './dto/station-update.dto';
 import { StationRO, StationsRO } from './station.interfaces';
@@ -21,7 +21,7 @@ export class StationController {
     @ApiParam({ name: 'id', type: Number, required: true })
     @Get(':id')
     findOne(@Param('id') id: number): Promise<StationRO> {
-        return this._statioService.findOne(id);
+        return this._statioService.findOneWithUnits(id);
     }
 
     @Post()

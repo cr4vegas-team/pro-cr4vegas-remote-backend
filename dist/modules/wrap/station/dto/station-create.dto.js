@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.StationCreateDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
+const unit_entity_1 = require("../../../unit/unit/unit.entity");
 class StationCreateDto {
 }
 __decorate([
@@ -49,5 +50,11 @@ __decorate([
     class_validator_1.IsNumber(),
     __metadata("design:type", Number)
 ], StationCreateDto.prototype, "longitude", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    class_validator_1.IsOptional(),
+    class_validator_1.IsArray(),
+    __metadata("design:type", Array)
+], StationCreateDto.prototype, "units", void 0);
 exports.StationCreateDto = StationCreateDto;
 //# sourceMappingURL=station-create.dto.js.map

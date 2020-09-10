@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MinLength, MaxLength, IsOptional, IsNumber } from "class-validator";
+import { IsString, MinLength, MaxLength, IsOptional, IsNumber, IsArray } from "class-validator";
 
 
 export class SectorUpdateDto {
@@ -15,6 +15,13 @@ export class SectorUpdateDto {
     @MinLength(8)
     @MaxLength(45)
     code: string;
+
+    // ==========================================================
+
+    @ApiProperty()
+    @IsOptional()
+    @IsArray()
+    units: number[];
 
     // =======================================
 

@@ -1,7 +1,6 @@
-import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtAuthGuard } from '../auth/auth/jwt-auth.guard';
+import { UnitModule } from '../unit/unit.module';
 import { SectorController } from './sector/sector.controller';
 import { SectorEntity } from './sector/sector.entity';
 import { SectorService } from './sector/sector.service';
@@ -15,21 +14,28 @@ import { StationService } from './station/station.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([StationEntity, SetEntity, SectorEntity, SetTypeEntity]),
+    TypeOrmModule.forFeature([
+      StationEntity, 
+      SetEntity, 
+      SectorEntity, 
+      SetTypeEntity
+    ]),
+    forwardRef(() => UnitModule),
   ],
   controllers: [
-    StationController, SectorController, SetController
+    StationController, 
+    SectorController, 
+    SetController
   ],
   providers: [
     StationService,
     SectorService,
     SetService,
-
   ],
   exports: [
+    StationService,
     SectorService,
     SetService,
-    StationService,
   ]
 })
 export class WrapModule { }

@@ -1,7 +1,7 @@
-import { SetTypeEntity } from "../set-type.entity";
 export declare class SetCreateDto {
     code: string;
-    setTypeName: SetTypeEntity;
+    setType: string;
     name: string;
     description: string;
+    units?: number[];
 }

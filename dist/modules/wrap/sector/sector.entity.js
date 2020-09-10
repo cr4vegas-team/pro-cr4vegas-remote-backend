@@ -54,10 +54,10 @@ __decorate([
 ], SectorEntity.prototype, "created", void 0);
 __decorate([
     typeorm_1.Column({
-        type: 'boolean',
-        default: true
+        type: 'tinyint',
+        default: 1
     }),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", Number)
 ], SectorEntity.prototype, "active", void 0);
 SectorEntity = __decorate([
     typeorm_1.Entity('sectors')
