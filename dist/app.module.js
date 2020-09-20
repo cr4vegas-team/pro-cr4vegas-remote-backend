@@ -18,6 +18,7 @@ const all_exception_filter_1 = require("./global/filters/all.exception.filter");
 const auth_module_1 = require("./modules/auth/auth.module");
 const unit_module_1 = require("./modules/unit/unit.module");
 const wrap_module_1 = require("./modules/wrap/wrap.module");
+const control_module_1 = require("./modules/control/control.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -34,7 +35,8 @@ AppModule = __decorate([
             }),
             auth_module_1.AuthModule,
             unit_module_1.UnitModule,
-            wrap_module_1.WrapModule
+            wrap_module_1.WrapModule,
+            control_module_1.ControlModule
         ],
         controllers: [
             app_controller_1.AppController

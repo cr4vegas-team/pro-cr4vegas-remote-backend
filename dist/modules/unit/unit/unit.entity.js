@@ -14,7 +14,8 @@ const typeorm_1 = require("typeorm");
 const sector_entity_1 = require("../../wrap/sector/sector.entity");
 const set_entity_1 = require("../../wrap/set/set.entity");
 const station_entity_1 = require("../../wrap/station/station.entity");
-const unit_type_enum_1 = require("./unit-type.enum");
+const manage_entity_1 = require("./../../control/manage/manage.entity");
+const unit_type_table_enum_1 = require("./unit-type-table.enum");
 let UnitEntity = class UnitEntity {
 };
 __decorate([
@@ -37,31 +38,25 @@ __decorate([
     __metadata("design:type", Array)
 ], UnitEntity.prototype, "sets", void 0);
 __decorate([
+    typeorm_1.OneToMany(type => manage_entity_1.ManageEntity, manageEntity => manageEntity.unit),
+    __metadata("design:type", Array)
+], UnitEntity.prototype, "manages", void 0);
+__decorate([
     typeorm_1.Column({
         name: 'unit_type',
         type: 'enum',
-        enum: unit_type_enum_1.UnitTypeEnum,
-        default: unit_type_enum_1.UnitTypeEnum.NA,
+        enum: unit_type_table_enum_1.UnitTypeTableEnum,
     }),
     __metadata("design:type", String)
-], UnitEntity.prototype, "unitType", void 0);
+], UnitEntity.prototype, "typeTable", void 0);
 __decorate([
     typeorm_1.Column({
         unique: true,
         type: 'varchar',
         length: 45,
-        default: unit_type_enum_1.UnitTypeEnum.NA,
     }),
     __metadata("design:type", String)
 ], UnitEntity.prototype, "code", void 0);
-__decorate([
-    typeorm_1.Column({
-        type: 'varchar',
-        length: 45,
-        default: unit_type_enum_1.UnitTypeEnum.NA,
-    }),
-    __metadata("design:type", String)
-], UnitEntity.prototype, "table", void 0);
 __decorate([
     typeorm_1.Column({
         type: 'float',

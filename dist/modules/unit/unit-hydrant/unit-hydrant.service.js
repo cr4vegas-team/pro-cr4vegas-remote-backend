@@ -19,7 +19,6 @@ const class_transformer_1 = require("class-transformer");
 const typeorm_2 = require("typeorm");
 const unit_exception_msg_1 = require("../unit/unit-exception.msg");
 const unit_type_table_enum_1 = require("../unit/unit-type-table.enum");
-const unit_type_enum_1 = require("../unit/unit-type.enum");
 const unit_service_1 = require("../unit/unit.service");
 const unit_hydrant_exception_messages_1 = require("./unit-hydrant-exception-messages");
 const unit_hydrant_entity_1 = require("./unit-hydrant.entity");
@@ -50,7 +49,7 @@ let UnitHydrantService = class UnitHydrantService {
         return { unitHydrant: foundUnitHydrant };
     }
     async createOne(dto) {
-        const savedUnit = (await this._unitService.create(dto.unit, unit_type_enum_1.UnitTypeEnum.UNIT_HYDRANT, unit_type_table_enum_1.UnitTypeTableEnum.UNIT_HYDRANT)).unit;
+        const savedUnit = (await this._unitService.create(dto.unit, unit_type_table_enum_1.UnitTypeTableEnum.UNIT_HYDRANT)).unit;
         const newUnitHydrant = class_transformer_1.plainToClass(unit_hydrant_entity_1.UnitHydrantEntity, dto);
         newUnitHydrant.unit = savedUnit;
         const savedUnitHydrant = await this._unitHydrantRepository.save(newUnitHydrant);

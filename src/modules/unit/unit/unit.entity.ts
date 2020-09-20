@@ -1,8 +1,9 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { SectorEntity } from "../../wrap/sector/sector.entity";
 import { SetEntity } from "../../wrap/set/set.entity";
 import { StationEntity } from "../../wrap/station/station.entity";
-import { UnitTypeEnum } from "./unit-type.enum";
+import { ManageEntity } from './../../control/manage/manage.entity';
+import { UnitTypeTableEnum } from "./unit-type-table.enum";
 
 @Entity('units')
 export class UnitEntity {
@@ -28,15 +29,19 @@ export class UnitEntity {
     @JoinTable()
     sets: SetEntity[];
 
+    // ==================================================
+
+    @OneToMany(type => ManageEntity, manageEntity => manageEntity.unit)
+    manages: ManageEntity[];
+
     // =======================================
 
     @Column({
         name: 'unit_type',
         type: 'enum',
-        enum: UnitTypeEnum,
-        default: UnitTypeEnum.NA,
+        enum: UnitTypeTableEnum,
     })
-    unitType: UnitTypeEnum;
+    typeTable: UnitTypeTableEnum;
 
     // =======================================
 
@@ -44,18 +49,8 @@ export class UnitEntity {
         unique: true,
         type: 'varchar',
         length: 45,
-        default: UnitTypeEnum.NA,
     })
     code: string;
-
-    // =======================================
-
-    @Column({
-        type: 'varchar',
-        length: 45,
-        default: UnitTypeEnum.NA,
-    })
-    table: string;
 
     // =======================================
 

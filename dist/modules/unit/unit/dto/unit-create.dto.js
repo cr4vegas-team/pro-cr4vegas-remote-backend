@@ -10,9 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitCreateDto = void 0;
+const openapi = require("@nestjs/swagger");
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class UnitCreateDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { code: { required: true, type: () => String }, station: { required: false, type: () => Number }, sector: { required: false, type: () => Number }, sets: { required: false, type: () => [Number] }, altitude: { required: true, type: () => Number }, latitude: { required: true, type: () => Number, minimum: -90, maximum: 90 }, longitude: { required: true, type: () => Number, minimum: -90, maximum: 90 }, description: { required: true, type: () => String } };
+    }
 }
 __decorate([
     swagger_1.ApiProperty(),
@@ -34,7 +38,7 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsOptional(),
-    class_validator_1.IsArray(),
+    class_validator_1.IsNumber({}, { each: true }),
     __metadata("design:type", Array)
 ], UnitCreateDto.prototype, "sets", void 0);
 __decorate([

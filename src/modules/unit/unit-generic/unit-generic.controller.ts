@@ -1,11 +1,12 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiBody, ApiParam } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UnitHydrantUpdateDto } from '../unit-hydrant/dto/unit-hydrant-update.dto';
 import { UnitGenericCreateDto } from './dto/unit-generic-create.dto';
 import { UnitGenericUpdateDto } from './dto/unit-generic-update.dto';
 import { UnitGenericRO, UnitsGenericsRO } from './unit-generic.interfaces';
 import { UnitGenericService } from './unit-generic.service';
 
+@ApiTags('unit-generic')
 @Controller('unit-generic')
 export class UnitGenericController {
 
@@ -13,6 +14,7 @@ export class UnitGenericController {
 
     // ==========================================================
 
+    @ApiResponse({})
     @Get()
     findAll(): Promise<UnitsGenericsRO> {
         return this._unitGenericService.findAll();

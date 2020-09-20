@@ -5,13 +5,12 @@ import { SectorEntity } from '../../../wrap/sector/sector.entity';
 import { SectorService } from '../../../wrap/sector/sector.service';
 import { SetService } from '../../../wrap/set/set.service';
 import { StationService } from '../../../wrap/station/station.service';
-import { UnitTypeTableEnum } from '../unit-type-table.enum';
-import { UnitTypeEnum } from '../unit-type.enum';
 import { UnitEntity } from '../unit.entity';
 import { UnitService } from '../unit.service';
 import { SetEntity } from '../../../wrap/set/set.entity';
 import { SetTypeEntity } from '../../../wrap/set/set-type.entity';
 import { Repository } from 'typeorm';
+import { UnitTypeTableEnum } from '../unit-type-table.enum';
 
 const unitRepository: UnitEntity[] = [
   {
@@ -24,11 +23,11 @@ const unitRepository: UnitEntity[] = [
     created: new Date(),
     updated: new Date(),
     description: 'alskdjfalskdfaskdjf',
-    table: UnitTypeTableEnum.UNIT_GENERIC,
-    unitType: UnitTypeEnum.UNIT_GENERIC,
+    typeTable: UnitTypeTableEnum.UNIT_GENERIC,
     sector: null,
     station: null,
     sets: [],
+    manages: [],
   }
 ];
 

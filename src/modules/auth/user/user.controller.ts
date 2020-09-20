@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Put, Query } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags, ApiParam, ApiBody } from '@nestjs/swagger';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRO, UsersRO } from './user.interfaces';
 import { UserService } from './user.service';
@@ -12,32 +12,30 @@ export class UserController {
         private readonly _userService: UserService
     ) { }
 
-
-    @ApiQuery({ name: 'active', type: Number, required: false })
-    @ApiQuery({ name: 'id', type: Number, required: false })
-    @ApiQuery({ name: 'limit', type: Number, required: false })
     @Get()
-    findAll(@Query() query: Object): Promise<UsersRO> {
-        return this._userService.findAll(query);
+    findAll(): Promise<UsersRO> {
+        return this._userService.findAll();
     }
 
-    @ApiQuery({ name: 'active', type: Number, required: false })
-    @ApiQuery({ name: 'id', type: Number, required: false })
-    @Get('one')
-    findOne(@Query() query: Object): Promise<UserRO> {
-        return this._userService.findOne(query);
+    @ApiParam({ name: 'id', type: Number, required: true })
+    @Get(':id')
+    findOne(@Param('id') id: number): Promise<UserRO> {
+        return this._userService.findOneById(id);
     }
 
-    @Put(':id')
-    updateOne(@Param('id') id: number, @Body() dto: UpdateUserDto): Promise<UserRO> {
-        return this._userService.updateOne(id, dto);
+    @ApiBody({ type: UpdateUserDto, required: true })
+    @Put()
+    updateOne(@Body() dto: UpdateUserDto): Promise<UserRO> {
+        return this._userService.updateOne(dto);
     }
 
+    @ApiParam({ name: 'id', type: Number, required: true })
     @Delete(':id')
     deleteOne(@Param('id') id: number): Promise<boolean> {
         return this._userService.deleteOne(id);
     }
 
+    @ApiParam({ name: 'id', type: Number, required: true })
     @Patch(':id')
     activateOne(@Param('id') id: number): Promise<boolean> {
         return this._userService.activateOne(id);

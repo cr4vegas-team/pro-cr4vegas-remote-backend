@@ -21,14 +21,14 @@ let UserController = class UserController {
     constructor(_userService) {
         this._userService = _userService;
     }
-    findAll(query) {
-        return this._userService.findAll(query);
+    findAll() {
+        return this._userService.findAll();
     }
-    findOne(query) {
-        return this._userService.findOne(query);
+    findOne(id) {
+        return this._userService.findOneById(id);
     }
-    updateOne(id, dto) {
-        return this._userService.updateOne(id, dto);
+    updateOne(dto) {
+        return this._userService.updateOne(dto);
     }
     deleteOne(id) {
         return this._userService.deleteOne(id);
@@ -38,32 +38,29 @@ let UserController = class UserController {
     }
 };
 __decorate([
-    swagger_1.ApiQuery({ name: 'active', type: Number, required: false }),
-    swagger_1.ApiQuery({ name: 'id', type: Number, required: false }),
-    swagger_1.ApiQuery({ name: 'limit', type: Number, required: false }),
     common_1.Get(),
-    __param(0, common_1.Query()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAll", null);
 __decorate([
-    swagger_1.ApiQuery({ name: 'active', type: Number, required: false }),
-    swagger_1.ApiQuery({ name: 'id', type: Number, required: false }),
-    common_1.Get('one'),
-    __param(0, common_1.Query()),
+    swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
+    common_1.Get(':id'),
+    __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findOne", null);
 __decorate([
-    common_1.Put(':id'),
-    __param(0, common_1.Param('id')), __param(1, common_1.Body()),
+    swagger_1.ApiBody({ type: update_user_dto_1.UpdateUserDto, required: true }),
+    common_1.Put(),
+    __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, update_user_dto_1.UpdateUserDto]),
+    __metadata("design:paramtypes", [update_user_dto_1.UpdateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "updateOne", null);
 __decorate([
+    swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
     common_1.Delete(':id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
@@ -71,6 +68,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "deleteOne", null);
 __decorate([
+    swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
     common_1.Patch(':id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),

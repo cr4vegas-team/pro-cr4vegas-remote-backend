@@ -9,6 +9,7 @@ import { AllExceptionsFilter } from './global/filters/all.exception.filter';
 import { AuthModule } from './modules/auth/auth.module';
 import { UnitModule } from './modules/unit/unit.module';
 import { WrapModule } from './modules/wrap/wrap.module';
+import { ControlModule } from './modules/control/control.module';
 
 @Module({
 
@@ -24,7 +25,8 @@ import { WrapModule } from './modules/wrap/wrap.module';
     }),
     AuthModule,
     UnitModule,
-    WrapModule
+    WrapModule,
+    ControlModule
   ],
 
   controllers: [

@@ -19,7 +19,6 @@ const class_transformer_1 = require("class-transformer");
 const typeorm_2 = require("typeorm");
 const unit_exception_msg_1 = require("../unit/unit-exception.msg");
 const unit_type_table_enum_1 = require("../unit/unit-type-table.enum");
-const unit_type_enum_1 = require("../unit/unit-type.enum");
 const unit_service_1 = require("../unit/unit.service");
 const unit_generic_exception_messages_1 = require("./unit-generic-exception-messages");
 const unit_generic_entity_1 = require("./unit-generic.entity");
@@ -50,7 +49,7 @@ let UnitGenericService = class UnitGenericService {
         return { unitGeneric: foundUnitGeneric };
     }
     async create(dto) {
-        const savedUnit = (await this._unitService.create(dto.unit, unit_type_enum_1.UnitTypeEnum.UNIT_GENERIC, unit_type_table_enum_1.UnitTypeTableEnum.UNIT_GENERIC)).unit;
+        const savedUnit = (await this._unitService.create(dto.unit, unit_type_table_enum_1.UnitTypeTableEnum.UNIT_GENERIC)).unit;
         const newUnitGeneric = class_transformer_1.plainToClass(unit_generic_entity_1.UnitGenericEntity, dto);
         newUnitGeneric.unit = savedUnit;
         const savedUnitGeneric = await this._unitGenericRepository.save(newUnitGeneric);

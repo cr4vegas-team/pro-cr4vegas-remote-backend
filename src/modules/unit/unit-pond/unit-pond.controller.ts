@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiBody, ApiParam } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { UnitPondCreateDto } from './dto/unit-pond-create.dto';
 import { UnitPondUpdateDto } from './dto/unit-pond-update.dto';
 import { UnitPondRO, UnitsPondsRO } from './unit-pond.interfaces';
 import { UnitPondService } from './unit-pond.service';
 
+@ApiTags('unit-pond')
 @Controller('unit-pond')
 export class UnitPondController {
 

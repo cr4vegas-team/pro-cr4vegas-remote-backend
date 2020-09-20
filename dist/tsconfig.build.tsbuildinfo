@@ -2606,59 +2606,19 @@
         "signature": "59c55cb85d5940fd380c74b9a1495db1db749b957e7b423d465b961561fdcc60",
         "affectsGlobalScope": false
       },
-      "../node_modules/@types/bcrypt/index.d.ts": {
-        "version": "18b9a9702d2fc7d3766b0c8124133c761ad25a9d767925005777eb2c2cd8aeba",
-        "signature": "18b9a9702d2fc7d3766b0c8124133c761ad25a9d767925005777eb2c2cd8aeba",
+      "../src/modules/control/registry/registry.entity.ts": {
+        "version": "039f5f00b7a65fb0eb011a95dbeaf0f9943e0483a64c8061447a7f7a4035ea4e",
+        "signature": "712080262c27e82cdbe77b2717425f1f5b401d1c6e9baf22a0687811aea15c67",
         "affectsGlobalScope": false
       },
-      "../src/modules/auth/user/user.entity.ts": {
-        "version": "40aa1176e7667a4e1d8a6fd92d6f3ceb0cdad4a19d83347f384e0ec36bd34a16",
-        "signature": "b10f04f928cb9176f5b0960da1620d1788458a1db18ab65a0d0e3abee59de59d",
+      "../src/modules/control/order/order.entity.ts": {
+        "version": "bbe3e15a8018141cd2081ee5dbccb142b381e360fe852feabdee509d86f1c459",
+        "signature": "c54c28d57b63486df791f6b0c4798ff412b0687a9283824255bd3711b280f2af",
         "affectsGlobalScope": false
       },
-      "../node_modules/@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type.d.ts": {
-        "version": "e15db0d01139d39213a40639352debd92786f311e0421c21ac97c2ca4003a299",
-        "signature": "e15db0d01139d39213a40639352debd92786f311e0421c21ac97c2ca4003a299",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@nestjs/typeorm/dist/common/typeorm.decorators.d.ts": {
-        "version": "cd2afab7b5206a624ef3a603568ce42a7c65e7e4958f1c9518b70580523db653",
-        "signature": "cd2afab7b5206a624ef3a603568ce42a7c65e7e4958f1c9518b70580523db653",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@nestjs/typeorm/dist/common/typeorm.utils.d.ts": {
-        "version": "2682ba5d13c2358a76e5d2a0920503226c720f502d6c5b12dde3b5bcdf7cb53c",
-        "signature": "2682ba5d13c2358a76e5d2a0920503226c720f502d6c5b12dde3b5bcdf7cb53c",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@nestjs/typeorm/dist/common/index.d.ts": {
-        "version": "9a7638d62db8cfa1466093d7d413fdf85c5e4a7c663ed76f2bfc8739c8e01505",
-        "signature": "9a7638d62db8cfa1466093d7d413fdf85c5e4a7c663ed76f2bfc8739c8e01505",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@nestjs/typeorm/dist/interfaces/typeorm-options.interface.d.ts": {
-        "version": "67c2337be292ac0b1efd7795b957c1c25cd074ddfe814c36c650ffdaf267750f",
-        "signature": "67c2337be292ac0b1efd7795b957c1c25cd074ddfe814c36c650ffdaf267750f",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@nestjs/typeorm/dist/interfaces/index.d.ts": {
-        "version": "c338859b98f8a11f80e3e47e33767299e7a4facdf0870c01c8694fa8fa048d16",
-        "signature": "c338859b98f8a11f80e3e47e33767299e7a4facdf0870c01c8694fa8fa048d16",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@nestjs/typeorm/dist/typeorm.module.d.ts": {
-        "version": "506ddc141d91c4155d39ce3125a92b4636ed10db070c0cfdac7e54376178c30c",
-        "signature": "506ddc141d91c4155d39ce3125a92b4636ed10db070c0cfdac7e54376178c30c",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@nestjs/typeorm/dist/index.d.ts": {
-        "version": "b113e9770d5be136c5e2add9e6cdf40d85051762ff2391f71d552975e66b1500",
-        "signature": "b113e9770d5be136c5e2add9e6cdf40d85051762ff2391f71d552975e66b1500",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@nestjs/typeorm/index.d.ts": {
-        "version": "8f1241f5d9f0d3d72117768b3c974e462840fbd85026fb66685078945404cf2f",
-        "signature": "8f1241f5d9f0d3d72117768b3c974e462840fbd85026fb66685078945404cf2f",
+      "../src/modules/wrap/sector/sector.entity.ts": {
+        "version": "b88def9a166cad822fb1d28f25565299a7779e7a7f0a30d545d50317145a0b6d",
+        "signature": "f7218596d4c6746bb8767a76ac6aa6a3d8540fad327bc669e6a140a3093b2e37",
         "affectsGlobalScope": false
       },
       "../node_modules/class-validator/types/validation/ValidationError.d.ts": {
@@ -3276,9 +3236,94 @@
         "signature": "1d5f30cbd06ffa2aab22346b087e140f069851c17b91189be8d1e168d53f9f93",
         "affectsGlobalScope": false
       },
-      "../src/modules/auth/auth/auth-login.dto.ts": {
-        "version": "2d1dd67936a8a8646cc3be03da1861d12df8305af2eaa4a2bd25fc265f9caf95",
-        "signature": "4089a740f8c0ca67a4d01fd5812ed2912bfa896ef323bb1b1a8b9b336771860f",
+      "../src/modules/wrap/set/set-type.entity.ts": {
+        "version": "756aeee766bea4e84a7cb9400f8bd042ed979c7e4a115bb99c13e8e8564d081d",
+        "signature": "24f23bb06e7781a5b0b868b1be7f8bf9d64ea0abb7b740057849b5855d51a3e0",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/wrap/set/set.entity.ts": {
+        "version": "76084282d8ceeb22d0fc4a88ac469aba9bb4bd789198a70260cfe5123354a33f",
+        "signature": "84b56a5877c0a6a011c139a6637003e1f6ef80e76979a40ab72e18a12bca34d2",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/wrap/station/station.entity.ts": {
+        "version": "2198667692741d11c4b735302cc8dc3a324f7f8244bd0b15f97bee836046042c",
+        "signature": "638af916400a439b44d8d161c879d368abd37ffef54f6a2f213acbb2173efffe",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/unit/unit/unit-type-table.enum.ts": {
+        "version": "4bdda7696fbe9fc8325e61d6aa4c44efdff0a952fe8c14f6d53bb5facf644db1",
+        "signature": "7f9bfff8a1e217f8892de35a30107e957520f90197f08b1ab3c8ff9baa96ab38",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/unit/unit/unit.entity.ts": {
+        "version": "f59db5c02c8119317a3c720a3e45f60b0b916bde0061fbebacd1489c329ef4ef",
+        "signature": "ad00b8d24311681af1b19be475156b2f758e05c681939d2eae5fd650a8f4d34c",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/manage/manage.entity.ts": {
+        "version": "0d5afa2ca4c89bb3a746e29dbcdd22f6be7b3be63711d4ca9271a43816a60388",
+        "signature": "89f2a011977bb1e655df1f73e940c31c0af08ab344e5f4244b336c1ce2b75c65",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/control/control.entity.ts": {
+        "version": "9b08614a7b03174e476d7ac8acfca76a348d555c122d94685531af797549290f",
+        "signature": "37c4248434b4a209a8d236d0078b044745e736b8c3593e43214e7b31ea1a0d68",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@types/bcrypt/index.d.ts": {
+        "version": "18b9a9702d2fc7d3766b0c8124133c761ad25a9d767925005777eb2c2cd8aeba",
+        "signature": "18b9a9702d2fc7d3766b0c8124133c761ad25a9d767925005777eb2c2cd8aeba",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/auth/user/user.entity.ts": {
+        "version": "19fb096624460e0aa1816822ce66f2bf4e8c6f22682e1ae56762a28954388115",
+        "signature": "66184d149d43677a1e4b62171b2343042ea9066ded47a165dd0ed52e25b0ed7a",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/typeorm/dist/interfaces/entity-class-or-schema.type.d.ts": {
+        "version": "e15db0d01139d39213a40639352debd92786f311e0421c21ac97c2ca4003a299",
+        "signature": "e15db0d01139d39213a40639352debd92786f311e0421c21ac97c2ca4003a299",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/typeorm/dist/common/typeorm.decorators.d.ts": {
+        "version": "cd2afab7b5206a624ef3a603568ce42a7c65e7e4958f1c9518b70580523db653",
+        "signature": "cd2afab7b5206a624ef3a603568ce42a7c65e7e4958f1c9518b70580523db653",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/typeorm/dist/common/typeorm.utils.d.ts": {
+        "version": "2682ba5d13c2358a76e5d2a0920503226c720f502d6c5b12dde3b5bcdf7cb53c",
+        "signature": "2682ba5d13c2358a76e5d2a0920503226c720f502d6c5b12dde3b5bcdf7cb53c",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/typeorm/dist/common/index.d.ts": {
+        "version": "9a7638d62db8cfa1466093d7d413fdf85c5e4a7c663ed76f2bfc8739c8e01505",
+        "signature": "9a7638d62db8cfa1466093d7d413fdf85c5e4a7c663ed76f2bfc8739c8e01505",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/typeorm/dist/interfaces/typeorm-options.interface.d.ts": {
+        "version": "67c2337be292ac0b1efd7795b957c1c25cd074ddfe814c36c650ffdaf267750f",
+        "signature": "67c2337be292ac0b1efd7795b957c1c25cd074ddfe814c36c650ffdaf267750f",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/typeorm/dist/interfaces/index.d.ts": {
+        "version": "c338859b98f8a11f80e3e47e33767299e7a4facdf0870c01c8694fa8fa048d16",
+        "signature": "c338859b98f8a11f80e3e47e33767299e7a4facdf0870c01c8694fa8fa048d16",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/typeorm/dist/typeorm.module.d.ts": {
+        "version": "506ddc141d91c4155d39ce3125a92b4636ed10db070c0cfdac7e54376178c30c",
+        "signature": "506ddc141d91c4155d39ce3125a92b4636ed10db070c0cfdac7e54376178c30c",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/typeorm/dist/index.d.ts": {
+        "version": "b113e9770d5be136c5e2add9e6cdf40d85051762ff2391f71d552975e66b1500",
+        "signature": "b113e9770d5be136c5e2add9e6cdf40d85051762ff2391f71d552975e66b1500",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/typeorm/index.d.ts": {
+        "version": "8f1241f5d9f0d3d72117768b3c974e462840fbd85026fb66685078945404cf2f",
+        "signature": "8f1241f5d9f0d3d72117768b3c974e462840fbd85026fb66685078945404cf2f",
         "affectsGlobalScope": false
       },
       "../src/modules/auth/user/dto/create-user.dto.ts": {
@@ -3287,8 +3332,8 @@
         "affectsGlobalScope": false
       },
       "../src/modules/auth/user/dto/update-user.dto.ts": {
-        "version": "d5824d8f9e35cc926f6bca89a9fe9348fe273997b20e5019ab8760a1e4fde68f",
-        "signature": "c4b938b5e71376e1568d51128baf316e9fbddcac5eb31272c7b7d26d206b3040",
+        "version": "6834dbd549a3f271947e5b4b7cb6ce309dd69d9420338956f2f67b7fbb68bc6b",
+        "signature": "fe21c7e39353d0cc4174ed3c93c08690c1052ef43b54c68068e1f82e25ee5510",
         "affectsGlobalScope": false
       },
       "../src/modules/auth/user/user-exception.msg.ts": {
@@ -3302,8 +3347,8 @@
         "affectsGlobalScope": false
       },
       "../src/modules/auth/user/user.service.ts": {
-        "version": "5e75eb987367b793edc705320db003eca1ffbb2c94f3ae7ce03016a04790355b",
-        "signature": "1f0011afdb930e8a4ed84e944558c8be0d58a9b4579b3d4311e80bab37af9214",
+        "version": "d1ad111fd2f0e755863f5e4b4958921cc546a4ece9f9cca137096e1e7dd8fceb",
+        "signature": "334afb48d0e75599fb82fa6d938049a374d095a048cd326b26f47acd133c061b",
         "affectsGlobalScope": false
       },
       "../node_modules/@types/node/ts3.1/globals.d.ts": {
@@ -3987,8 +4032,8 @@
         "affectsGlobalScope": false
       },
       "../src/modules/auth/user/user.controller.ts": {
-        "version": "4dd558c0d92b2f8de261ed79ddf48abde94e620ecf5a845def1b63b57664c880",
-        "signature": "05d671ba9f5629356b152af1c22ceda8f221b36d93c15396ab103ced57b0a6d6",
+        "version": "9236b8b039175bef328145fc36f9b40c389eb95fb8d617155e9b7629a2907911",
+        "signature": "e684d2e279ab93d9b3aed2f4fc5f7cd02b7e011f0d98087b86f16ddc64325239",
         "affectsGlobalScope": false
       },
       "../src/modules/auth/auth.module.ts": {
@@ -4029,36 +4074,6 @@
       "../node_modules/class-transformer/index.d.ts": {
         "version": "097d4bf3331df1e138ffdcf92e1117f6841bc8337170d927fd955d5ee8a1674b",
         "signature": "097d4bf3331df1e138ffdcf92e1117f6841bc8337170d927fd955d5ee8a1674b",
-        "affectsGlobalScope": false
-      },
-      "../src/modules/wrap/sector/sector.entity.ts": {
-        "version": "b88def9a166cad822fb1d28f25565299a7779e7a7f0a30d545d50317145a0b6d",
-        "signature": "f7218596d4c6746bb8767a76ac6aa6a3d8540fad327bc669e6a140a3093b2e37",
-        "affectsGlobalScope": false
-      },
-      "../src/modules/wrap/set/set-type.entity.ts": {
-        "version": "756aeee766bea4e84a7cb9400f8bd042ed979c7e4a115bb99c13e8e8564d081d",
-        "signature": "24f23bb06e7781a5b0b868b1be7f8bf9d64ea0abb7b740057849b5855d51a3e0",
-        "affectsGlobalScope": false
-      },
-      "../src/modules/wrap/set/set.entity.ts": {
-        "version": "76084282d8ceeb22d0fc4a88ac469aba9bb4bd789198a70260cfe5123354a33f",
-        "signature": "84b56a5877c0a6a011c139a6637003e1f6ef80e76979a40ab72e18a12bca34d2",
-        "affectsGlobalScope": false
-      },
-      "../src/modules/wrap/station/station.entity.ts": {
-        "version": "2198667692741d11c4b735302cc8dc3a324f7f8244bd0b15f97bee836046042c",
-        "signature": "638af916400a439b44d8d161c879d368abd37ffef54f6a2f213acbb2173efffe",
-        "affectsGlobalScope": false
-      },
-      "../src/modules/unit/unit/unit-type.enum.ts": {
-        "version": "33e91acedf9d0d326ee5c122f687db97d63abeba348df7dc8f4652200cb1db91",
-        "signature": "4ed7ecbf848ddb94f9f52d9b5080667d2b7300b9e61ca2dd9e774b3202571bd9",
-        "affectsGlobalScope": false
-      },
-      "../src/modules/unit/unit/unit.entity.ts": {
-        "version": "c3cf935a25704a5f3ad986ccd314c0dd29a77c96ae7a3cfad6adf164442be660",
-        "signature": "12d0e41228711211f3a849d3572e7e00710d5045dcf8990e52b5bb882676364c",
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-generic/unit-generic.entity.ts": {
@@ -4127,7 +4142,7 @@
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit/dto/unit-create.dto.ts": {
-        "version": "a50e50f02a6983dbc1aca419793973fdd40c9ecbc8d4b9b2e51f86df2c535e71",
+        "version": "aaa467dd3876640de58b13c4d168fd3413d291d502fc425164853f817fd8eb75",
         "signature": "c6269ed9dcc8a9e51d24a5240fc614dfb4087ad428d85a9b911255fcf2881c22",
         "affectsGlobalScope": false
       },
@@ -4141,19 +4156,14 @@
         "signature": "fe6e7c8029473bfc24e5dcc0b6e851adec9de737a5008781c8e0d41c895fc9d9",
         "affectsGlobalScope": false
       },
-      "../src/modules/unit/unit/unit-type-table.enum.ts": {
-        "version": "4bdda7696fbe9fc8325e61d6aa4c44efdff0a952fe8c14f6d53bb5facf644db1",
-        "signature": "7f9bfff8a1e217f8892de35a30107e957520f90197f08b1ab3c8ff9baa96ab38",
-        "affectsGlobalScope": false
-      },
       "../src/modules/unit/unit/unit.interfaces.ts": {
         "version": "783d93433bde75c63fcafc6ffb6c4042e3c70373bab660eca69c7ab8110ab034",
         "signature": "fd4e9e008f44df93762a826be043dbde02bc0f4e68b794add75d0821f38395e7",
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit/unit.service.ts": {
-        "version": "4576a23c7ee43edcbb456f1acdab4333b040b2e38d04ecba005d14d58b47f4cc",
-        "signature": "53d2122082843b98ab0935be5962ce98d4fb353e170c9997338d4387d14e88f4",
+        "version": "1b9c891dbdfae141425a16232b1b12195ceb40f0898fb69ddc2b3d84817776e3",
+        "signature": "ecdd8174a42db20e8b35c777eeab1f2e876b7536e28a219727d6759f748c7f9d",
         "affectsGlobalScope": false
       },
       "../src/modules/wrap/station/dto/station-create.dto.ts": {
@@ -4227,12 +4237,12 @@
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-generic/unit-generic.service.ts": {
-        "version": "e5e74fd3df51e1d6a0941f77966aa265ae2a7b8cef516de7fa5110b2d51f0e7d",
+        "version": "860df4b026db1583abf72667682d60c28c21533278931f0e5ce281fcb461dd2a",
         "signature": "c6ebd9b53651155bafd265a1b1da11dcba6415848f29ebee397770e6f2a18b55",
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-generic/unit-generic.controller.ts": {
-        "version": "f5e1f584968236ab3203455b795ba79f4770cb39cd740aaaf5474fd9b4329874",
+        "version": "343cd068e14f9b001abf5d6022e041659955f97f6ca9447e91cb78b943096746",
         "signature": "9e60b11496415694ed0039dd2e244a9483a512161f77d5dffdffc4cd3fb9b230",
         "affectsGlobalScope": false
       },
@@ -4252,7 +4262,7 @@
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-hydrant/unit-hydrant.service.ts": {
-        "version": "332f16d6d9cf318f302b7d356b8b9be4e246fa2321a6287aea67e1e3498ab723",
+        "version": "81c72885bc7a13618d311f167bb4020a16c6026ab43a4d95b6df2cc0dd357be6",
         "signature": "f3eae2f3f9aa55a5e98b4fff54095a47fefb8727d6810783a003ae1a34de45c3",
         "affectsGlobalScope": false
       },
@@ -4276,28 +4286,23 @@
         "signature": "e2bd5460d12d46a921234a2a8d1a18528b92043a2ec7dedeb11cb1d8f7519648",
         "affectsGlobalScope": false
       },
-      "../src/global/exception-messages.ts": {
-        "version": "d8e2c273f20dcdfdef923a6363398cc455225562a519a17b4242f83c2115b44b",
-        "signature": "ba1e47ebdba7db4e83185825c5170fa6ecb50ec230380233150151b8a1ab59f3",
-        "affectsGlobalScope": false
-      },
       "../src/modules/unit/unit-pond/unit-pond-exception-messages.ts": {
         "version": "f5ca39cabdbc1e9b6d5f4d545bb3c03fe08c2d44b07b7b3456b8b373b4e7342a",
         "signature": "5e002d877e953eeb70ea3229e0bff66331d44688a4c9ca3eb4eb878f54367ef0",
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-pond/unit-pond.service.ts": {
-        "version": "0b75610b834670a475ba500af1e61d410e1089923310ec769972e91ed5cf0c45",
+        "version": "8e051fa7f648bd7824835f70d979641de2c7fcda95145b07446b8cbc0125f133",
         "signature": "78ab0f0b7b743b6bbe597c5b2fc302ab5692f4e9889422189029195d73e3dc29",
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-pond/unit-pond.controller.ts": {
-        "version": "e0b6322566323d029e2b723efa9094d4bc6ddcd77bd09e1ec384cf1d7ce8ceb4",
+        "version": "1bdc0b420c69ebe66fa514c5fcfa1427261ac94a58f614c3996eeb12905b7087",
         "signature": "1a473aa389cf89065ee8de45dfb8262ef0449a70b7f790989109fa0fb23be596",
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit/unit.controller.ts": {
-        "version": "2d3e06c4cb190fae57e33a3c1ee82b33b530999f356da081a546987f69623e94",
+        "version": "7237d624f2889e07712a53f15a06edb75b8f596114b1b5373919c12348aafca4",
         "signature": "32690c419a193383aa736b7b7eee29f1edf58efe904064b918927f739e467515",
         "affectsGlobalScope": false
       },
@@ -4306,8 +4311,108 @@
         "signature": "d11578a36447af299b4b24cc26425e6ec056c7ff318f31039b8619675b24189c",
         "affectsGlobalScope": false
       },
+      "../src/modules/control/registry/registry-create.dto.ts": {
+        "version": "172e1abd37afbbd8d20ff01ba89b5d3b260690ccdd8b3e5c222112861bb2b5ca",
+        "signature": "ce6b43924e5f582ad74896e58295eaf36972ccc4a0e0fbde375ad04d7c7dcc4a",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/control/control-exception.msg.ts": {
+        "version": "a5ff5fe651af83995eac19ab0d6bef50ad1ea811fcda1c59110e97450109a6fe",
+        "signature": "b851dd638af6595130deeb6aaad9ba734aaa216d81a8e86a79387cb2bf17b1f8",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/control/dto/control-create.dto.ts": {
+        "version": "7e1162ada777ca5f3f4f0761ffbad5fdabd49c4f79f082e076dc5d4efda0c8ea",
+        "signature": "10c15e4cf7335b68dd55a042ae99ad83be846792f7756aa265bdb799fe8dae9b",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/control/control.interfaces.ts": {
+        "version": "94fcebda810a9dcd760b8e826bfe26b8d2cdc5ac88cdab3ed0ac2d820613a422",
+        "signature": "2e6c2d619e5406a2f2a3555c4ffa76928e00828fed9e2a2a3d3e8343bb55fa20",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/control/control.service.ts": {
+        "version": "872449bc44edd4f051e93680f0322240a3f013f861324d5427ff43f6b7711ad1",
+        "signature": "8925fd4f98542120a9f53b1a51102373cc117d90450d855ed5d773c9fc86e6ad",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/registry/registry.interfaces.ts": {
+        "version": "5fc7083f34058520f95ebae13fe3819e03d1e18c69b618d08f518a03ea775dde",
+        "signature": "1db7632cdb471be822ccecafdd7912ae3cdd2296f576468a209dfb6eaa34bd71",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/registry/registry.service.ts": {
+        "version": "706a6fe8b65022e15ad068cd12c88839c9743741b5f8e65313f915317d910503",
+        "signature": "b02f5a115270958fbab22edadc600b8f2d4e3ef59ebb9a8da87ed87e4c268591",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/registry/registry.controller.ts": {
+        "version": "da9191928b411827ccb0479ff4c64a65746fc8b170734374a016befd09f70b15",
+        "signature": "5406597cfb8de3288d42b4e7cfe2eeb940ad52874d901f1a24292435811bf59a",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/manage/manage-create.dto.ts": {
+        "version": "890349479cc04b8a459ad915166eae7240e3e90c4d066efa15f9a7aebed33676",
+        "signature": "418ad71cdd1a5069edf33f5ccb1e53defc5f07c0ce0a30e6ad1c02aff826658d",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/manage/manage.interfaces.ts": {
+        "version": "5377c21ee33db5c098dd63399c1b6fa7b1119ecef0305d48c4b36761cd315d42",
+        "signature": "45bc0c4c9ced45d35a04deb24fbee28e7262e96abdadc60bd2a33c43181c44a4",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/manage/manage.service.ts": {
+        "version": "f75240b36b325b7a050ca508576bdf2a59b24cd26e4c35c3474194c0e37e725b",
+        "signature": "45a58e329538b6aa52f3490f9410b435df030747622673e253b3d6e8dba91f4a",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/manage/manage.controller.ts": {
+        "version": "0091181bbf70711edee07e421465019047b6d2e40de2bd2cd1f0554e3d972e85",
+        "signature": "8a268455c2d049d9729706a712460ccb92083c8990c9686ef58814c55735be97",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/order/dto/order-update.dto.ts": {
+        "version": "a56d0b0ebff2e5427a29cecc9f4873cad87fc33ea663eac5f3744256c897198f",
+        "signature": "d00adb0d580729b6d8456de7336a2b6e3e0001d7f41e91311590bf29a8ca9dab",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/order/dto/order-create.dto.ts": {
+        "version": "ce55ddbd6c1c057dbddb059fe14bb3cbc7117c27c6385ac9f6fc7dc6c7d92039",
+        "signature": "3db1155827186bc7ea36f18a34dda0831ffe0f73a06b65a5b7cd315f99b55b70",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/order/order.interfaces.ts": {
+        "version": "d7350776395c02793dfbcb62a11555d2abd619edd09538e0e666585e39f42378",
+        "signature": "eb16c2a92c148b6c74653e864328bb6c5b4da88847aee1711469b788ce75391c",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/order/order-exception.msg.ts": {
+        "version": "1531330f22eb84e11fe40da3d08837f39e53c5f9614cf33bd557ceb133e79660",
+        "signature": "1187ee12d77f4d42bcb2432efba9a3b4b6ac338cf4c23bd77e6af39cb50f48f9",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/order/order.service.ts": {
+        "version": "b10bcabc22ff2c6b545843f6623cac56f5224cf1f51d9fad392840d3318eab34",
+        "signature": "1d788ee361bf2d6eddc4e099ca62f7dfeae92ca9cc9a354b2df6d07325872e98",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/order/order.controller.ts": {
+        "version": "e8eb2cef1ca92e015874cc7f2b0b7bf8758e9cabfcd1b889656c5fcefc5e4cda",
+        "signature": "0abcdf1cf9c7fd69d17801cc8214bf25053eb1dce36c4b4a245c66cf0f0f901f",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/control/control.controller.ts": {
+        "version": "15d3bc31ec1eac159a384c4b7a7f0d9ad65a004fb559a15ad9155795080f564c",
+        "signature": "4f2373e23dad293733a31abbb4b1f50e12d583db51743b95dc075e7c35d248be",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/control/control.module.ts": {
+        "version": "31408fa0ddd0b38a1f35d521dc5b84df9a6bb159b62bc7b7956cf222a564fb53",
+        "signature": "6bb603b151fa092ff919d48558339654b1a592bcfb4d50cd43782c8701aebf7b",
+        "affectsGlobalScope": false
+      },
       "../src/app.module.ts": {
-        "version": "4c38ca4f5515d60e6e816f42dc06822b28a8d0f50b542782484e9ddc0e8aad40",
+        "version": "51ca160dc1a979d5533e6622fadd7140d6e0a626f83c02758f66e9f91f8c9ebe",
         "signature": "b82491e2990291580288c5602d4c017238977749d52b17391f0e45d9a29be644",
         "affectsGlobalScope": false
       },
@@ -4386,9 +4491,19 @@
         "signature": "401c9364a22c25d99a3f8c665f6856862b8ad29ef16795d8fe4c71461478cef4",
         "affectsGlobalScope": false
       },
+      "../src/global/exception-messages.ts": {
+        "version": "d8e2c273f20dcdfdef923a6363398cc455225562a519a17b4242f83c2115b44b",
+        "signature": "ba1e47ebdba7db4e83185825c5170fa6ecb50ec230380233150151b8a1ab59f3",
+        "affectsGlobalScope": false
+      },
       "../src/global/pipes/number-array-validation.pipe.ts": {
         "version": "093ee0b49ee63c9fdbcb96f30f605987a08a65ff11349c89f1cc85beb6271f57",
         "signature": "f8b7fc5a71209afbdf8049e3112067cabed4bf97ab6ff3323dcb65ac1d3dd365",
+        "affectsGlobalScope": false
+      },
+      "../src/modules/auth/auth/auth-login.dto.ts": {
+        "version": "2d1dd67936a8a8646cc3be03da1861d12df8305af2eaa4a2bd25fc265f9caf95",
+        "signature": "4089a740f8c0ca67a4d01fd5812ed2912bfa896ef323bb1b1a8b9b336771860f",
         "affectsGlobalScope": false
       },
       "../src/modules/auth/auth/auth.interfaces.ts": {
@@ -12390,6 +12505,7 @@
         "../src/config/configuration.ts",
         "../src/global/filters/all.exception.filter.ts",
         "../src/modules/auth/auth.module.ts",
+        "../src/modules/control/control.module.ts",
         "../src/modules/unit/unit.module.ts",
         "../src/modules/wrap/wrap.module.ts"
       ],
@@ -12645,7 +12761,8 @@
         "../node_modules/@types/node/ts3.1/util.d.ts",
         "../node_modules/@types/node/ts3.4/fs.d.ts",
         "../node_modules/@types/node/ts3.4/util.d.ts",
-        "../node_modules/typeorm/index.d.ts"
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control.entity.ts"
       ],
       "../src/modules/auth/user/user.interfaces.ts": [
         "../node_modules/@types/graceful-fs/index.d.ts",
@@ -12663,12 +12780,277 @@
         "../node_modules/@types/node/ts3.4/fs.d.ts",
         "../node_modules/@types/node/ts3.4/util.d.ts",
         "../node_modules/typeorm/index.d.ts",
-        "../src/modules/auth/auth/auth-login.dto.ts",
         "../src/modules/auth/user/dto/create-user.dto.ts",
         "../src/modules/auth/user/dto/update-user.dto.ts",
         "../src/modules/auth/user/user-exception.msg.ts",
         "../src/modules/auth/user/user.entity.ts",
         "../src/modules/auth/user/user.interfaces.ts"
+      ],
+      "../src/modules/control/control.module.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/typeorm/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/modules/control/control/control.controller.ts",
+        "../src/modules/control/control/control.entity.ts",
+        "../src/modules/control/control/control.service.ts",
+        "../src/modules/control/manage/manage.controller.ts",
+        "../src/modules/control/manage/manage.entity.ts",
+        "../src/modules/control/manage/manage.service.ts",
+        "../src/modules/control/order/order.controller.ts",
+        "../src/modules/control/order/order.entity.ts",
+        "../src/modules/control/order/order.service.ts",
+        "../src/modules/control/registry/registry.controller.ts",
+        "../src/modules/control/registry/registry.entity.ts",
+        "../src/modules/control/registry/registry.service.ts"
+      ],
+      "../src/modules/control/control/control-exception.msg.ts": [
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts"
+      ],
+      "../src/modules/control/control/control.controller.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/swagger/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/modules/control/control/control.interfaces.ts",
+        "../src/modules/control/control/control.service.ts",
+        "../src/modules/control/control/dto/control-create.dto.ts"
+      ],
+      "../src/modules/control/control/control.entity.ts": [
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/auth/user/user.entity.ts",
+        "../src/modules/control/manage/manage.entity.ts",
+        "../src/modules/control/order/order.entity.ts",
+        "../src/modules/control/registry/registry.entity.ts"
+      ],
+      "../src/modules/control/control/control.interfaces.ts": [
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/modules/control/control/control.entity.ts"
+      ],
+      "../src/modules/control/control/control.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/typeorm/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/class-transformer/index.d.ts",
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control-exception.msg.ts",
+        "../src/modules/control/control/control.entity.ts",
+        "../src/modules/control/control/control.interfaces.ts",
+        "../src/modules/control/control/dto/control-create.dto.ts"
+      ],
+      "../src/modules/control/control/dto/control-create.dto.ts": [
+        "../node_modules/@nestjs/swagger/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/class-validator/types/index.d.ts"
+      ],
+      "../src/modules/control/manage/manage-create.dto.ts": [
+        "../node_modules/@nestjs/swagger/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/class-validator/types/index.d.ts"
+      ],
+      "../src/modules/control/manage/manage.controller.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/swagger/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/modules/control/manage/manage-create.dto.ts",
+        "../src/modules/control/manage/manage.interfaces.ts",
+        "../src/modules/control/manage/manage.service.ts"
+      ],
+      "../src/modules/control/manage/manage.entity.ts": [
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control.entity.ts",
+        "../src/modules/unit/unit/unit.entity.ts"
+      ],
+      "../src/modules/control/manage/manage.interfaces.ts": [
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/modules/control/manage/manage.entity.ts"
+      ],
+      "../src/modules/control/manage/manage.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/typeorm/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/class-transformer/index.d.ts",
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control.entity.ts",
+        "../src/modules/control/control/control.service.ts",
+        "../src/modules/control/manage/manage-create.dto.ts",
+        "../src/modules/control/manage/manage.entity.ts",
+        "../src/modules/control/manage/manage.interfaces.ts"
+      ],
+      "../src/modules/control/order/dto/order-create.dto.ts": [
+        "../node_modules/@nestjs/swagger/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/class-validator/types/index.d.ts"
+      ],
+      "../src/modules/control/order/dto/order-update.dto.ts": [
+        "../node_modules/@nestjs/swagger/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/class-validator/types/index.d.ts"
+      ],
+      "../src/modules/control/order/order-exception.msg.ts": [
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts"
+      ],
+      "../src/modules/control/order/order.controller.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/swagger/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/modules/control/order/dto/order-create.dto.ts",
+        "../src/modules/control/order/dto/order-update.dto.ts",
+        "../src/modules/control/order/order.interfaces.ts",
+        "../src/modules/control/order/order.service.ts"
+      ],
+      "../src/modules/control/order/order.entity.ts": [
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control.entity.ts"
+      ],
+      "../src/modules/control/order/order.interfaces.ts": [
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/modules/control/order/order.entity.ts"
+      ],
+      "../src/modules/control/order/order.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/typeorm/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/class-transformer/index.d.ts",
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control.entity.ts",
+        "../src/modules/control/control/control.service.ts",
+        "../src/modules/control/order/dto/order-create.dto.ts",
+        "../src/modules/control/order/dto/order-update.dto.ts",
+        "../src/modules/control/order/order-exception.msg.ts",
+        "../src/modules/control/order/order.entity.ts",
+        "../src/modules/control/order/order.interfaces.ts"
+      ],
+      "../src/modules/control/registry/registry-create.dto.ts": [
+        "../node_modules/@nestjs/swagger/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/class-validator/types/index.d.ts"
+      ],
+      "../src/modules/control/registry/registry.controller.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/swagger/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/modules/control/registry/registry-create.dto.ts",
+        "../src/modules/control/registry/registry.interfaces.ts",
+        "../src/modules/control/registry/registry.service.ts"
+      ],
+      "../src/modules/control/registry/registry.entity.ts": [
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control.entity.ts"
+      ],
+      "../src/modules/control/registry/registry.interfaces.ts": [
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../src/modules/control/registry/registry.entity.ts"
+      ],
+      "../src/modules/control/registry/registry.service.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/typeorm/index.d.ts",
+        "../node_modules/@types/graceful-fs/index.d.ts",
+        "../node_modules/@types/node/ts3.1/fs.d.ts",
+        "../node_modules/@types/node/ts3.1/util.d.ts",
+        "../node_modules/@types/node/ts3.4/fs.d.ts",
+        "../node_modules/@types/node/ts3.4/util.d.ts",
+        "../node_modules/class-transformer/index.d.ts",
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control.entity.ts",
+        "../src/modules/control/control/control.service.ts",
+        "../src/modules/control/registry/registry-create.dto.ts",
+        "../src/modules/control/registry/registry.entity.ts",
+        "../src/modules/control/registry/registry.interfaces.ts"
       ],
       "../src/modules/unit/unit-generic/dto/unit-generic-create.dto.ts": [
         "../node_modules/@nestjs/swagger/index.d.ts",
@@ -12745,7 +13127,6 @@
         "../src/modules/unit/unit-generic/unit-generic.interfaces.ts",
         "../src/modules/unit/unit/unit-exception.msg.ts",
         "../src/modules/unit/unit/unit-type-table.enum.ts",
-        "../src/modules/unit/unit/unit-type.enum.ts",
         "../src/modules/unit/unit/unit.entity.ts",
         "../src/modules/unit/unit/unit.service.ts"
       ],
@@ -12824,7 +13205,6 @@
         "../src/modules/unit/unit-hydrant/unit-hydrant.interfaces.ts",
         "../src/modules/unit/unit/unit-exception.msg.ts",
         "../src/modules/unit/unit/unit-type-table.enum.ts",
-        "../src/modules/unit/unit/unit-type.enum.ts",
         "../src/modules/unit/unit/unit.entity.ts",
         "../src/modules/unit/unit/unit.service.ts"
       ],
@@ -12886,7 +13266,6 @@
         "../src/modules/unit/unit-pond/unit-pond.entity.ts"
       ],
       "../src/modules/unit/unit-pond/unit-pond.service.ts": [
-        "../node_modules/@nestjs/common/exceptions/bad-request.exception.d.ts",
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/typeorm/index.d.ts",
         "../node_modules/@types/graceful-fs/index.d.ts",
@@ -12896,7 +13275,6 @@
         "../node_modules/@types/node/ts3.4/util.d.ts",
         "../node_modules/class-transformer/index.d.ts",
         "../node_modules/typeorm/index.d.ts",
-        "../src/global/exception-messages.ts",
         "../src/modules/unit/unit-pond/dto/unit-pond-create.dto.ts",
         "../src/modules/unit/unit-pond/dto/unit-pond-update.dto.ts",
         "../src/modules/unit/unit-pond/unit-pond-exception-messages.ts",
@@ -12904,7 +13282,6 @@
         "../src/modules/unit/unit-pond/unit-pond.interfaces.ts",
         "../src/modules/unit/unit/unit-exception.msg.ts",
         "../src/modules/unit/unit/unit-type-table.enum.ts",
-        "../src/modules/unit/unit/unit-type.enum.ts",
         "../src/modules/unit/unit/unit.entity.ts",
         "../src/modules/unit/unit/unit.service.ts"
       ],
@@ -12963,13 +13340,6 @@
         "../node_modules/@types/node/ts3.4/fs.d.ts",
         "../node_modules/@types/node/ts3.4/util.d.ts"
       ],
-      "../src/modules/unit/unit/unit-type.enum.ts": [
-        "../node_modules/@types/graceful-fs/index.d.ts",
-        "../node_modules/@types/node/ts3.1/fs.d.ts",
-        "../node_modules/@types/node/ts3.1/util.d.ts",
-        "../node_modules/@types/node/ts3.4/fs.d.ts",
-        "../node_modules/@types/node/ts3.4/util.d.ts"
-      ],
       "../src/modules/unit/unit/unit.controller.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/swagger/index.d.ts",
@@ -12989,7 +13359,8 @@
         "../node_modules/@types/node/ts3.4/fs.d.ts",
         "../node_modules/@types/node/ts3.4/util.d.ts",
         "../node_modules/typeorm/index.d.ts",
-        "../src/modules/unit/unit/unit-type.enum.ts",
+        "../src/modules/control/manage/manage.entity.ts",
+        "../src/modules/unit/unit/unit-type-table.enum.ts",
         "../src/modules/wrap/sector/sector.entity.ts",
         "../src/modules/wrap/set/set.entity.ts",
         "../src/modules/wrap/station/station.entity.ts"
@@ -13016,7 +13387,6 @@
         "../src/modules/unit/unit/dto/unit-update.dto.ts",
         "../src/modules/unit/unit/unit-exception.msg.ts",
         "../src/modules/unit/unit/unit-type-table.enum.ts",
-        "../src/modules/unit/unit/unit-type.enum.ts",
         "../src/modules/unit/unit/unit.entity.ts",
         "../src/modules/unit/unit/unit.interfaces.ts",
         "../src/modules/wrap/sector/sector.service.ts",
@@ -21068,12 +21438,92 @@
         "../src/modules/auth/user/user.interfaces.ts",
         "../src/modules/auth/user/user.service.ts"
       ],
+      "../src/modules/auth/user/user.entity.ts": [
+        "../src/modules/control/control/control.entity.ts"
+      ],
       "../src/modules/auth/user/user.service.ts": [
         "../node_modules/typeorm/index.d.ts",
         "../src/modules/auth/user/dto/create-user.dto.ts",
         "../src/modules/auth/user/dto/update-user.dto.ts",
         "../src/modules/auth/user/user.entity.ts",
         "../src/modules/auth/user/user.interfaces.ts"
+      ],
+      "../src/modules/control/control/control.controller.ts": [
+        "../src/modules/control/control/control.interfaces.ts",
+        "../src/modules/control/control/control.service.ts",
+        "../src/modules/control/control/dto/control-create.dto.ts"
+      ],
+      "../src/modules/control/control/control.entity.ts": [
+        "../src/modules/auth/user/user.entity.ts",
+        "../src/modules/control/manage/manage.entity.ts",
+        "../src/modules/control/order/order.entity.ts",
+        "../src/modules/control/registry/registry.entity.ts"
+      ],
+      "../src/modules/control/control/control.interfaces.ts": [
+        "../src/modules/control/control/control.entity.ts"
+      ],
+      "../src/modules/control/control/control.service.ts": [
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control.entity.ts",
+        "../src/modules/control/control/control.interfaces.ts",
+        "../src/modules/control/control/dto/control-create.dto.ts"
+      ],
+      "../src/modules/control/manage/manage.controller.ts": [
+        "../src/modules/control/manage/manage-create.dto.ts",
+        "../src/modules/control/manage/manage.interfaces.ts",
+        "../src/modules/control/manage/manage.service.ts"
+      ],
+      "../src/modules/control/manage/manage.entity.ts": [
+        "../src/modules/control/control/control.entity.ts",
+        "../src/modules/unit/unit/unit.entity.ts"
+      ],
+      "../src/modules/control/manage/manage.interfaces.ts": [
+        "../src/modules/control/manage/manage.entity.ts"
+      ],
+      "../src/modules/control/manage/manage.service.ts": [
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control.service.ts",
+        "../src/modules/control/manage/manage-create.dto.ts",
+        "../src/modules/control/manage/manage.entity.ts",
+        "../src/modules/control/manage/manage.interfaces.ts"
+      ],
+      "../src/modules/control/order/order.controller.ts": [
+        "../src/modules/control/order/dto/order-create.dto.ts",
+        "../src/modules/control/order/dto/order-update.dto.ts",
+        "../src/modules/control/order/order.interfaces.ts",
+        "../src/modules/control/order/order.service.ts"
+      ],
+      "../src/modules/control/order/order.entity.ts": [
+        "../src/modules/control/control/control.entity.ts"
+      ],
+      "../src/modules/control/order/order.interfaces.ts": [
+        "../src/modules/control/order/order.entity.ts"
+      ],
+      "../src/modules/control/order/order.service.ts": [
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control.service.ts",
+        "../src/modules/control/order/dto/order-create.dto.ts",
+        "../src/modules/control/order/dto/order-update.dto.ts",
+        "../src/modules/control/order/order.entity.ts",
+        "../src/modules/control/order/order.interfaces.ts"
+      ],
+      "../src/modules/control/registry/registry.controller.ts": [
+        "../src/modules/control/registry/registry-create.dto.ts",
+        "../src/modules/control/registry/registry.interfaces.ts",
+        "../src/modules/control/registry/registry.service.ts"
+      ],
+      "../src/modules/control/registry/registry.entity.ts": [
+        "../src/modules/control/control/control.entity.ts"
+      ],
+      "../src/modules/control/registry/registry.interfaces.ts": [
+        "../src/modules/control/registry/registry.entity.ts"
+      ],
+      "../src/modules/control/registry/registry.service.ts": [
+        "../node_modules/typeorm/index.d.ts",
+        "../src/modules/control/control/control.service.ts",
+        "../src/modules/control/registry/registry-create.dto.ts",
+        "../src/modules/control/registry/registry.entity.ts",
+        "../src/modules/control/registry/registry.interfaces.ts"
       ],
       "../src/modules/unit/unit-generic/dto/unit-generic-create.dto.ts": [
         "../src/modules/unit/unit/dto/unit-create.dto.ts"
@@ -21158,7 +21608,8 @@
         "../src/modules/unit/unit/unit.service.ts"
       ],
       "../src/modules/unit/unit/unit.entity.ts": [
-        "../src/modules/unit/unit/unit-type.enum.ts",
+        "../src/modules/control/manage/manage.entity.ts",
+        "../src/modules/unit/unit/unit-type-table.enum.ts",
         "../src/modules/wrap/sector/sector.entity.ts",
         "../src/modules/wrap/set/set.entity.ts",
         "../src/modules/wrap/station/station.entity.ts"
@@ -21171,7 +21622,6 @@
         "../src/modules/unit/unit/dto/unit-create.dto.ts",
         "../src/modules/unit/unit/dto/unit-update.dto.ts",
         "../src/modules/unit/unit/unit-type-table.enum.ts",
-        "../src/modules/unit/unit/unit-type.enum.ts",
         "../src/modules/unit/unit/unit.entity.ts",
         "../src/modules/unit/unit/unit.interfaces.ts",
         "../src/modules/wrap/sector/sector.service.ts",
@@ -22111,6 +22561,30 @@
       "../src/modules/auth/user/user.entity.ts",
       "../src/modules/auth/user/user.interfaces.ts",
       "../src/modules/auth/user/user.service.ts",
+      "../src/modules/control/control.module.ts",
+      "../src/modules/control/control/control-exception.msg.ts",
+      "../src/modules/control/control/control.controller.ts",
+      "../src/modules/control/control/control.entity.ts",
+      "../src/modules/control/control/control.interfaces.ts",
+      "../src/modules/control/control/control.service.ts",
+      "../src/modules/control/control/dto/control-create.dto.ts",
+      "../src/modules/control/manage/manage-create.dto.ts",
+      "../src/modules/control/manage/manage.controller.ts",
+      "../src/modules/control/manage/manage.entity.ts",
+      "../src/modules/control/manage/manage.interfaces.ts",
+      "../src/modules/control/manage/manage.service.ts",
+      "../src/modules/control/order/dto/order-create.dto.ts",
+      "../src/modules/control/order/dto/order-update.dto.ts",
+      "../src/modules/control/order/order-exception.msg.ts",
+      "../src/modules/control/order/order.controller.ts",
+      "../src/modules/control/order/order.entity.ts",
+      "../src/modules/control/order/order.interfaces.ts",
+      "../src/modules/control/order/order.service.ts",
+      "../src/modules/control/registry/registry-create.dto.ts",
+      "../src/modules/control/registry/registry.controller.ts",
+      "../src/modules/control/registry/registry.entity.ts",
+      "../src/modules/control/registry/registry.interfaces.ts",
+      "../src/modules/control/registry/registry.service.ts",
       "../src/modules/unit/unit-generic/dto/unit-generic-create.dto.ts",
       "../src/modules/unit/unit-generic/dto/unit-generic-update.dto.ts",
       "../src/modules/unit/unit-generic/unit-generic-exception-messages.ts",
@@ -22137,7 +22611,6 @@
       "../src/modules/unit/unit/dto/unit-update.dto.ts",
       "../src/modules/unit/unit/unit-exception.msg.ts",
       "../src/modules/unit/unit/unit-type-table.enum.ts",
-      "../src/modules/unit/unit/unit-type.enum.ts",
       "../src/modules/unit/unit/unit.controller.ts",
       "../src/modules/unit/unit/unit.entity.ts",
       "../src/modules/unit/unit/unit.interfaces.ts",

@@ -22,39 +22,17 @@ let UserService = class UserService {
     constructor(_userRepository) {
         this._userRepository = _userRepository;
     }
-    async findAll(query) {
-        const qb = await this._userRepository.createQueryBuilder('users');
-        qb.where("1 = 1");
-        const usersCount = await qb.getCount();
-        if ('active' in query) {
-            qb.andWhere("users.active = :active", { active: `${query.active}` });
-        }
-        if ('id' in query) {
-            qb.andWhere("users.id > :id", { id: `${query.id}` });
-        }
-        if ('limit' in query) {
-            qb.limit(query.limit);
-        }
-        qb.orderBy("users.created", "DESC");
+    async findAll() {
+        const qb = await this._userRepository.createQueryBuilder('users')
+            .orderBy('users.created', 'DESC');
         const foundUsers = await qb.getMany();
+        const count = await qb.getCount();
         const users = foundUsers.map(user => this.buildUserData(user));
-        return { users, count: usersCount };
+        return { users, count };
     }
-    async findOne(query) {
-        const qb = await this._userRepository.createQueryBuilder('users');
-        qb.where("1 = 1");
-        if ('active' in query) {
-            qb.andWhere("users.active = :active", { active: `${query.active}` });
-        }
-        if ('id' in query) {
-            qb.andWhere("users.id = :id", { id: `${query.id}` });
-        }
-        if ('username' in query) {
-            qb.andWhere("users.username = :username", { id: `${query.username}` });
-        }
-        if ('email' in query) {
-            qb.andWhere("users.email = :email", { id: `${query.email}` });
-        }
+    async findOneById(id) {
+        const qb = await this._userRepository.createQueryBuilder('users')
+            .where('users.id = :id', { id });
         const foundUser = await qb.getOne();
         const user = this.buildUserData(foundUser);
         return { user };
@@ -89,8 +67,10 @@ let UserService = class UserService {
         const user = this.buildUserData(savedUser);
         return { user };
     }
-    async updateOne(id, dto) {
-        const foundUser = await this._userRepository.findOne(id);
+    async updateOne(dto) {
+        const foundUser = await this._userRepository.createQueryBuilder('users')
+            .where('users.id = :id', { id: dto.id })
+            .getOne();
         if (!foundUser) {
             throw new common_1.NotFoundException(user_exception_msg_1.UserExceptionMSG.NOT_FOUND);
         }
@@ -102,7 +82,9 @@ let UserService = class UserService {
         return { user };
     }
     async deleteOne(id) {
-        const foundUser = await this._userRepository.findOne(id);
+        const foundUser = await this._userRepository.createQueryBuilder('users')
+            .where('users.id = :id', { id })
+            .getOne();
         if (!foundUser) {
             throw new common_1.NotFoundException(user_exception_msg_1.UserExceptionMSG.NOT_FOUND);
         }
@@ -110,7 +92,9 @@ let UserService = class UserService {
         return updateUser.affected > 0;
     }
     async activateOne(id) {
-        const foundUser = await this._userRepository.findOne(id);
+        const foundUser = await this._userRepository.createQueryBuilder('users')
+            .where('users.id = :id', { id })
+            .getOne();
         if (!foundUser) {
             throw new common_1.NotFoundException(user_exception_msg_1.UserExceptionMSG.NOT_FOUND);
         }

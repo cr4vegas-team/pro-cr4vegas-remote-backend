@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserEntity = void 0;
+const control_entity_1 = require("./../../control/control/control.entity");
 const typeorm_1 = require("typeorm");
 const bcrypt = require("bcrypt");
 let UserEntity = class UserEntity {
@@ -21,6 +22,10 @@ __decorate([
     typeorm_1.PrimaryGeneratedColumn('increment'),
     __metadata("design:type", Number)
 ], UserEntity.prototype, "id", void 0);
+__decorate([
+    typeorm_1.OneToMany(type => control_entity_1.ControlEntity, controlEntity => controlEntity.user),
+    __metadata("design:type", Array)
+], UserEntity.prototype, "controls", void 0);
 __decorate([
     typeorm_1.Column({
         type: 'varchar',

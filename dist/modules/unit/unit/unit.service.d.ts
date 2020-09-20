@@ -4,10 +4,9 @@ import { StationService } from '../../wrap/station/station.service';
 import { Repository } from 'typeorm';
 import { UnitCreateDto } from './dto/unit-create.dto';
 import { UnitUpdateDto } from './dto/unit-update.dto';
-import { UnitTypeTableEnum } from './unit-type-table.enum';
-import { UnitTypeEnum } from './unit-type.enum';
 import { UnitEntity } from './unit.entity';
 import { UnitRO, UnitsRO } from './unit.interfaces';
+import { UnitTypeTableEnum } from './unit-type-table.enum';
 export declare class UnitService {
     private readonly _unitRepository;
     private readonly _setService;
@@ -18,6 +17,6 @@ export declare class UnitService {
     findAllByIds(ids: number[]): Promise<UnitsRO>;
     delete(id: number): Promise<boolean>;
     activate(id: number): Promise<boolean>;
-    create(unitCreateDto: UnitCreateDto, unitType: UnitTypeEnum, unitTypeTable: UnitTypeTableEnum): Promise<UnitRO>;
+    create(unitCreateDto: UnitCreateDto, unitTypeTable: UnitTypeTableEnum): Promise<UnitRO>;
     update(unitUpdateDto: UnitUpdateDto): Promise<UnitRO>;
 }

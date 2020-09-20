@@ -1,15 +1,16 @@
 import { SectorEntity } from "../../wrap/sector/sector.entity";
 import { SetEntity } from "../../wrap/set/set.entity";
 import { StationEntity } from "../../wrap/station/station.entity";
-import { UnitTypeEnum } from "./unit-type.enum";
+import { ManageEntity } from './../../control/manage/manage.entity';
+import { UnitTypeTableEnum } from "./unit-type-table.enum";
 export declare class UnitEntity {
     id: number;
     station: StationEntity;
     sector: SectorEntity;
     sets: SetEntity[];
-    unitType: UnitTypeEnum;
+    manages: ManageEntity[];
+    typeTable: UnitTypeTableEnum;
     code: string;
-    table: string;
     altitude: number;
     latitude: number;
     longitude: number;

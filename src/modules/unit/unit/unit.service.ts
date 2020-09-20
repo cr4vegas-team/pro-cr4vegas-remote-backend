@@ -8,10 +8,9 @@ import { Repository, UpdateResult } from 'typeorm';
 import { UnitCreateDto } from './dto/unit-create.dto';
 import { UnitUpdateDto } from './dto/unit-update.dto';
 import { UnitExceptionMSG } from './unit-exception.msg';
-import { UnitTypeTableEnum } from './unit-type-table.enum';
-import { UnitTypeEnum } from './unit-type.enum';
 import { UnitEntity } from './unit.entity';
 import { UnitRO, UnitsRO } from './unit.interfaces';
+import { UnitTypeTableEnum } from './unit-type-table.enum';
 
 @Injectable()
 export class UnitService {
@@ -65,7 +64,7 @@ export class UnitService {
         return updatedUnit.affected > 0;
     }
 
-    async create(unitCreateDto: UnitCreateDto, unitType: UnitTypeEnum, unitTypeTable: UnitTypeTableEnum): Promise<UnitRO> {
+    async create(unitCreateDto: UnitCreateDto, unitTypeTable: UnitTypeTableEnum): Promise<UnitRO> {
         const foundUnitByCode: UnitEntity = await this._unitRepository.findOne({ where: { code: unitCreateDto.code } });
         if (foundUnitByCode) {
             throw new ConflictException(UnitExceptionMSG.CONFLIC);
@@ -74,8 +73,7 @@ export class UnitService {
         newUnit.sector = (await this._sectorService.findOne(unitCreateDto.sector)).sector;
         newUnit.station = (await this._stationService.findOne(unitCreateDto.station)).station;
         newUnit.sets = (await this._setService.findAllByIds(unitCreateDto.sets)).sets;
-        newUnit.unitType = unitType;
-        newUnit.table = unitTypeTable;
+        newUnit.typeTable = unitTypeTable;
         const savedUnit: UnitEntity = await this._unitRepository.save(newUnit);
         return { unit: savedUnit };
     }

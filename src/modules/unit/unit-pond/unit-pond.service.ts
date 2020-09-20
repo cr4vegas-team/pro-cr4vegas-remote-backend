@@ -1,12 +1,9 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { ExceptionMSG } from '../../../global/exception-messages';
 import { UnitExceptionMSG } from '../unit/unit-exception.msg';
 import { UnitTypeTableEnum } from '../unit/unit-type-table.enum';
-import { UnitTypeEnum } from '../unit/unit-type.enum';
 import { UnitEntity } from '../unit/unit.entity';
 import { UnitService } from '../unit/unit.service';
 import { UnitPondCreateDto } from './dto/unit-pond-create.dto';
@@ -54,7 +51,7 @@ export class UnitPondService {
     // ==========================================================
 
     async createOne(dto: UnitPondCreateDto): Promise<UnitPondRO> {
-        const savedUnit: UnitEntity = (await this._unitService.create(dto.unit, UnitTypeEnum.UNIT_HYDRANT, UnitTypeTableEnum.UNIT_HYDRANT)).unit;
+        const savedUnit: UnitEntity = (await this._unitService.create(dto.unit, UnitTypeTableEnum.UNIT_HYDRANT)).unit;
         const newUnitPond: UnitPondEntity = plainToClass(UnitPondEntity, dto);
         newUnitPond.unit = savedUnit;
         const savedUnitPond: UnitPondEntity = await this._unitPondRepository.save(newUnitPond);

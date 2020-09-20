@@ -4,7 +4,6 @@ import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { UnitExceptionMSG } from '../unit/unit-exception.msg';
 import { UnitTypeTableEnum } from '../unit/unit-type-table.enum';
-import { UnitTypeEnum } from '../unit/unit-type.enum';
 import { UnitEntity } from '../unit/unit.entity';
 import { UnitService } from '../unit/unit.service';
 import { UnitHydrantCreateDto } from './dto/unit-hydrant-create.dto';
@@ -52,7 +51,7 @@ export class UnitHydrantService {
     // ==========================================================
 
     async createOne(dto: UnitHydrantCreateDto): Promise<UnitHydrantRO> {
-        const savedUnit: UnitEntity = (await this._unitService.create(dto.unit, UnitTypeEnum.UNIT_HYDRANT, UnitTypeTableEnum.UNIT_HYDRANT)).unit;
+        const savedUnit: UnitEntity = (await this._unitService.create(dto.unit, UnitTypeTableEnum.UNIT_HYDRANT)).unit;
         const newUnitHydrant: UnitHydrantEntity = plainToClass(UnitHydrantEntity, dto);
         newUnitHydrant.unit = savedUnit;
         const savedUnitHydrant: UnitHydrantEntity = await this._unitHydrantRepository.save(newUnitHydrant);

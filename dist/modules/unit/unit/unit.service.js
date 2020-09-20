@@ -62,7 +62,7 @@ let UnitService = class UnitService {
         const updatedUnit = await this._unitRepository.update(id, { active: 1 });
         return updatedUnit.affected > 0;
     }
-    async create(unitCreateDto, unitType, unitTypeTable) {
+    async create(unitCreateDto, unitTypeTable) {
         const foundUnitByCode = await this._unitRepository.findOne({ where: { code: unitCreateDto.code } });
         if (foundUnitByCode) {
             throw new common_1.ConflictException(unit_exception_msg_1.UnitExceptionMSG.CONFLIC);
@@ -71,8 +71,7 @@ let UnitService = class UnitService {
         newUnit.sector = (await this._sectorService.findOne(unitCreateDto.sector)).sector;
         newUnit.station = (await this._stationService.findOne(unitCreateDto.station)).station;
         newUnit.sets = (await this._setService.findAllByIds(unitCreateDto.sets)).sets;
-        newUnit.unitType = unitType;
-        newUnit.table = unitTypeTable;
+        newUnit.typeTable = unitTypeTable;
         const savedUnit = await this._unitRepository.save(newUnit);
         return { unit: savedUnit };
     }

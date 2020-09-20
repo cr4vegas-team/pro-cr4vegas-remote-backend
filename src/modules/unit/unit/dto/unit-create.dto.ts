@@ -20,7 +20,7 @@ export class UnitCreateDto {
 
     @ApiProperty()
     @IsOptional()
-    @IsArray()
+    @IsNumber({}, { each: true })
     sets?: number[];
 
     @ApiProperty()

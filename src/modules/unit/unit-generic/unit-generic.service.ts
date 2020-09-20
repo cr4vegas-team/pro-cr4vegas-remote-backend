@@ -4,7 +4,6 @@ import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { UnitExceptionMSG } from '../unit/unit-exception.msg';
 import { UnitTypeTableEnum } from '../unit/unit-type-table.enum';
-import { UnitTypeEnum } from '../unit/unit-type.enum';
 import { UnitEntity } from '../unit/unit.entity';
 import { UnitService } from '../unit/unit.service';
 import { UnitGenericCreateDto } from './dto/unit-generic-create.dto';
@@ -56,7 +55,7 @@ export class UnitGenericService {
     // ==========================================================
     
     async create(dto: UnitGenericCreateDto): Promise<UnitGenericRO> {
-        const savedUnit: UnitEntity = (await this._unitService.create(dto.unit, UnitTypeEnum.UNIT_GENERIC, UnitTypeTableEnum.UNIT_GENERIC)).unit;
+        const savedUnit: UnitEntity = (await this._unitService.create(dto.unit, UnitTypeTableEnum.UNIT_GENERIC)).unit;
         const newUnitGeneric: UnitGenericEntity = plainToClass(UnitGenericEntity, dto);
         newUnitGeneric.unit = savedUnit;
         const savedUnitGeneric: UnitGenericEntity = await this._unitGenericRepository.save(newUnitGeneric);

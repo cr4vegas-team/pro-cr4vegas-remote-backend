@@ -16,6 +16,11 @@ class UpdateUserDto {
 }
 __decorate([
     swagger_1.ApiProperty(),
+    class_validator_1.IsNumber(),
+    __metadata("design:type", Number)
+], UpdateUserDto.prototype, "id", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
     class_validator_1.IsString(),
     class_validator_1.MinLength(3),
     class_validator_1.MaxLength(45),

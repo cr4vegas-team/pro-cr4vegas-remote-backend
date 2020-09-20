@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitPondController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const unit_pond_create_dto_1 = require("./dto/unit-pond-create.dto");
@@ -38,6 +39,7 @@ let UnitPondController = class UnitPondController {
 };
 __decorate([
     common_1.Get(),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
@@ -45,6 +47,7 @@ __decorate([
 __decorate([
     swagger_1.ApiParam({ name: 'id', type: String, required: true }),
     common_1.Get(':id'),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -52,6 +55,7 @@ __decorate([
 ], UnitPondController.prototype, "findOne", null);
 __decorate([
     common_1.Post(),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [unit_pond_create_dto_1.UnitPondCreateDto]),
@@ -60,12 +64,14 @@ __decorate([
 __decorate([
     swagger_1.ApiBody({ type: unit_pond_update_dto_1.UnitPondUpdateDto }),
     common_1.Put(),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [unit_pond_update_dto_1.UnitPondUpdateDto]),
     __metadata("design:returntype", Promise)
 ], UnitPondController.prototype, "updateOne", null);
 UnitPondController = __decorate([
+    swagger_1.ApiTags('unit-pond'),
     common_1.Controller('unit-pond'),
     __metadata("design:paramtypes", [unit_pond_service_1.UnitPondService])
 ], UnitPondController);
