@@ -10,13 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetTypeEntity = void 0;
-const swagger_1 = require("@nestjs/swagger");
+const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const typeorm_1 = require("typeorm");
 let SetTypeEntity = class SetTypeEntity {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { name: { required: true, type: () => String } };
+    }
 };
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsString(),
     typeorm_1.PrimaryColumn({
         type: 'varchar',

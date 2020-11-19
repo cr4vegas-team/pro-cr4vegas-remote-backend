@@ -10,10 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitGenericCreateDto = void 0;
+const openapi = require("@nestjs/swagger");
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const unit_create_dto_1 = require("../../unit/dto/unit-create.dto");
 class UnitGenericCreateDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { unit: { required: true, type: () => require("../../unit/dto/unit-create.dto").UnitCreateDto }, data1: { required: false, type: () => String }, data2: { required: false, type: () => String }, data3: { required: false, type: () => String }, data4: { required: false, type: () => String }, data5: { required: false, type: () => String } };
+    }
 }
 __decorate([
     swagger_1.ApiProperty(),
@@ -23,26 +27,31 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], UnitGenericCreateDto.prototype, "data1", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], UnitGenericCreateDto.prototype, "data2", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], UnitGenericCreateDto.prototype, "data3", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], UnitGenericCreateDto.prototype, "data4", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], UnitGenericCreateDto.prototype, "data5", void 0);
 exports.UnitGenericCreateDto = UnitGenericCreateDto;

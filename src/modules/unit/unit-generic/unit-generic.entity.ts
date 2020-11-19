@@ -1,57 +1,60 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { UnitEntity } from "../unit/unit.entity";
-
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { UnitEntity } from '../unit/unit.entity';
 
 @Entity('units_generics')
 export class UnitGenericEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  // =======================================
 
-    // =======================================
+  @OneToOne(() => UnitEntity)
+  @JoinColumn()
+  unit: UnitEntity;
 
-    @OneToOne(type => UnitEntity, { eager: true, cascade: true })
-    @JoinColumn()
-    unit: UnitEntity;
+  // =======================================
 
-    // =======================================
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  data1: string;
 
-    @Column({
-        type: 'varchar',
-        default: null,
-    })
-    data1: string;
+  // =======================================
 
-    // =======================================
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  data2: string;
 
-    @Column({
-        type: 'varchar',
-        default: null,
-    })
-    data2: string;
+  // =======================================
 
-    // =======================================
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  data3: string;
 
-    @Column({
-        type: 'varchar',
-        default: null,
-    })
-    data3: string;
+  // =======================================
 
-    // =======================================
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  data4: string;
 
-    @Column({
-        type: 'varchar',
-        default: null,
-    })
-    data4: string;
+  // =======================================
 
-    // =======================================
-
-    @Column({
-        type: 'varchar',
-        default: null,
-    })
-    data5: string;
-
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  data5: string;
 }

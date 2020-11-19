@@ -13,10 +13,13 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const set_create_dto_1 = require("./dto/set-create.dto");
+const set_type_update_dto_1 = require("./dto/set-type-update.dto");
 const set_update_dto_1 = require("./dto/set-update.dto");
+const set_exception_msg_1 = require("./set-exception.msg");
 const set_type_entity_1 = require("./set-type.entity");
 const set_service_1 = require("./set.service");
 let SetController = class SetController {
@@ -35,12 +38,6 @@ let SetController = class SetController {
     updateOne(dto) {
         return this._setService.updateOne(dto);
     }
-    deleteOne(id) {
-        return this._setService.deleteOne(id);
-    }
-    activateOne(id) {
-        return this._setService.activateOne(id);
-    }
     findAllSetTypes() {
         return this._setService.findAllSetTypes();
     }
@@ -56,71 +53,75 @@ let SetController = class SetController {
 };
 __decorate([
     common_1.Get('all'),
+    openapi.ApiResponse({ status: 200, type: require("./dto/set-response.dto").SetsRO }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "findAll", null);
 __decorate([
-    swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
     common_1.Get('one/:id'),
+    openapi.ApiResponse({ status: 200, type: require("./dto/set-response.dto").SetRO }),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "findOne", null);
 __decorate([
+    swagger_1.ApiConflictResponse({
+        description: set_exception_msg_1.SetExceptionMSG.CONFLICT_CODE + '  | ' + set_exception_msg_1.SetExceptionMSG.CONFLICT_NAME,
+    }),
     common_1.Post(),
+    openapi.ApiResponse({ status: 201, type: require("./dto/set-response.dto").SetRO }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [set_create_dto_1.SetCreateDto]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "createOne", null);
 __decorate([
+    swagger_1.ApiNotFoundResponse({ description: set_exception_msg_1.SetExceptionMSG.NOT_FOUND }),
+    swagger_1.ApiConflictResponse({
+        description: set_exception_msg_1.SetExceptionMSG.CONFLICT_CODE + '  | ' + set_exception_msg_1.SetExceptionMSG.CONFLICT_NAME,
+    }),
     common_1.Put(),
+    openapi.ApiResponse({ status: 200, type: require("./dto/set-response.dto").SetRO }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [set_update_dto_1.SetUpdateDto]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "updateOne", null);
 __decorate([
-    common_1.Delete(':id'),
-    __param(0, common_1.Param('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "deleteOne", null);
-__decorate([
-    common_1.Patch(':id'),
-    __param(0, common_1.Param('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", Promise)
-], SetController.prototype, "activateOne", null);
-__decorate([
     common_1.Get('set-type'),
+    openapi.ApiResponse({ status: 200, type: [require("./set-type.entity").SetTypeEntity] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "findAllSetTypes", null);
 __decorate([
+    swagger_1.ApiConflictResponse({ description: set_exception_msg_1.SetExceptionMSG.CONFLICT_TYPE }),
     common_1.Post('set-type'),
+    openapi.ApiResponse({ status: 201, type: require("./set-type.entity").SetTypeEntity }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [set_type_entity_1.SetTypeEntity]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "insertSetType", null);
 __decorate([
+    swagger_1.ApiNotFoundResponse({ description: set_exception_msg_1.SetExceptionMSG.NOT_FOUND_TYPE }),
     common_1.Delete('set-type/:name'),
+    openapi.ApiResponse({ status: 200, type: Boolean }),
     __param(0, common_1.Param('name')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "deleteSetType", null);
 __decorate([
+    swagger_1.ApiNotFoundResponse({ description: set_exception_msg_1.SetExceptionMSG.NOT_FOUND_TYPE }),
+    swagger_1.ApiBadRequestResponse({ description: set_exception_msg_1.SetExceptionMSG.SET_TYPE_LINKED }),
     common_1.Put('set-type'),
+    openapi.ApiResponse({ status: 200, type: require("./set-type.entity").SetTypeEntity }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [set_update_dto_1.SetTypeUpdateDto]),
+    __metadata("design:paramtypes", [set_type_update_dto_1.SetTypeUpdateDto]),
     __metadata("design:returntype", Promise)
 ], SetController.prototype, "updateSetType", null);
 SetController = __decorate([

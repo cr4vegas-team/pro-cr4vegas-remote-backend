@@ -1,8 +1,6 @@
 
 
 export enum UnitHydrantExceptionMSG {
-    CONFLICT = 'El código del hidrante ya existe',
-    CONFLICT_UNIT = 'La unidad de control ya existe en la tabla de hidrantes',
-    BAD_REQUEST = 'Los datos del hidrante enviados son incorrectos',
-    NOT_FOUND = 'No se encontró ningún hidrante',
+    BAD_REQUEST = 'Los datos enviados de la unidad de tipo hidrante son incorrectos',
+    NOT_FOUND = 'No se encontró ninguna unidad de tipo hidrante',
 }

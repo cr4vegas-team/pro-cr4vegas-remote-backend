@@ -1,48 +1,75 @@
-
-import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { UnitTypeTableEnum } from './../unit-type.enum';
+import {
+  IsEnum,
+  IsIn,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class UnitUpdateDto {
+  @IsNumber()
+  id: number;
 
-    @ApiProperty()
-    @IsNumber()
-    id: number;
+  // ==================================================
 
-    @ApiProperty()
-    @IsNotEmpty()
-    code: string;
+  @IsNumber()
+  @IsPositive()
+  code: number;
 
-    @ApiProperty()
-    @IsOptional()
-    @IsNumber()
-    station?: number;
+  // ==================================================
+  @IsString()
+  @IsEnum(UnitTypeTableEnum, {})
+  unitTypeTable: UnitTypeTableEnum;
 
-    @ApiProperty()
-    @IsOptional()
-    @IsNumber()
-    sector?: number;
+  // ==================================================
 
-    @ApiProperty()
-    @IsOptional()
-    @IsNumber()
-    @IsArray()
-    sets?: number[];
+  @IsOptional()
+  @IsNumber()
+  station?: number;
 
-    @ApiProperty()
-    @IsNumber()
-    altitude: number;
+  // ==================================================
 
-    @ApiProperty()
-    @IsNumber()
-    latitude: number;
+  @IsOptional()
+  @IsNumber()
+  sector?: number;
 
-    @ApiProperty()
-    @IsNumber()
-    longitude: number;
+  // ==================================================
 
-    @ApiProperty()
-    @IsString()
-    @IsOptional()
-    description: string;
+  @IsOptional()
+  @IsNumber({}, { each: true })
+  sets?: number[];
 
+  // ==================================================
+
+  @IsNumber()
+  altitude: number;
+
+  // ==================================================
+
+  @IsNumber()
+  latitude: number;
+
+  // ==================================================
+
+  @IsNumber()
+  longitude: number;
+
+  // ==================================================
+
+  @IsString()
+  @IsOptional()
+  description?: string;
+
+  // ==================================================
+
+  @IsString()
+  @IsOptional()
+  image: string;
+
+  // ==================================================
+
+  @IsIn([0, 1])
+  active: number;
 }

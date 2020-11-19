@@ -10,9 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitPondEntity = void 0;
+const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 const unit_entity_1 = require("../unit/unit.entity");
 let UnitPondEntity = class UnitPondEntity {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, unit: { required: true, type: () => require("../unit/unit.entity").UnitEntity }, m3: { required: true, type: () => Number }, height: { required: true, type: () => Number } };
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
@@ -26,14 +30,14 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         type: 'bigint',
-        default: 0
+        nullable: true
     }),
     __metadata("design:type", Number)
 ], UnitPondEntity.prototype, "m3", void 0);
 __decorate([
     typeorm_1.Column({
         type: 'float',
-        default: 0.0
+        nullable: true
     }),
     __metadata("design:type", Number)
 ], UnitPondEntity.prototype, "height", void 0);

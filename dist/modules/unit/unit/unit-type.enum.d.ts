@@ -1,6 +1,5 @@
-export declare enum UnitTypeEnum {
-    NA = "NA",
-    UNIT_GENERIC = "UNIT_GENERIC",
-    UNIT_HYDRANT = "UNIT_HYDRANT",
-    UNIT_POND = "UNIT_POND"
+export declare enum UnitTypeTableEnum {
+    UNIT_GENERIC = "units_generics",
+    UNIT_HYDRANT = "units_hydrants",
+    UNIT_POND = "units_ponds"
 }

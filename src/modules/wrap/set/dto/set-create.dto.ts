@@ -1,42 +1,50 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNumber, IsOptional, IsString, MaxLength, MinLength, ValidateNested } from "class-validator";
-import { SetTypeEntity } from "../set-type.entity";
-
+import {
+  IsArray,
+  IsIn,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class SetCreateDto {
+  @IsString()
+  @MinLength(1)
+  @MaxLength(5)
+  code: string;
 
-    @ApiProperty()
-    @IsString()
-    @MinLength(8)
-    @MaxLength(45)
-    code: string;
+  // ==========================================================
 
-    // ==========================================================
+  @IsString()
+  setType: string;
 
-    @ApiProperty()
-    @IsString()
-    setType: string;
+  // ==========================================================
 
-    // ==========================================================
+  @IsString()
+  @MinLength(3)
+  @MaxLength(45)
+  name: string;
 
-    @ApiProperty()
-    @IsString()
-    @MinLength(3)
-    @MaxLength(45)
-    name: string;
+  // ==========================================================
 
-    // ==========================================================
+  @IsString()
+  @IsOptional()
+  description: string | '';
 
-    @ApiProperty()
-    @IsString()
-    @IsOptional()
-    description: string;
+  // ==========================================================
 
-    // ==========================================================
+  @IsOptional()
+  @IsArray()
+  units?: number[];
 
-    @ApiProperty()
-    @IsOptional()
-    @IsArray()
-    units?: number[];
+  // ==================================================
 
+  @IsIn([0, 1])
+  active: number;
+
+  // ==================================================
+
+  @IsString()
+  @IsOptional()
+  image: string;
 }

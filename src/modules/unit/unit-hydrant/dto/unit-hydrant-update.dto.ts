@@ -20,12 +20,14 @@ export class UnitHydrantUpdateDto {
 
     @ApiProperty()
     @IsNumber()
-    diameter: number;
+    @IsOptional()
+    diameter?: number;
 
     // =======================================
 
     @ApiProperty()
     @IsIn([0, 1])
-    filter: number;
+    @IsOptional()
+    filter?: number;
 
 }

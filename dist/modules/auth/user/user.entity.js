@@ -10,12 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserEntity = void 0;
-const control_entity_1 = require("./../../control/control/control.entity");
-const typeorm_1 = require("typeorm");
+const openapi = require("@nestjs/swagger");
 const bcrypt = require("bcrypt");
+const typeorm_1 = require("typeorm");
+const session_entity_1 = require("../../session/session/session.entity");
+const user_role_enum_1 = require("./user-role.enum");
 let UserEntity = class UserEntity {
     generatePasswordHash() {
         this.password = bcrypt.hashSync(this.password, 10);
+    }
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, sessions: { required: true, type: () => [require("../../session/session/session.entity").SessionEntity] }, username: { required: true, type: () => String }, email: { required: true, type: () => String }, password: { required: true, type: () => String }, role: { required: true, enum: require("./user-role.enum").UserRole }, active: { required: true, type: () => Number }, created: { required: true, type: () => Date }, updated: { required: true, type: () => Date } };
     }
 };
 __decorate([
@@ -23,15 +28,14 @@ __decorate([
     __metadata("design:type", Number)
 ], UserEntity.prototype, "id", void 0);
 __decorate([
-    typeorm_1.OneToMany(type => control_entity_1.ControlEntity, controlEntity => controlEntity.user),
+    typeorm_1.OneToMany(type => session_entity_1.SessionEntity, sessionEntity => sessionEntity.user),
     __metadata("design:type", Array)
-], UserEntity.prototype, "controls", void 0);
+], UserEntity.prototype, "sessions", void 0);
 __decorate([
     typeorm_1.Column({
         type: 'varchar',
         length: 45,
         unique: true,
-        nullable: false
     }),
     __metadata("design:type", String)
 ], UserEntity.prototype, "username", void 0);
@@ -40,7 +44,6 @@ __decorate([
         type: 'varchar',
         length: 225,
         unique: true,
-        nullable: false
     }),
     __metadata("design:type", String)
 ], UserEntity.prototype, "email", void 0);
@@ -48,26 +51,33 @@ __decorate([
     typeorm_1.Column({
         type: 'varchar',
         length: 250,
-        nullable: false
     }),
     __metadata("design:type", String)
 ], UserEntity.prototype, "password", void 0);
 __decorate([
     typeorm_1.Column({
-        type: 'boolean',
-        default: true
+        type: 'enum',
+        enum: user_role_enum_1.UserRole,
+        default: user_role_enum_1.UserRole.VIEWER,
     }),
-    __metadata("design:type", Boolean)
+    __metadata("design:type", String)
+], UserEntity.prototype, "role", void 0);
+__decorate([
+    typeorm_1.Column({
+        type: 'tinyint',
+        default: 1,
+    }),
+    __metadata("design:type", Number)
 ], UserEntity.prototype, "active", void 0);
 __decorate([
     typeorm_1.CreateDateColumn({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], UserEntity.prototype, "created", void 0);
 __decorate([
     typeorm_1.UpdateDateColumn({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], UserEntity.prototype, "updated", void 0);

@@ -23,7 +23,8 @@ let UserService = class UserService {
         this._userRepository = _userRepository;
     }
     async findAll() {
-        const qb = await this._userRepository.createQueryBuilder('users')
+        const qb = await this._userRepository
+            .createQueryBuilder('users')
             .orderBy('users.created', 'DESC');
         const foundUsers = await qb.getMany();
         const count = await qb.getCount();
@@ -31,29 +32,29 @@ let UserService = class UserService {
         return { users, count };
     }
     async findOneById(id) {
-        const qb = await this._userRepository.createQueryBuilder('users')
+        const qb = await this._userRepository
+            .createQueryBuilder('users')
             .where('users.id = :id', { id });
         const foundUser = await qb.getOne();
         const user = this.buildUserData(foundUser);
         return { user };
     }
-    async findOneToValidation(query) {
-        if ('username' in query) {
-            const qb = await this._userRepository.createQueryBuilder('users');
-            qb.where('users.username = :username', { username: `${query.username}` });
-            qb.orWhere('users.email = :email', { email: `${query.username}` });
-            return qb.getOne();
-        }
-        return null;
+    async findOneToValidation(nameOrEmail) {
+        const qb = await this._userRepository.createQueryBuilder('users');
+        qb.where('users.username = :username', { username: nameOrEmail });
+        qb.orWhere('users.email = :email', { email: nameOrEmail });
+        return qb.getOne();
     }
     async createOne(dto) {
-        const foundUsername = await this._userRepository.createQueryBuilder('users')
+        const foundUsername = await this._userRepository
+            .createQueryBuilder('users')
             .where('users.username = :username', { username: dto.username })
             .getOne();
         if (foundUsername) {
             throw new common_1.ConflictException(user_exception_msg_1.UserExceptionMSG.CONFLICT_USERNAME);
         }
-        const foundEmail = await this._userRepository.createQueryBuilder('users')
+        const foundEmail = await this._userRepository
+            .createQueryBuilder('users')
             .where('users.email = :email', { email: dto.email })
             .getOne();
         if (foundEmail) {
@@ -63,12 +64,15 @@ let UserService = class UserService {
         newUser.username = dto.username;
         newUser.password = dto.password;
         newUser.email = dto.email;
+        newUser.active = dto.active;
+        newUser.role = dto.role;
         const savedUser = await this._userRepository.save(newUser);
         const user = this.buildUserData(savedUser);
         return { user };
     }
     async updateOne(dto) {
-        const foundUser = await this._userRepository.createQueryBuilder('users')
+        const foundUser = await this._userRepository
+            .createQueryBuilder('users')
             .where('users.id = :id', { id: dto.id })
             .getOne();
         if (!foundUser) {
@@ -77,35 +81,19 @@ let UserService = class UserService {
         foundUser.username = dto.username ? dto.username : foundUser.username;
         foundUser.password = dto.password ? dto.password : foundUser.password;
         foundUser.email = dto.email ? dto.email : foundUser.email;
+        foundUser.active = dto.active;
+        foundUser.role = dto.role;
         const updatedUser = await this._userRepository.save(foundUser);
         const user = this.buildUserData(updatedUser);
         return { user };
-    }
-    async deleteOne(id) {
-        const foundUser = await this._userRepository.createQueryBuilder('users')
-            .where('users.id = :id', { id })
-            .getOne();
-        if (!foundUser) {
-            throw new common_1.NotFoundException(user_exception_msg_1.UserExceptionMSG.NOT_FOUND);
-        }
-        const updateUser = await this._userRepository.update(id, { active: false });
-        return updateUser.affected > 0;
-    }
-    async activateOne(id) {
-        const foundUser = await this._userRepository.createQueryBuilder('users')
-            .where('users.id = :id', { id })
-            .getOne();
-        if (!foundUser) {
-            throw new common_1.NotFoundException(user_exception_msg_1.UserExceptionMSG.NOT_FOUND);
-        }
-        const updateUser = await this._userRepository.update(id, { active: true });
-        return updateUser.affected > 0;
     }
     buildUserData(userEntity) {
         return {
             id: userEntity.id,
             username: userEntity.username,
             email: userEntity.email,
+            role: userEntity.role,
+            active: userEntity.active,
         };
     }
 };

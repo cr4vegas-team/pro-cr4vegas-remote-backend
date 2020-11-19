@@ -17,8 +17,8 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const class_transformer_1 = require("class-transformer");
 const typeorm_2 = require("typeorm");
-const unit_exception_msg_1 = require("../unit/unit-exception.msg");
-const unit_type_table_enum_1 = require("../unit/unit-type-table.enum");
+const unit_exception_msg_enum_1 = require("../unit/unit-exception-msg.enum");
+const unit_type_enum_1 = require("../unit/unit-type.enum");
 const unit_service_1 = require("../unit/unit.service");
 const unit_generic_exception_messages_1 = require("./unit-generic-exception-messages");
 const unit_generic_entity_1 = require("./unit-generic.entity");
@@ -28,28 +28,30 @@ let UnitGenericService = class UnitGenericService {
         this._unitService = _unitService;
     }
     async findAll() {
-        const qb = await this._unitGenericRepository.createQueryBuilder('units_generics')
+        const qb = await this._unitGenericRepository
+            .createQueryBuilder('units_generics')
             .leftJoinAndSelect('units_generics.unit', 'unit')
             .leftJoinAndSelect('unit.sector', 'sector')
             .leftJoinAndSelect('unit.station', 'station')
             .leftJoinAndSelect('unit.sets', 'sets')
-            .orderBy('unit.created', "DESC");
+            .orderBy('unit.created', 'DESC');
         const unitsGenericsCount = await qb.getCount();
         const foundUnitsGenerics = await qb.getMany();
         return { unitsGenerics: foundUnitsGenerics, count: unitsGenericsCount };
     }
     async findOneById(id) {
-        const qb = await this._unitGenericRepository.createQueryBuilder('units_generics')
+        const qb = await this._unitGenericRepository
+            .createQueryBuilder('units_generics')
             .leftJoinAndSelect('units_generics.unit', 'unit')
             .leftJoinAndSelect('unit.sector', 'sector')
             .leftJoinAndSelect('unit.station', 'station')
             .leftJoinAndSelect('unit.sets', 'sets')
-            .where("units_generics.id = :id", { id });
+            .where('units_generics.id = :id', { id });
         const foundUnitGeneric = await qb.getOne();
         return { unitGeneric: foundUnitGeneric };
     }
     async create(dto) {
-        const savedUnit = (await this._unitService.create(dto.unit, unit_type_table_enum_1.UnitTypeTableEnum.UNIT_GENERIC)).unit;
+        const savedUnit = (await this._unitService.create(dto.unit, unit_type_enum_1.UnitTypeTableEnum.UNIT_GENERIC)).unit;
         const newUnitGeneric = class_transformer_1.plainToClass(unit_generic_entity_1.UnitGenericEntity, dto);
         newUnitGeneric.unit = savedUnit;
         const savedUnitGeneric = await this._unitGenericRepository.save(newUnitGeneric);
@@ -60,13 +62,15 @@ let UnitGenericService = class UnitGenericService {
         if (!foundUnitGeneric) {
             throw new common_1.NotFoundException(unit_generic_exception_messages_1.UnitGenericExceptionMSG.NOT_FOUND);
         }
-        let foundUnitGenericUnitId = await this._unitGenericRepository.createQueryBuilder('units_generics')
+        const foundUnitGenericUnitId = await this._unitGenericRepository
+            .createQueryBuilder('units_generics')
             .where('units_generics.unit.id = :id', { id: dto.unit.id })
             .getOne();
         if (foundUnitGenericUnitId && foundUnitGenericUnitId.id !== dto.id) {
-            throw new common_1.ConflictException(unit_exception_msg_1.UnitExceptionMSG.CONFLIC);
+            throw new common_1.ConflictException(unit_exception_msg_enum_1.UnitExceptionMSG.CONFLICT);
         }
-        const updatedUnit = (await this._unitService.update(dto.unit)).unit;
+        const updatedUnit = (await this._unitService.update(dto.unit))
+            .unit;
         foundUnitGeneric = class_transformer_1.plainToClass(unit_generic_entity_1.UnitGenericEntity, dto);
         foundUnitGeneric.unit = updatedUnit;
         const savedUnitGeneric = await this._unitGenericRepository.save(foundUnitGeneric);

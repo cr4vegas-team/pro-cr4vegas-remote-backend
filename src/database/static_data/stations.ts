@@ -12,7 +12,8 @@ export const STATIONS_TEST: StationEntity[] = [
         updated: new Date(),
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
-        units: []
+        units: [],
+        image: null,
     },
     {
         id: 2,
@@ -26,6 +27,7 @@ export const STATIONS_TEST: StationEntity[] = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 3,
@@ -39,6 +41,7 @@ export const STATIONS_TEST: StationEntity[] = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 4,
@@ -52,6 +55,7 @@ export const STATIONS_TEST: StationEntity[] = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 5,
@@ -65,6 +69,7 @@ export const STATIONS_TEST: StationEntity[] = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 6,
@@ -78,6 +83,7 @@ export const STATIONS_TEST: StationEntity[] = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 7,
@@ -91,6 +97,7 @@ export const STATIONS_TEST: StationEntity[] = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 8,
@@ -104,5 +111,6 @@ export const STATIONS_TEST: StationEntity[] = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     }
 ];

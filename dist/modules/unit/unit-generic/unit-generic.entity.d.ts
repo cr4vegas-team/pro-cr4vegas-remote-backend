@@ -1,4 +1,4 @@
-import { UnitEntity } from "../unit/unit.entity";
+import { UnitEntity } from '../unit/unit.entity';
 export declare class UnitGenericEntity {
     id: number;
     unit: UnitEntity;

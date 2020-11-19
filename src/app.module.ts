@@ -1,4 +1,8 @@
-import { ClassSerializerInterceptor, Module, ValidationPipe } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Module,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,36 +11,38 @@ import { CONFIG } from './config/config.constant';
 import configuration from './config/configuration';
 import { AllExceptionsFilter } from './global/filters/all.exception.filter';
 import { AuthModule } from './modules/auth/auth.module';
+import { SessionModule } from './modules/session/session.module';
+import { SharedModule } from './modules/shared/shared.module';
 import { UnitModule } from './modules/unit/unit.module';
 import { WrapModule } from './modules/wrap/wrap.module';
-import { ControlModule } from './modules/control/control.module';
+import { GeneralModule } from './modules/general/general.module';
 
 @Module({
-
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.development.local'],
+      envFilePath: ['.env.production.local'],
       load: [configuration],
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: (configService: ConfigService) => (configService.get<any>(CONFIG.DATABASE)),
+      useFactory: (configService: ConfigService) =>
+        configService.get<any>(CONFIG.DATABASE),
       inject: [ConfigService],
     }),
     AuthModule,
     UnitModule,
     WrapModule,
-    ControlModule
+    SessionModule,
+    SharedModule,
+    GeneralModule,
   ],
 
-  controllers: [
-    AppController
-  ],
+  controllers: [AppController],
 
   providers: [
     {
       provide: APP_FILTER,
-      useClass: AllExceptionsFilter
+      useClass: AllExceptionsFilter,
     },
     {
       provide: APP_PIPE,
@@ -45,13 +51,12 @@ import { ControlModule } from './modules/control/control.module';
         transform: true,
         forbidNonWhitelisted: true,
         transformOptions: { enableImplicitConversion: true },
-      })
+      }),
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: ClassSerializerInterceptor
+      useClass: ClassSerializerInterceptor,
     },
   ],
-
 })
-export class AppModule { }
+export class AppModule {}

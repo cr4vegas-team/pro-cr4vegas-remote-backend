@@ -1,6 +1,6 @@
 
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, ValidateNested } from "class-validator";
+import { IsOptional, IsString, ValidateNested } from "class-validator";
 import { UnitCreateDto } from '../../unit/dto/unit-create.dto';
 
 
@@ -14,30 +14,35 @@ export class UnitGenericCreateDto {
 
     @ApiProperty()
     @IsString()
-    data1: string;
+    @IsOptional()
+    data1?: string;
 
     // =======================================
 
     @ApiProperty()
     @IsString()
-    data2: string;
+    @IsOptional()
+    data2?: string;
 
     // =======================================
 
     @ApiProperty()
     @IsString()
-    data3: string;
+    @IsOptional()
+    data3?: string;
 
     // =======================================
 
     @ApiProperty()
     @IsString()
-    data4: string;
+    @IsOptional()
+    data4?: string;
 
     // =======================================
 
     @ApiProperty()
     @IsString()
-    data5: string;
+    @IsOptional()
+    data5?: string;
 
 }

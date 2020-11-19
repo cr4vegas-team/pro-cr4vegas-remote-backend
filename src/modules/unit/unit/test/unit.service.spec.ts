@@ -1,21 +1,21 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { StationEntity } from '../../../wrap/station/station.entity';
+import { Repository } from 'typeorm';
 import { SectorEntity } from '../../../wrap/sector/sector.entity';
 import { SectorService } from '../../../wrap/sector/sector.service';
+import { SetTypeEntity } from '../../../wrap/set/set-type.entity';
+import { SetEntity } from '../../../wrap/set/set.entity';
 import { SetService } from '../../../wrap/set/set.service';
+import { StationEntity } from '../../../wrap/station/station.entity';
 import { StationService } from '../../../wrap/station/station.service';
+import { UnitTypeTableEnum } from '../unit-type.enum';
 import { UnitEntity } from '../unit.entity';
 import { UnitService } from '../unit.service';
-import { SetEntity } from '../../../wrap/set/set.entity';
-import { SetTypeEntity } from '../../../wrap/set/set-type.entity';
-import { Repository } from 'typeorm';
-import { UnitTypeTableEnum } from '../unit-type-table.enum';
 
 const unitRepository: UnitEntity[] = [
   {
     id: 1,
-    code: 'HD000001',
+    code: 11111,
     altitude: 300,
     longitude: -2.000234234023,
     latitude: 26.023489234,
@@ -23,12 +23,13 @@ const unitRepository: UnitEntity[] = [
     created: new Date(),
     updated: new Date(),
     description: 'alskdjfalskdfaskdjf',
-    typeTable: UnitTypeTableEnum.UNIT_GENERIC,
+    unitTypeTable: UnitTypeTableEnum.UNIT_GENERIC,
     sector: null,
     station: null,
     sets: [],
-    manages: [],
-  }
+    actions: [],
+    image: '',
+  },
 ];
 
 const sectorRepository: SectorEntity[] = [
@@ -41,7 +42,8 @@ const sectorRepository: SectorEntity[] = [
     units: [],
     created: new Date(),
     updated: new Date(),
-  }
+    image: '',
+  },
 ];
 
 const stationRepository: StationEntity[] = [
@@ -57,7 +59,8 @@ const stationRepository: StationEntity[] = [
     units: [],
     created: new Date(),
     updated: new Date(),
-  }
+    image: '',
+  },
 ];
 
 const setRepository: SetEntity[] = [
@@ -65,24 +68,23 @@ const setRepository: SetEntity[] = [
     id: 1,
     code: 'SE00000001',
     name: 'Set Test',
-    setType: {name: 'Set Type Test'},
+    setType: { name: 'Set Type Test' },
     units: [],
     active: 1,
     description: 'lkasjdflkajsdkfljasd',
     created: new Date(),
     updated: new Date(),
-
-  }
+    image: '',
+  },
 ];
 
 const setTypeRepository: SetTypeEntity[] = [
   {
     name: 'Set Type Test',
-  }
-]
+  },
+];
 
 describe('UnitService', () => {
-
   let service: UnitService;
   let unitRepo: Repository<UnitEntity>;
 
@@ -112,17 +114,17 @@ describe('UnitService', () => {
         {
           provide: getRepositoryToken(SetTypeEntity),
           useValue: setTypeRepository,
-        }
+        },
       ],
     }).compile();
 
     service = moduleRef.get<UnitService>(UnitService);
-    unitRepo = moduleRef.get<Repository<UnitEntity>>(getRepositoryToken(UnitEntity));
-
+    unitRepo = moduleRef.get<Repository<UnitEntity>>(
+      getRepositoryToken(UnitEntity),
+    );
   });
 
   it('should be defined', () => {
     expect(5).toBe(5);
   });
-
 });

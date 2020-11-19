@@ -1,6 +1,6 @@
 import { StationCreateDto } from './dto/station-create.dto';
+import { StationRO, StationsRO } from './dto/station-response.dto';
 import { StationUpdateDto } from './dto/station-update.dto';
-import { StationRO, StationsRO } from './station.interfaces';
 import { StationService } from './station.service';
 export declare class StationController {
     private readonly _statioService;

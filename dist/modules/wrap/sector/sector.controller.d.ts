@@ -1,6 +1,6 @@
 import { SectorCreateDto } from './dto/sector-create.dto';
+import { SectorRO, SectorsRO } from './dto/sector-response.dto';
 import { SectorUpdateDto } from './dto/sector-update.dto';
-import { SectorRO, SectorsRO } from './sector.interfaces';
 import { SectorService } from './sector.service';
 export declare class SectorController {
     private readonly _sectorService;

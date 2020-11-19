@@ -8,8 +8,7 @@
         "options": {
           "dtoFileNameSuffix": [
             ".dto.ts",
-            ".entity.ts",
-            ".interfaces.ts"
+            ".entity.ts"
           ],
           "controllerFileNameSuffix": [
             ".controller.ts"

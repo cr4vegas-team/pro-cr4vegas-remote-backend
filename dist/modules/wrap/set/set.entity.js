@@ -10,10 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetEntity = void 0;
-const unit_entity_1 = require("../../unit/unit/unit.entity");
+const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
+const unit_entity_1 = require("../../unit/unit/unit.entity");
 const set_type_entity_1 = require("./set-type.entity");
 let SetEntity = class SetEntity {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, setType: { required: true, type: () => require("./set-type.entity").SetTypeEntity }, units: { required: true, type: () => [require("../../unit/unit/unit.entity").UnitEntity] }, code: { required: true, type: () => String }, name: { required: true, type: () => String }, description: { required: true, type: () => String }, updated: { required: true, type: () => Date }, created: { required: true, type: () => Date }, active: { required: true, type: () => Number }, image: { required: true, type: () => String } };
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn('increment'),
@@ -21,7 +25,7 @@ __decorate([
 ], SetEntity.prototype, "id", void 0);
 __decorate([
     typeorm_1.ManyToOne(type => set_type_entity_1.SetTypeEntity, type => type.name),
-    typeorm_1.JoinColumn({ name: 'set_type', referencedColumnName: 'name' }),
+    typeorm_1.JoinColumn(),
     __metadata("design:type", set_type_entity_1.SetTypeEntity)
 ], SetEntity.prototype, "setType", void 0);
 __decorate([
@@ -31,8 +35,8 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         type: 'varchar',
-        length: 15,
-        unique: true
+        length: 5,
+        unique: true,
     }),
     __metadata("design:type", String)
 ], SetEntity.prototype, "code", void 0);
@@ -40,13 +44,14 @@ __decorate([
     typeorm_1.Column({
         type: 'varchar',
         length: 45,
-        unique: true
+        unique: true,
     }),
     __metadata("design:type", String)
 ], SetEntity.prototype, "name", void 0);
 __decorate([
     typeorm_1.Column({
         type: 'text',
+        nullable: true,
     }),
     __metadata("design:type", String)
 ], SetEntity.prototype, "description", void 0);
@@ -61,10 +66,17 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         type: 'tinyint',
-        default: 1
+        default: 1,
     }),
     __metadata("design:type", Number)
 ], SetEntity.prototype, "active", void 0);
+__decorate([
+    typeorm_1.Column({
+        type: 'varchar',
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], SetEntity.prototype, "image", void 0);
 SetEntity = __decorate([
     typeorm_1.Entity('sets')
 ], SetEntity);

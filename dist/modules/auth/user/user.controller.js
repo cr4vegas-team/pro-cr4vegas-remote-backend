@@ -13,9 +13,11 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const update_user_dto_1 = require("./dto/update-user.dto");
+const user_update_dto_1 = require("./dto/user-update.dto");
+const user_exception_msg_1 = require("./user-exception.msg");
 const user_service_1 = require("./user.service");
 let UserController = class UserController {
     constructor(_userService) {
@@ -30,51 +32,31 @@ let UserController = class UserController {
     updateOne(dto) {
         return this._userService.updateOne(dto);
     }
-    deleteOne(id) {
-        return this._userService.deleteOne(id);
-    }
-    activateOne(id) {
-        return this._userService.activateOne(id);
-    }
 };
 __decorate([
     common_1.Get(),
+    openapi.ApiResponse({ status: 200, type: require("./dto/user-response.dto").UsersRO }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findAll", null);
 __decorate([
-    swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
     common_1.Get(':id'),
+    openapi.ApiResponse({ status: 200, type: require("./dto/user-response.dto").UserRO }),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findOne", null);
 __decorate([
-    swagger_1.ApiBody({ type: update_user_dto_1.UpdateUserDto, required: true }),
+    swagger_1.ApiNotFoundResponse({ description: user_exception_msg_1.UserExceptionMSG.NOT_FOUND }),
     common_1.Put(),
+    openapi.ApiResponse({ status: 200, type: require("./dto/user-response.dto").UserRO }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [update_user_dto_1.UpdateUserDto]),
+    __metadata("design:paramtypes", [user_update_dto_1.UpdateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "updateOne", null);
-__decorate([
-    swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
-    common_1.Delete(':id'),
-    __param(0, common_1.Param('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", Promise)
-], UserController.prototype, "deleteOne", null);
-__decorate([
-    swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
-    common_1.Patch(':id'),
-    __param(0, common_1.Param('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", Promise)
-], UserController.prototype, "activateOne", null);
 UserController = __decorate([
     swagger_1.ApiTags('user'),
     common_1.Controller('user'),

@@ -26,34 +26,42 @@ let StationService = class StationService {
         this._unitService = _unitService;
     }
     async findAll() {
-        const qb = await this._stationRepository.createQueryBuilder('stations')
-            .leftJoinAndSelect("stations.units", "units")
-            .orderBy("stations.created", "DESC");
+        const qb = await this._stationRepository
+            .createQueryBuilder('stations')
+            .leftJoinAndSelect('stations.units', 'units')
+            .orderBy('stations.created', 'DESC');
         const stationsCount = await qb.getCount();
         const foundStations = await qb.getMany();
-        console.log(foundStations);
         return { stations: foundStations, count: stationsCount };
     }
     async findOne(id) {
-        const qb = await this._stationRepository.createQueryBuilder('stations')
-            .where("stations.id = :id", { id });
+        const qb = await this._stationRepository
+            .createQueryBuilder('stations')
+            .where('stations.id = :id', { id });
         const foundStation = await qb.getOne();
         return { station: foundStation };
     }
     async findOneWithUnits(id) {
-        const qb = await this._stationRepository.createQueryBuilder('stations')
+        const qb = await this._stationRepository
+            .createQueryBuilder('stations')
             .leftJoinAndSelect('stations.units', 'units')
-            .where("stations.id = :id", { id });
+            .where('stations.id = :id', { id });
         const foundStation = await qb.getOne();
         return { station: foundStation };
     }
     async createOne(dto) {
-        const foundStation = await this._stationRepository.createQueryBuilder('stations')
+        const foundStation = await this._stationRepository
+            .createQueryBuilder('stations')
             .where('stations.code = :code', { code: dto.code })
             .orWhere('stations.name = :name', { name: dto.name })
             .getOne();
         if (foundStation) {
-            throw new common_1.ConflictException(station_exception_msg_1.StationExceptionMSG.CONFLICT_CODE);
+            if (foundStation.name === dto.name) {
+                throw new common_1.ConflictException(station_exception_msg_1.StationExceptionMSG.CONFLICT_NAME);
+            }
+            if (foundStation.code === dto.code) {
+                throw new common_1.ConflictException(station_exception_msg_1.StationExceptionMSG.CONFLICT_CODE);
+            }
         }
         const newStation = class_transformer_1.plainToClass(station_entity_1.StationEntity, dto);
         newStation.units = (await this._unitService.findAllByIds(dto.units)).units;
@@ -61,11 +69,25 @@ let StationService = class StationService {
         return { station: savedStation };
     }
     async updateOne(dto) {
-        let foundStation = await this._stationRepository.createQueryBuilder('stations')
+        const foundStationConflit = await this._stationRepository
+            .createQueryBuilder('stations')
+            .where('stations.code = :code', { code: dto.code })
+            .orWhere('stations.name = :name', { name: dto.name })
+            .getOne();
+        if (foundStationConflit && foundStationConflit.id !== dto.id) {
+            if (foundStationConflit.name === dto.name) {
+                throw new common_1.ConflictException(station_exception_msg_1.StationExceptionMSG.CONFLICT_NAME);
+            }
+            if (foundStationConflit.code === dto.code) {
+                throw new common_1.ConflictException(station_exception_msg_1.StationExceptionMSG.CONFLICT_CODE);
+            }
+        }
+        let foundStation = await this._stationRepository
+            .createQueryBuilder('stations')
             .where('stations.id = :id', { id: dto.id })
             .getOne();
         if (!foundStation) {
-            throw new common_1.NotFoundException(station_exception_msg_1.StationExceptionMSG.NOT_FOUND_ID);
+            throw new common_1.NotFoundException(station_exception_msg_1.StationExceptionMSG.NOT_FOUND);
         }
         foundStation = class_transformer_1.plainToClass(station_entity_1.StationEntity, dto);
         foundStation.units = (await this._unitService.findAllByIds(dto.units)).units;
@@ -75,7 +97,7 @@ let StationService = class StationService {
     async deleteOne(id) {
         const foundStation = await this._stationRepository.findOne(id);
         if (!foundStation) {
-            throw new common_1.NotFoundException(station_exception_msg_1.StationExceptionMSG.NOT_FOUND_ID);
+            throw new common_1.NotFoundException(station_exception_msg_1.StationExceptionMSG.NOT_FOUND);
         }
         const updatedStation = await this._stationRepository.update(id, { active: 0 });
         return updatedStation.affected > 0;
@@ -83,7 +105,7 @@ let StationService = class StationService {
     async activateOne(id) {
         const foundStation = await this._stationRepository.findOne(id);
         if (!foundStation) {
-            throw new common_1.NotFoundException(station_exception_msg_1.StationExceptionMSG.NOT_FOUND_ID);
+            throw new common_1.NotFoundException(station_exception_msg_1.StationExceptionMSG.NOT_FOUND);
         }
         const updatedSector = await this._stationRepository.update(id, { active: 1 });
         return updatedSector.affected > 0;

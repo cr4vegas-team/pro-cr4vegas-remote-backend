@@ -10,13 +10,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitEntity = void 0;
+const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
+const action_entity_1 = require("../../session/action/action.entity");
 const sector_entity_1 = require("../../wrap/sector/sector.entity");
 const set_entity_1 = require("../../wrap/set/set.entity");
 const station_entity_1 = require("../../wrap/station/station.entity");
-const manage_entity_1 = require("./../../control/manage/manage.entity");
-const unit_type_table_enum_1 = require("./unit-type-table.enum");
+const unit_type_enum_1 = require("./unit-type.enum");
 let UnitEntity = class UnitEntity {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, station: { required: true, type: () => require("../../wrap/station/station.entity").StationEntity }, sector: { required: true, type: () => require("../../wrap/sector/sector.entity").SectorEntity }, sets: { required: true, type: () => [require("../../wrap/set/set.entity").SetEntity] }, actions: { required: true, type: () => [require("../../session/action/action.entity").ActionEntity] }, unitTypeTable: { required: true, enum: require("./unit-type.enum").UnitTypeTableEnum }, code: { required: true, type: () => Number }, altitude: { required: true, type: () => Number }, latitude: { required: true, type: () => Number }, longitude: { required: true, type: () => Number }, description: { required: true, type: () => String }, active: { required: true, type: () => Number }, image: { required: true, type: () => String }, created: { required: true, type: () => Date }, updated: { required: true, type: () => Date } };
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn('increment'),
@@ -38,28 +42,25 @@ __decorate([
     __metadata("design:type", Array)
 ], UnitEntity.prototype, "sets", void 0);
 __decorate([
-    typeorm_1.OneToMany(type => manage_entity_1.ManageEntity, manageEntity => manageEntity.unit),
+    typeorm_1.OneToMany(type => action_entity_1.ActionEntity, actionEntity => actionEntity.unit),
     __metadata("design:type", Array)
-], UnitEntity.prototype, "manages", void 0);
+], UnitEntity.prototype, "actions", void 0);
 __decorate([
     typeorm_1.Column({
-        name: 'unit_type',
         type: 'enum',
-        enum: unit_type_table_enum_1.UnitTypeTableEnum,
+        enum: unit_type_enum_1.UnitTypeTableEnum,
     }),
     __metadata("design:type", String)
-], UnitEntity.prototype, "typeTable", void 0);
+], UnitEntity.prototype, "unitTypeTable", void 0);
 __decorate([
     typeorm_1.Column({
-        unique: true,
-        type: 'varchar',
-        length: 45,
+        type: 'int',
     }),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], UnitEntity.prototype, "code", void 0);
 __decorate([
     typeorm_1.Column({
-        type: 'float',
+        type: 'int',
     }),
     __metadata("design:type", Number)
 ], UnitEntity.prototype, "altitude", void 0);
@@ -77,27 +78,34 @@ __decorate([
 ], UnitEntity.prototype, "longitude", void 0);
 __decorate([
     typeorm_1.Column({
-        type: 'varchar',
-        length: '500',
+        type: 'text',
+        nullable: true,
     }),
     __metadata("design:type", String)
 ], UnitEntity.prototype, "description", void 0);
 __decorate([
     typeorm_1.Column({
         type: 'tinyint',
-        default: 1
+        default: 1,
     }),
     __metadata("design:type", Number)
 ], UnitEntity.prototype, "active", void 0);
 __decorate([
+    typeorm_1.Column({
+        type: 'varchar',
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], UnitEntity.prototype, "image", void 0);
+__decorate([
     typeorm_1.CreateDateColumn({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], UnitEntity.prototype, "created", void 0);
 __decorate([
     typeorm_1.UpdateDateColumn({
-        type: "timestamp",
+        type: 'timestamp',
     }),
     __metadata("design:type", Date)
 ], UnitEntity.prototype, "updated", void 0);

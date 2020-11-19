@@ -10,10 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitHydrantCreateDto = void 0;
+const openapi = require("@nestjs/swagger");
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const unit_create_dto_1 = require("../../unit/dto/unit-create.dto");
 class UnitHydrantCreateDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { unit: { required: true, type: () => require("../../unit/dto/unit-create.dto").UnitCreateDto }, diameter: { required: false, type: () => Number }, filter: { required: false, type: () => Number } };
+    }
 }
 __decorate([
     swagger_1.ApiProperty(),
@@ -23,11 +27,13 @@ __decorate([
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsNumber(),
+    class_validator_1.IsOptional(),
     __metadata("design:type", Number)
 ], UnitHydrantCreateDto.prototype, "diameter", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsIn([0, 1]),
+    class_validator_1.IsOptional(),
     __metadata("design:type", Number)
 ], UnitHydrantCreateDto.prototype, "filter", void 0);
 exports.UnitHydrantCreateDto = UnitHydrantCreateDto;

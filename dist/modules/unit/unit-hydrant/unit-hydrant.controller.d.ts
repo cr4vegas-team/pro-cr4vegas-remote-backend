@@ -1,6 +1,6 @@
 import { UnitHydrantCreateDto } from './dto/unit-hydrant-create.dto';
+import { UnitHydrantRO, UnitsHydrantsRO } from './dto/unit-hydrant-response.dto';
 import { UnitHydrantUpdateDto } from './dto/unit-hydrant-update.dto';
-import { UnitHydrantRO, UnitsHydrantsRO } from './unit-hydrant.interfaces';
 import { UnitHydrantService } from './unit-hydrant.service';
 export declare class UnitHydrantController {
     private readonly _unitHydrantService;

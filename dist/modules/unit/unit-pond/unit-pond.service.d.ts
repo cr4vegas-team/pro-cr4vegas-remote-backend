@@ -3,7 +3,7 @@ import { UnitService } from '../unit/unit.service';
 import { UnitPondCreateDto } from './dto/unit-pond-create.dto';
 import { UnitPondUpdateDto } from './dto/unit-pond-update.dto';
 import { UnitPondEntity } from './unit-pond.entity';
-import { UnitPondRO, UnitsPondsRO } from './unit-pond.interfaces';
+import { UnitPondRO, UnitsPondsRO } from './dto/unit-pond-response.dto';
 export declare class UnitPondService {
     private readonly _unitPondRepository;
     private readonly _unitService;

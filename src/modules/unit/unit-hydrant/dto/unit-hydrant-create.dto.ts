@@ -1,6 +1,6 @@
 
 import { ApiProperty } from '@nestjs/swagger';
-import { IsIn, IsNumber, ValidateNested } from "class-validator";
+import { IsIn, IsNumber, IsOptional, ValidateNested } from "class-validator";
 import { UnitCreateDto } from '../../unit/dto/unit-create.dto';
 
 
@@ -14,12 +14,14 @@ export class UnitHydrantCreateDto {
 
     @ApiProperty()
     @IsNumber()
-    diameter: number;
+    @IsOptional()
+    diameter?: number;
 
     // =======================================
 
     @ApiProperty()
     @IsIn([0, 1])
-    filter: number;
+    @IsOptional()
+    filter?: number;
 
 }

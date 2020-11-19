@@ -16,9 +16,10 @@ exports.UnitGenericController = void 0;
 const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const unit_hydrant_update_dto_1 = require("../unit-hydrant/dto/unit-hydrant-update.dto");
+const unit_exception_msg_enum_1 = require("../unit/unit-exception-msg.enum");
 const unit_generic_create_dto_1 = require("./dto/unit-generic-create.dto");
 const unit_generic_update_dto_1 = require("./dto/unit-generic-update.dto");
+const unit_generic_exception_messages_1 = require("./unit-generic-exception-messages");
 const unit_generic_service_1 = require("./unit-generic.service");
 let UnitGenericController = class UnitGenericController {
     constructor(_unitGenericService) {
@@ -40,32 +41,33 @@ let UnitGenericController = class UnitGenericController {
 __decorate([
     swagger_1.ApiResponse({}),
     common_1.Get(),
-    openapi.ApiResponse({ status: 200, type: Object }),
+    openapi.ApiResponse({ status: 200, type: require("./dto/unit-generic-response.dto").UnitsGenericsRO }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UnitGenericController.prototype, "findAll", null);
 __decorate([
-    swagger_1.ApiParam({ name: 'id', type: String, required: true }),
     common_1.Get(':id'),
-    openapi.ApiResponse({ status: 200, type: Object }),
+    openapi.ApiResponse({ status: 200, type: require("./dto/unit-generic-response.dto").UnitGenericRO }),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], UnitGenericController.prototype, "findOne", null);
 __decorate([
+    swagger_1.ApiConflictResponse({ description: unit_exception_msg_enum_1.UnitExceptionMSG.CONFLICT }),
     common_1.Post(),
-    openapi.ApiResponse({ status: 201, type: Object }),
+    openapi.ApiResponse({ status: 201, type: require("./dto/unit-generic-response.dto").UnitGenericRO }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [unit_generic_create_dto_1.UnitGenericCreateDto]),
     __metadata("design:returntype", Promise)
 ], UnitGenericController.prototype, "createOne", null);
 __decorate([
-    swagger_1.ApiBody({ type: unit_hydrant_update_dto_1.UnitHydrantUpdateDto }),
+    swagger_1.ApiNotFoundResponse({ description: unit_generic_exception_messages_1.UnitGenericExceptionMSG.NOT_FOUND + ' | ' + unit_exception_msg_enum_1.UnitExceptionMSG.NOT_FOUND }),
+    swagger_1.ApiConflictResponse({ description: unit_exception_msg_enum_1.UnitExceptionMSG.CONFLICT }),
     common_1.Put(),
-    openapi.ApiResponse({ status: 200, type: Object }),
+    openapi.ApiResponse({ status: 200, type: require("./dto/unit-generic-response.dto").UnitGenericRO }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [unit_generic_update_dto_1.UnitGenericUpdateDto]),

@@ -10,9 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StationEntity = void 0;
+const openapi = require("@nestjs/swagger");
 const unit_entity_1 = require("../../unit/unit/unit.entity");
 const typeorm_1 = require("typeorm");
 let StationEntity = class StationEntity {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, units: { required: true, type: () => [require("../../unit/unit/unit.entity").UnitEntity] }, code: { required: true, type: () => String }, name: { required: true, type: () => String }, altitude: { required: true, type: () => Number }, latitude: { required: true, type: () => Number }, longitude: { required: true, type: () => Number }, description: { required: true, type: () => String }, updated: { required: true, type: () => Date }, created: { required: true, type: () => Date }, active: { required: true, type: () => Number }, image: { required: true, type: () => String } };
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn('increment'),
@@ -25,9 +29,8 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         type: 'varchar',
-        length: 15,
+        length: 5,
         unique: true,
-        nullable: false
     }),
     __metadata("design:type", String)
 ], StationEntity.prototype, "code", void 0);
@@ -36,13 +39,12 @@ __decorate([
         type: 'varchar',
         length: 45,
         unique: true,
-        nullable: false
     }),
     __metadata("design:type", String)
 ], StationEntity.prototype, "name", void 0);
 __decorate([
     typeorm_1.Column({
-        type: 'float',
+        type: 'int',
         default: 0,
     }),
     __metadata("design:type", Number)
@@ -64,6 +66,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         type: 'text',
+        nullable: true,
     }),
     __metadata("design:type", String)
 ], StationEntity.prototype, "description", void 0);
@@ -78,10 +81,17 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         type: 'tinyint',
-        default: 1
+        default: 1,
     }),
     __metadata("design:type", Number)
 ], StationEntity.prototype, "active", void 0);
+__decorate([
+    typeorm_1.Column({
+        type: 'varchar',
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], StationEntity.prototype, "image", void 0);
 StationEntity = __decorate([
     typeorm_1.Entity('stations')
 ], StationEntity);

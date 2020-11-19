@@ -10,9 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SectorEntity = void 0;
-const unit_entity_1 = require("../../unit/unit/unit.entity");
+const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
+const unit_entity_1 = require("../../unit/unit/unit.entity");
 let SectorEntity = class SectorEntity {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, units: { required: true, type: () => [require("../../unit/unit/unit.entity").UnitEntity] }, code: { required: true, type: () => String }, name: { required: true, type: () => String }, description: { required: true, type: () => String }, updated: { required: true, type: () => Date }, created: { required: true, type: () => Date }, active: { required: true, type: () => Number }, image: { required: true, type: () => String } };
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn('increment'),
@@ -25,8 +29,8 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         type: 'varchar',
-        length: 15,
-        unique: true
+        length: 5,
+        unique: true,
     }),
     __metadata("design:type", String)
 ], SectorEntity.prototype, "code", void 0);
@@ -34,13 +38,14 @@ __decorate([
     typeorm_1.Column({
         type: 'varchar',
         length: 45,
-        unique: true
+        unique: true,
     }),
     __metadata("design:type", String)
 ], SectorEntity.prototype, "name", void 0);
 __decorate([
     typeorm_1.Column({
         type: 'text',
+        nullable: true,
     }),
     __metadata("design:type", String)
 ], SectorEntity.prototype, "description", void 0);
@@ -55,10 +60,17 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         type: 'tinyint',
-        default: 1
+        default: 1,
     }),
     __metadata("design:type", Number)
 ], SectorEntity.prototype, "active", void 0);
+__decorate([
+    typeorm_1.Column({
+        type: 'varchar',
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], SectorEntity.prototype, "image", void 0);
 SectorEntity = __decorate([
     typeorm_1.Entity('sectors')
 ], SectorEntity);

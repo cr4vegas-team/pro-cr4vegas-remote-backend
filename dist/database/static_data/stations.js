@@ -13,7 +13,8 @@ exports.STATIONS_TEST = [
         updated: new Date(),
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
-        units: []
+        units: [],
+        image: null,
     },
     {
         id: 2,
@@ -27,6 +28,7 @@ exports.STATIONS_TEST = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 3,
@@ -40,6 +42,7 @@ exports.STATIONS_TEST = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 4,
@@ -53,6 +56,7 @@ exports.STATIONS_TEST = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 5,
@@ -66,6 +70,7 @@ exports.STATIONS_TEST = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 6,
@@ -79,6 +84,7 @@ exports.STATIONS_TEST = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 7,
@@ -92,6 +98,7 @@ exports.STATIONS_TEST = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     },
     {
         id: 8,
@@ -105,6 +112,7 @@ exports.STATIONS_TEST = [
         created: new Date(),
         description: 'lñaskdfalskdfasldfj',
         units: [],
+        image: null,
     }
 ];
 //# sourceMappingURL=stations.js.map

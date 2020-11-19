@@ -1,9 +1,9 @@
-import { UnitService } from 'src/modules/unit/unit/unit.service';
 import { Repository } from 'typeorm';
+import { UnitService } from '../../unit/unit/unit.service';
 import { SectorCreateDto } from './dto/sector-create.dto';
+import { SectorRO, SectorsRO } from './dto/sector-response.dto';
 import { SectorUpdateDto } from './dto/sector-update.dto';
 import { SectorEntity } from './sector.entity';
-import { SectorRO, SectorsRO } from './sector.interfaces';
 export declare class SectorService {
     private readonly _sectorRepository;
     private readonly _unitService;

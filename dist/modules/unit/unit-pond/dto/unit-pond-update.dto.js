@@ -10,34 +10,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitPondUpdateDto = void 0;
-const swagger_1 = require("@nestjs/swagger");
+const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const unit_update_dto_1 = require("../../unit/dto/unit-update.dto");
 class UnitPondUpdateDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, unit: { required: true, type: () => require("../../unit/dto/unit-update.dto").UnitUpdateDto }, m3: { required: false, type: () => Number }, height: { required: false, type: () => Number } };
+    }
 }
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsNumber(),
     __metadata("design:type", Number)
 ], UnitPondUpdateDto.prototype, "id", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.ValidateNested(),
     __metadata("design:type", unit_update_dto_1.UnitUpdateDto)
 ], UnitPondUpdateDto.prototype, "unit", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
-    class_validator_1.IsString(),
-    __metadata("design:type", String)
-], UnitPondUpdateDto.prototype, "code", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsNumber(),
+    class_validator_1.IsOptional(),
     __metadata("design:type", Number)
 ], UnitPondUpdateDto.prototype, "m3", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsNumber(),
+    class_validator_1.IsOptional(),
     __metadata("design:type", Number)
 ], UnitPondUpdateDto.prototype, "height", void 0);
 exports.UnitPondUpdateDto = UnitPondUpdateDto;

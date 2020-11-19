@@ -16,11 +16,11 @@ exports.UnitService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const class_transformer_1 = require("class-transformer");
+const typeorm_2 = require("typeorm");
 const sector_service_1 = require("../../wrap/sector/sector.service");
 const set_service_1 = require("../../wrap/set/set.service");
 const station_service_1 = require("../../wrap/station/station.service");
-const typeorm_2 = require("typeorm");
-const unit_exception_msg_1 = require("./unit-exception.msg");
+const unit_exception_msg_enum_1 = require("./unit-exception-msg.enum");
 const unit_entity_1 = require("./unit.entity");
 let UnitService = class UnitService {
     constructor(_unitRepository, _setService, _sectorService, _stationService) {
@@ -36,53 +36,53 @@ let UnitService = class UnitService {
         return { units, count };
     }
     async findAllByIds(ids) {
-        const qb = await this._unitRepository.createQueryBuilder('units')
+        const qb = await this._unitRepository
+            .createQueryBuilder('units')
             .whereInIds(ids);
         const units = await qb.getMany();
         const count = await qb.getCount();
         return { units, count };
     }
-    async delete(id) {
-        const foundUnit = await this._unitRepository.createQueryBuilder('units')
-            .where('units.id = :id', { id })
-            .getOne();
-        if (!foundUnit) {
-            throw new common_1.NotFoundException(unit_exception_msg_1.UnitExceptionMSG.NOT_FOUND);
-        }
-        const updatedUnit = await this._unitRepository.update(id, { active: 0 });
-        return updatedUnit.affected > 0;
-    }
-    async activate(id) {
-        const foundUnit = await this._unitRepository.createQueryBuilder('units')
-            .where('units.id = :id', { id })
-            .getOne();
-        if (!foundUnit) {
-            throw new common_1.NotFoundException(unit_exception_msg_1.UnitExceptionMSG.NOT_FOUND);
-        }
-        const updatedUnit = await this._unitRepository.update(id, { active: 1 });
-        return updatedUnit.affected > 0;
-    }
     async create(unitCreateDto, unitTypeTable) {
-        const foundUnitByCode = await this._unitRepository.findOne({ where: { code: unitCreateDto.code } });
+        const foundUnitByCode = await this._unitRepository
+            .createQueryBuilder('units')
+            .where('units.code = :code', { code: unitCreateDto.code })
+            .andWhere('units.unitTypeTable = :unitType', {
+            unitType: unitCreateDto.unitTypeTable,
+        })
+            .andWhere('units.sector = :sectorId', {
+            sectorId: unitCreateDto.sector,
+        })
+            .getOne();
+        console.log(foundUnitByCode);
         if (foundUnitByCode) {
-            throw new common_1.ConflictException(unit_exception_msg_1.UnitExceptionMSG.CONFLIC);
+            throw new common_1.ConflictException(unit_exception_msg_enum_1.UnitExceptionMSG.CONFLICT);
         }
         const newUnit = class_transformer_1.plainToClass(unit_entity_1.UnitEntity, unitCreateDto);
         newUnit.sector = (await this._sectorService.findOne(unitCreateDto.sector)).sector;
         newUnit.station = (await this._stationService.findOne(unitCreateDto.station)).station;
         newUnit.sets = (await this._setService.findAllByIds(unitCreateDto.sets)).sets;
-        newUnit.typeTable = unitTypeTable;
+        newUnit.unitTypeTable = unitTypeTable;
         const savedUnit = await this._unitRepository.save(newUnit);
         return { unit: savedUnit };
     }
     async update(unitUpdateDto) {
-        const foundUnitByCode = await this._unitRepository.findOne({ where: { code: unitUpdateDto.code } });
+        const foundUnitByCode = await this._unitRepository
+            .createQueryBuilder('units')
+            .where('units.code = :code', { code: unitUpdateDto.code })
+            .andWhere('units.unitTypeTable = :unitType', {
+            unitType: unitUpdateDto.unitTypeTable,
+        })
+            .andWhere('units.sector = :sectorId', {
+            sectorId: unitUpdateDto.sector,
+        })
+            .getOne();
         if (foundUnitByCode && foundUnitByCode.id !== unitUpdateDto.id) {
-            throw new common_1.ConflictException(unit_exception_msg_1.UnitExceptionMSG.CONFLIC);
+            throw new common_1.ConflictException(unit_exception_msg_enum_1.UnitExceptionMSG.CONFLICT);
         }
         let foundUnit = await this._unitRepository.findOne(unitUpdateDto.id);
         if (!foundUnit) {
-            throw new common_1.NotFoundException(unit_exception_msg_1.UnitExceptionMSG.NOT_FOUND);
+            throw new common_1.NotFoundException(unit_exception_msg_enum_1.UnitExceptionMSG.NOT_FOUND);
         }
         foundUnit = class_transformer_1.plainToClassFromExist(foundUnit, unitUpdateDto);
         foundUnit.sets = (await this._setService.findAllByIds(unitUpdateDto.sets)).sets;

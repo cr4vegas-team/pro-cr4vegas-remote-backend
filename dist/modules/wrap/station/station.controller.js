@@ -13,10 +13,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StationController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const station_create_dto_1 = require("./dto/station-create.dto");
 const station_update_dto_1 = require("./dto/station-update.dto");
+const station_exception_msg_1 = require("./station-exception.msg");
 const station_service_1 = require("./station.service");
 let StationController = class StationController {
     constructor(_statioService) {
@@ -43,41 +45,59 @@ let StationController = class StationController {
 };
 __decorate([
     common_1.Get(),
+    openapi.ApiResponse({ status: 200, type: require("./dto/station-response.dto").StationsRO }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], StationController.prototype, "findAll", null);
 __decorate([
-    swagger_1.ApiParam({ name: 'id', type: Number, required: true }),
     common_1.Get(':id'),
+    openapi.ApiResponse({ status: 200, type: require("./dto/station-response.dto").StationRO }),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], StationController.prototype, "findOne", null);
 __decorate([
+    swagger_1.ApiConflictResponse({
+        description: station_exception_msg_1.StationExceptionMSG.CONFLICT_CODE +
+            ' | ' +
+            station_exception_msg_1.StationExceptionMSG.CONFLICT_NAME,
+    }),
     common_1.Post(),
+    openapi.ApiResponse({ status: 201, type: require("./dto/station-response.dto").StationRO }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [station_create_dto_1.StationCreateDto]),
     __metadata("design:returntype", Promise)
 ], StationController.prototype, "createOne", null);
 __decorate([
+    swagger_1.ApiConflictResponse({
+        description: station_exception_msg_1.StationExceptionMSG.CONFLICT_CODE +
+            ' | ' +
+            station_exception_msg_1.StationExceptionMSG.CONFLICT_NAME,
+    }),
+    swagger_1.ApiNotFoundResponse({ description: station_exception_msg_1.StationExceptionMSG.NOT_FOUND }),
     common_1.Put(),
+    openapi.ApiResponse({ status: 200, type: require("./dto/station-response.dto").StationRO }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [station_update_dto_1.StationUpdateDto]),
     __metadata("design:returntype", Promise)
 ], StationController.prototype, "updateOne", null);
 __decorate([
+    swagger_1.ApiNotFoundResponse({ description: station_exception_msg_1.StationExceptionMSG.NOT_FOUND }),
     common_1.Delete(':id'),
+    openapi.ApiResponse({ status: 200, type: Boolean }),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], StationController.prototype, "deleteOne", null);
 __decorate([
+    swagger_1.ApiNotFoundResponse({ description: station_exception_msg_1.StationExceptionMSG.NOT_FOUND }),
     common_1.Patch(':id'),
+    openapi.ApiResponse({ status: 200, type: Boolean }),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),

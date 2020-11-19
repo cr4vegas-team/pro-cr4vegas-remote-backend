@@ -1,7 +1,9 @@
 export declare class SectorUpdateDto {
     id: number;
     code: string;
-    units: number[];
+    units?: number[];
     name: string;
-    description: string;
+    description?: string;
+    active: number;
+    image: string;
 }

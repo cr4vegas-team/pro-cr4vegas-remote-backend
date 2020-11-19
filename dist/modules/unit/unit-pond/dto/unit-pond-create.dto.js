@@ -10,24 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitPondCreateDto = void 0;
-const swagger_1 = require("@nestjs/swagger");
+const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const unit_create_dto_1 = require("../../unit/dto/unit-create.dto");
 class UnitPondCreateDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { unit: { required: true, type: () => require("../../unit/dto/unit-create.dto").UnitCreateDto }, m3: { required: false, type: () => Number }, height: { required: false, type: () => Number } };
+    }
 }
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.ValidateNested(),
     __metadata("design:type", unit_create_dto_1.UnitCreateDto)
 ], UnitPondCreateDto.prototype, "unit", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsNumber(),
+    class_validator_1.IsOptional(),
     __metadata("design:type", Number)
 ], UnitPondCreateDto.prototype, "m3", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsNumber(),
+    class_validator_1.IsOptional(),
     __metadata("design:type", Number)
 ], UnitPondCreateDto.prototype, "height", void 0);
 exports.UnitPondCreateDto = UnitPondCreateDto;

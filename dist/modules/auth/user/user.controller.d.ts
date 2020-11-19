@@ -1,5 +1,5 @@
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserRO, UsersRO } from './user.interfaces';
+import { UserRO, UsersRO } from './dto/user-response.dto';
+import { UpdateUserDto } from './dto/user-update.dto';
 import { UserService } from './user.service';
 export declare class UserController {
     private readonly _userService;
@@ -7,6 +7,4 @@ export declare class UserController {
     findAll(): Promise<UsersRO>;
     findOne(id: number): Promise<UserRO>;
     updateOne(dto: UpdateUserDto): Promise<UserRO>;
-    deleteOne(id: number): Promise<boolean>;
-    activateOne(id: number): Promise<boolean>;
 }

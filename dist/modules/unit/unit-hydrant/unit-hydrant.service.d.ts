@@ -3,7 +3,7 @@ import { UnitService } from '../unit/unit.service';
 import { UnitHydrantCreateDto } from './dto/unit-hydrant-create.dto';
 import { UnitHydrantUpdateDto } from './dto/unit-hydrant-update.dto';
 import { UnitHydrantEntity } from './unit-hydrant.entity';
-import { UnitHydrantRO, UnitsHydrantsRO } from './unit-hydrant.interfaces';
+import { UnitHydrantRO, UnitsHydrantsRO } from './dto/unit-hydrant-response.dto';
 export declare class UnitHydrantService {
     private readonly _unitHydrantRepository;
     private readonly _unitService;

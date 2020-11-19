@@ -1,73 +1,91 @@
-import { ControlEntity } from './../../control/control/control.entity';
-import { BeforeInsert, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as bcrypt from 'bcrypt';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { SessionEntity } from '../../session/session/session.entity';
+import { UserRole } from './user-role.enum';
 
 @Entity('users')
 export class UserEntity {
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
-    @PrimaryGeneratedColumn('increment')
-    id: number;
+  // ==================================================
 
-    // ==================================================
+  @OneToMany(
+    type => SessionEntity,
+    sessionEntity => sessionEntity.user,
+  )
+  sessions: SessionEntity[];
 
-    @OneToMany(type => ControlEntity, controlEntity => controlEntity.user)
-    controls: ControlEntity[];
+  // ==================================================
 
-    // ==================================================
-    
-    @Column({
-        type: 'varchar',
-        length: 45,
-        unique: true,
-        nullable: false
-    })
-    username: string;
+  @Column({
+    type: 'varchar',
+    length: 45,
+    unique: true,
+  })
+  username: string;
 
-    // ==================================================
-    
-    @Column({
-        type: 'varchar',
-        length: 225,
-        unique: true,
-        nullable: false
-    })
-    email: string;
+  // ==================================================
 
-    // ==================================================
-    
-    @Column({
-        type: 'varchar',
-        length: 250,
-        nullable: false
-    })
-    password: string;
+  @Column({
+    type: 'varchar',
+    length: 225,
+    unique: true,
+  })
+  email: string;
 
-    // ==================================================
+  // ==================================================
 
-    @Column({
-        type: 'boolean',
-        default: true
-    })
-    active: boolean;
+  @Column({
+    type: 'varchar',
+    length: 250,
+  })
+  password: string;
 
-    // ==================================================
+  // ==================================================
 
-    @CreateDateColumn({
-        type: "timestamp",
-    })
-    created: Date;
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.VIEWER,
+  })
+  role: UserRole;
 
-    // ==================================================
+  // ==================================================
 
-    @UpdateDateColumn({
-        type: "timestamp",
-    })
-    updated: Date;
+  @Column({
+    type: 'tinyint',
+    default: 1,
+  })
+  active: number;
 
-    // ==================================================
+  // ==================================================
 
-    @BeforeInsert()
-    generatePasswordHash() {
-        this.password = bcrypt.hashSync(this.password, 10);
-    }
+  @CreateDateColumn({
+    type: 'timestamp',
+  })
+  created: Date;
+
+  // ==================================================
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+  })
+  updated: Date;
+
+  // ==================================================
+
+  @BeforeInsert()
+  generatePasswordHash(): void {
+    this.password = bcrypt.hashSync(this.password, 10);
+  }
 }

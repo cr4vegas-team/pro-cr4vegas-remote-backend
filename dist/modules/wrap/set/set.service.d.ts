@@ -1,10 +1,11 @@
-import { UnitService } from 'src/modules/unit/unit/unit.service';
 import { Repository } from 'typeorm';
+import { UnitService } from '../../unit/unit/unit.service';
 import { SetCreateDto } from './dto/set-create.dto';
-import { SetTypeUpdateDto, SetUpdateDto } from './dto/set-update.dto';
+import { SetRO, SetsRO } from './dto/set-response.dto';
+import { SetTypeUpdateDto } from './dto/set-type-update.dto';
+import { SetUpdateDto } from './dto/set-update.dto';
 import { SetTypeEntity } from './set-type.entity';
 import { SetEntity } from './set.entity';
-import { SetRO, SetsRO } from './set.interfaces';
 export declare class SetService {
     private readonly _setRepository;
     private readonly _setTypeRepository;
@@ -16,8 +17,6 @@ export declare class SetService {
     findOneWithUnits(id: number): Promise<SetRO>;
     createOne(dto: SetCreateDto): Promise<SetRO>;
     updateOne(dto: SetUpdateDto): Promise<SetRO>;
-    deleteOne(id: number): Promise<boolean>;
-    activateOne(id: number): Promise<boolean>;
     findAllSetTypes(): Promise<SetTypeEntity[]>;
     insertSetType(setType: SetTypeEntity): Promise<SetTypeEntity>;
     updateSetType(dto: SetTypeUpdateDto): Promise<SetTypeEntity>;

@@ -1,40 +1,49 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { UserCreateDto } from '../user/dto/user-create.dto';
+import { UserRO } from '../user/dto/user-response.dto';
 import { UserEntity } from '../user/user.entity';
 import { UserService } from '../user/user.service';
-import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto } from '../user/dto/create-user.dto';
-import { UserRO } from '../user/user.interfaces';
+import { UserDto } from './../user/dto/user-response.dto';
 
 @Injectable()
 export class AuthService {
+  constructor(
+    private readonly _userService: UserService,
+    private readonly _jwtService: JwtService,
+  ) {}
 
-    constructor(
-        private readonly _userService: UserService,
-        private readonly _jwtService: JwtService,
-    ) { }
-
-    async validateUser(username: string, password: string): Promise<any> {
-        if (username !== undefined && password !== undefined) {
-            const foundUser: UserEntity = await this._userService.findOneToValidation({ username });
-            if (foundUser && bcrypt.compareSync(password, foundUser.password)) {
-                const { password, ...result } = foundUser;
-                return result;
-            }
-        } else {
-            return null;
-        }
+  async validateUser(username: string, password: string): Promise<UserDto> {
+    const foundUser: UserEntity = await this._userService.findOneToValidation(
+      username,
+    );
+    if (foundUser && bcrypt.compareSync(password, foundUser.password)) {
+      const userDto: UserDto = new UserDto();
+      userDto.id = foundUser.id;
+      userDto.username = foundUser.username;
+      userDto.email = foundUser.email;
+      userDto.role = foundUser.role;
+      return userDto;
+    } else {
+      return null;
     }
+  }
 
-    async login(user: any) {
-        const payload = { id: user.id, username: user.username, email: user.email };
-        return {
-            access_token: this._jwtService.sign(payload),
-        };
-    }
+  async getToken(userDto: UserDto): Promise<any> {
+    const payload = {
+      id: userDto.id,
+      username: userDto.username,
+      email: userDto.email,
+      role: userDto.role,
+    };
+    return {
+      access_token: this._jwtService.sign(payload),
+      role: userDto.role,
+    };
+  }
 
-    async signin(dto: CreateUserDto): Promise<UserRO> {
-        return this._userService.createOne(dto);
-    }
-
+  async signin(dto: UserCreateDto): Promise<UserRO> {
+    return this._userService.createOne(dto);
+  }
 }

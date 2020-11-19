@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { UnitEntity } from "../unit/unit.entity";
 
@@ -18,7 +19,7 @@ export class UnitPondEntity {
 
     @Column({
         type: 'bigint',
-        default: 0
+        nullable: true
     })
     m3: number;
 
@@ -26,7 +27,7 @@ export class UnitPondEntity {
 
     @Column({
         type: 'float',
-        default: 0.0
+        nullable: true
     })
     height: number;
 }

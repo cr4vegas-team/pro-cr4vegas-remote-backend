@@ -3,7 +3,7 @@ import { UnitService } from '../unit/unit.service';
 import { UnitGenericCreateDto } from './dto/unit-generic-create.dto';
 import { UnitGenericUpdateDto } from './dto/unit-generic-update.dto';
 import { UnitGenericEntity } from './unit-generic.entity';
-import { UnitGenericRO, UnitsGenericsRO } from './unit-generic.interfaces';
+import { UnitGenericRO, UnitsGenericsRO } from './dto/unit-generic-response.dto';
 export declare class UnitGenericService {
     private readonly _unitGenericRepository;
     private readonly _unitService;

@@ -17,8 +17,8 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const class_transformer_1 = require("class-transformer");
 const typeorm_2 = require("typeorm");
-const unit_exception_msg_1 = require("../unit/unit-exception.msg");
-const unit_type_table_enum_1 = require("../unit/unit-type-table.enum");
+const unit_exception_msg_enum_1 = require("../unit/unit-exception-msg.enum");
+const unit_type_enum_1 = require("../unit/unit-type.enum");
 const unit_service_1 = require("../unit/unit.service");
 const unit_pond_exception_messages_1 = require("./unit-pond-exception-messages");
 const unit_pond_entity_1 = require("./unit-pond.entity");
@@ -28,28 +28,30 @@ let UnitPondService = class UnitPondService {
         this._unitService = _unitService;
     }
     async findAll() {
-        const qb = await this._unitPondRepository.createQueryBuilder('units_ponds')
+        const qb = await this._unitPondRepository
+            .createQueryBuilder('units_ponds')
             .leftJoinAndSelect('units_ponds.unit', 'unit')
             .leftJoinAndSelect('unit.sector', 'sector')
             .leftJoinAndSelect('unit.station', 'station')
             .leftJoinAndSelect('unit.sets', 'sets')
-            .orderBy('unit.created', "DESC");
+            .orderBy('unit.created', 'DESC');
         const unitsPondsCount = await qb.getCount();
         const foundUnitPond = await qb.getMany();
         return { unitsPonds: foundUnitPond, count: unitsPondsCount };
     }
     async findOneById(id) {
-        const qb = await this._unitPondRepository.createQueryBuilder('units_ponds')
+        const qb = await this._unitPondRepository
+            .createQueryBuilder('units_ponds')
             .leftJoinAndSelect('units_ponds.unit', 'unit')
             .leftJoinAndSelect('unit.sector', 'sector')
             .leftJoinAndSelect('unit.station', 'station')
             .leftJoinAndSelect('unit.sets', 'sets')
-            .where("units_ponds.id = :id", { id });
+            .where('units_ponds.id = :id', { id });
         const foundUnitPond = await qb.getOne();
         return { unitPond: foundUnitPond };
     }
     async createOne(dto) {
-        const savedUnit = (await this._unitService.create(dto.unit, unit_type_table_enum_1.UnitTypeTableEnum.UNIT_HYDRANT)).unit;
+        const savedUnit = (await this._unitService.create(dto.unit, unit_type_enum_1.UnitTypeTableEnum.UNIT_POND)).unit;
         const newUnitPond = class_transformer_1.plainToClass(unit_pond_entity_1.UnitPondEntity, dto);
         newUnitPond.unit = savedUnit;
         const savedUnitPond = await this._unitPondRepository.save(newUnitPond);
@@ -60,13 +62,15 @@ let UnitPondService = class UnitPondService {
         if (!foundUnitPond) {
             throw new common_1.NotFoundException(unit_pond_exception_messages_1.UnitPondExceptionMSG.NOT_FOUND);
         }
-        let foundUnitPondUnitId = await this._unitPondRepository.createQueryBuilder('units_hydrants')
+        const foundUnitPondUnitId = await this._unitPondRepository
+            .createQueryBuilder('units_hydrants')
             .where('units_hydrants.unit.id = :id', { id: dto.unit.id })
             .getOne();
         if (foundUnitPondUnitId && foundUnitPondUnitId.id !== dto.id) {
-            throw new common_1.ConflictException(unit_exception_msg_1.UnitExceptionMSG.CONFLIC);
+            throw new common_1.ConflictException(unit_exception_msg_enum_1.UnitExceptionMSG.CONFLICT);
         }
-        const updatedUnit = (await this._unitService.update(dto.unit)).unit;
+        const updatedUnit = (await this._unitService.update(dto.unit))
+            .unit;
         foundUnitPond = class_transformer_1.plainToClass(unit_pond_entity_1.UnitPondEntity, dto);
         foundUnitPond.unit = updatedUnit;
         const savedUnitPond = await this._unitPondRepository.save(foundUnitPond);

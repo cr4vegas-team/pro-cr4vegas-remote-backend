@@ -8,5 +8,6 @@ var CONFIG;
     CONFIG["APP_GLOBAL_PREFIX"] = "app.global_prefix";
     CONFIG["APP_JWT_SECRET"] = "app.jwt_secret";
     CONFIG["DATABASE"] = "database";
+    CONFIG["MULTER_DEST"] = "multer_dest";
 })(CONFIG = exports.CONFIG || (exports.CONFIG = {}));
 //# sourceMappingURL=config.constant.js.map

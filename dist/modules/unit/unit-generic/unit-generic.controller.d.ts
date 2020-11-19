@@ -1,6 +1,6 @@
 import { UnitGenericCreateDto } from './dto/unit-generic-create.dto';
+import { UnitGenericRO, UnitsGenericsRO } from './dto/unit-generic-response.dto';
 import { UnitGenericUpdateDto } from './dto/unit-generic-update.dto';
-import { UnitGenericRO, UnitsGenericsRO } from './unit-generic.interfaces';
 import { UnitGenericService } from './unit-generic.service';
 export declare class UnitGenericController {
     private readonly _unitGenericService;

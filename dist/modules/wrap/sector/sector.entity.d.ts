@@ -1,4 +1,4 @@
-import { UnitEntity } from "../../unit/unit/unit.entity";
+import { UnitEntity } from '../../unit/unit/unit.entity';
 export declare class SectorEntity {
     id: number;
     units: UnitEntity[];
@@ -8,4 +8,5 @@ export declare class SectorEntity {
     updated: Date;
     created: Date;
     active: number;
+    image: string;
 }

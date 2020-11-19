@@ -1,35 +1,45 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MinLength, MaxLength, IsOptional, IsNumber, IsArray } from "class-validator";
-
+import {
+  IsArray,
+  IsIn,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class SectorCreateDto {
+  @IsString()
+  @MinLength(1)
+  @MaxLength(5)
+  code: string;
 
-    @ApiProperty()
-    @IsString()
-    @MinLength(8)
-    @MaxLength(45)
-    code: string;
+  // ==========================================================
 
-    // ==========================================================
-    
-    @ApiProperty()
-    @IsOptional()
-    @IsArray()
-    units: number[];
+  @IsOptional()
+  @IsArray()
+  units?: number[];
 
-    // ==========================================================
-    
-    @ApiProperty()
-    @IsString()
-    @MinLength(3)
-    @MaxLength(45)
-    name: string;
+  // ==========================================================
 
-    // ==========================================================
-    
-    @ApiProperty()
-    @IsOptional()
-    @IsString()
-    description?: string;
+  @IsString()
+  @MinLength(3)
+  @MaxLength(45)
+  name: string;
 
+  // ==========================================================
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  // ==================================================
+
+  @IsIn([0, 1])
+  active: number;
+
+  // ==================================================
+
+  @IsString()
+  @IsOptional()
+  image: string;
 }

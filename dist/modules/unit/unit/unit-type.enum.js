@@ -1,11 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UnitTypeEnum = void 0;
-var UnitTypeEnum;
-(function (UnitTypeEnum) {
-    UnitTypeEnum["NA"] = "NA";
-    UnitTypeEnum["UNIT_GENERIC"] = "UNIT_GENERIC";
-    UnitTypeEnum["UNIT_HYDRANT"] = "UNIT_HYDRANT";
-    UnitTypeEnum["UNIT_POND"] = "UNIT_POND";
-})(UnitTypeEnum = exports.UnitTypeEnum || (exports.UnitTypeEnum = {}));
+exports.UnitTypeTableEnum = void 0;
+var UnitTypeTableEnum;
+(function (UnitTypeTableEnum) {
+    UnitTypeTableEnum["UNIT_GENERIC"] = "units_generics";
+    UnitTypeTableEnum["UNIT_HYDRANT"] = "units_hydrants";
+    UnitTypeTableEnum["UNIT_POND"] = "units_ponds";
+})(UnitTypeTableEnum = exports.UnitTypeTableEnum || (exports.UnitTypeTableEnum = {}));
 //# sourceMappingURL=unit-type.enum.js.map

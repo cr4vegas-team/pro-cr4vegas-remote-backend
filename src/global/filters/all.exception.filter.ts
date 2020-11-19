@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
     ExceptionFilter,
     Catch,
@@ -9,7 +10,7 @@ import {
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
 
-    catch(exception: any, host: ArgumentsHost) {
+    catch (exception: any, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
         const request = ctx.getRequest();
@@ -25,7 +26,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         response.status(status).json({
             timestamp: new Date().toISOString(),
             path: request.url,
-            message: exception.message
+            message: exception.response.message
         });
     }
 

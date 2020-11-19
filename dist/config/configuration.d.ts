@@ -3,6 +3,7 @@ declare const _default: () => {
         port: number;
         global_prefix: string;
         jwt_secret: string;
+        multer_dest: string;
     };
     database: {
         type: string;
@@ -16,6 +17,9 @@ declare const _default: () => {
         seeds: string[];
         factories: string[];
         keepConnectionAlive: boolean;
+    };
+    logger: {
+        path: string;
     };
 };
 export default _default;

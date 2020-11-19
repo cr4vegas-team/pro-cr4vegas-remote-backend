@@ -1,19 +1,15 @@
-
-  {
-    "type": "mysql",
-    "host": "127.0.0.1",
-    "port": 3306,
-    "username": "root",
-    "password": "mysql1819",
-    "database": "cr4vegas_remote_test",
-    "entities": [
-      "src/modules/**/*.entity{.ts,.js}"
-    ],
-    "migrationTablename": "migrations",
-    "migrations": [
-      "migration/*.ts"
-    ],
-    "cli": {
-      "migrationsDir": "migration"
-    }
+{
+  "name": "production",
+  "type": "mysql",
+  "host": "192.168.1.134",
+  "port": 3310,
+  "username": "vegas5",
+  "password": "modchip5",
+  "database": "cr4vegas_remote",
+  "entities": ["src/modules/**/*.entity{.ts,.js}"],
+  "migrationTablename": "migrations",
+  "migrations": ["migration/*.ts"],
+  "cli": {
+    "migrationsDir": "migration"
   }
+}

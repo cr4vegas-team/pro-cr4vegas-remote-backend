@@ -16,9 +16,11 @@ const config_constant_1 = require("./config/config.constant");
 const configuration_1 = require("./config/configuration");
 const all_exception_filter_1 = require("./global/filters/all.exception.filter");
 const auth_module_1 = require("./modules/auth/auth.module");
+const session_module_1 = require("./modules/session/session.module");
+const shared_module_1 = require("./modules/shared/shared.module");
 const unit_module_1 = require("./modules/unit/unit.module");
 const wrap_module_1 = require("./modules/wrap/wrap.module");
-const control_module_1 = require("./modules/control/control.module");
+const general_module_1 = require("./modules/general/general.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -26,25 +28,25 @@ AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
-                envFilePath: ['.env.development.local'],
+                envFilePath: ['.env.production.local'],
                 load: [configuration_1.default],
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
-                useFactory: (configService) => (configService.get(config_constant_1.CONFIG.DATABASE)),
+                useFactory: (configService) => configService.get(config_constant_1.CONFIG.DATABASE),
                 inject: [config_1.ConfigService],
             }),
             auth_module_1.AuthModule,
             unit_module_1.UnitModule,
             wrap_module_1.WrapModule,
-            control_module_1.ControlModule
+            session_module_1.SessionModule,
+            shared_module_1.SharedModule,
+            general_module_1.GeneralModule,
         ],
-        controllers: [
-            app_controller_1.AppController
-        ],
+        controllers: [app_controller_1.AppController],
         providers: [
             {
                 provide: core_1.APP_FILTER,
-                useClass: all_exception_filter_1.AllExceptionsFilter
+                useClass: all_exception_filter_1.AllExceptionsFilter,
             },
             {
                 provide: core_1.APP_PIPE,
@@ -53,11 +55,11 @@ AppModule = __decorate([
                     transform: true,
                     forbidNonWhitelisted: true,
                     transformOptions: { enableImplicitConversion: true },
-                })
+                }),
             },
             {
                 provide: core_1.APP_INTERCEPTOR,
-                useClass: common_1.ClassSerializerInterceptor
+                useClass: common_1.ClassSerializerInterceptor,
             },
         ],
     })

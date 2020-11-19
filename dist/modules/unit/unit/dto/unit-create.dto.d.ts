@@ -1,10 +1,14 @@
+import { UnitTypeTableEnum } from '../unit-type.enum';
 export declare class UnitCreateDto {
-    code: string;
+    code: number;
+    unitTypeTable: UnitTypeTableEnum;
     station?: number;
-    sector?: number;
+    sector: number;
     sets?: number[];
     altitude: number;
     latitude: number;
     longitude: number;
-    description: string;
+    description?: string;
+    active: number;
+    image: string;
 }

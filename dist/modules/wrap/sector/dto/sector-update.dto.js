@@ -10,40 +10,47 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SectorUpdateDto = void 0;
-const swagger_1 = require("@nestjs/swagger");
+const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class SectorUpdateDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, code: { required: true, type: () => String, minLength: 1, maxLength: 5 }, units: { required: false, type: () => [Number] }, name: { required: true, type: () => String, minLength: 3, maxLength: 45 }, description: { required: false, type: () => String }, active: { required: true, type: () => Number }, image: { required: true, type: () => String } };
+    }
 }
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsNumber(),
     __metadata("design:type", Number)
 ], SectorUpdateDto.prototype, "id", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsString(),
-    class_validator_1.MinLength(8),
-    class_validator_1.MaxLength(45),
+    class_validator_1.MinLength(1),
+    class_validator_1.MaxLength(5),
     __metadata("design:type", String)
 ], SectorUpdateDto.prototype, "code", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsOptional(),
     class_validator_1.IsArray(),
     __metadata("design:type", Array)
 ], SectorUpdateDto.prototype, "units", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsString(),
     class_validator_1.MinLength(3),
     class_validator_1.MaxLength(45),
     __metadata("design:type", String)
 ], SectorUpdateDto.prototype, "name", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], SectorUpdateDto.prototype, "description", void 0);
+__decorate([
+    class_validator_1.IsIn([0, 1]),
+    __metadata("design:type", Number)
+], SectorUpdateDto.prototype, "active", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], SectorUpdateDto.prototype, "image", void 0);
 exports.SectorUpdateDto = SectorUpdateDto;
 //# sourceMappingURL=sector-update.dto.js.map

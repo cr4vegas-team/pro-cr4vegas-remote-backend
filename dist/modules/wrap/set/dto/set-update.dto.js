@@ -9,60 +9,52 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SetTypeUpdateDto = exports.SetUpdateDto = void 0;
-const swagger_1 = require("@nestjs/swagger");
+exports.SetUpdateDto = void 0;
+const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-const unit_entity_1 = require("../../../unit/unit/unit.entity");
 class SetUpdateDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, code: { required: true, type: () => String, minLength: 1, maxLength: 5 }, setType: { required: true, type: () => String }, name: { required: true, type: () => String, minLength: 3, maxLength: 45 }, description: { required: true, type: () => String }, units: { required: false, type: () => [Number] }, active: { required: true, type: () => Number }, image: { required: true, type: () => String } };
+    }
 }
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsNumber(),
     __metadata("design:type", Number)
 ], SetUpdateDto.prototype, "id", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsString(),
-    class_validator_1.MinLength(8),
-    class_validator_1.MaxLength(45),
+    class_validator_1.MinLength(1),
+    class_validator_1.MaxLength(5),
     __metadata("design:type", String)
 ], SetUpdateDto.prototype, "code", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsString(),
     __metadata("design:type", String)
 ], SetUpdateDto.prototype, "setType", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsString(),
     class_validator_1.MinLength(3),
     class_validator_1.MaxLength(45),
     __metadata("design:type", String)
 ], SetUpdateDto.prototype, "name", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsString(),
     class_validator_1.IsOptional(),
     __metadata("design:type", String)
 ], SetUpdateDto.prototype, "description", void 0);
 __decorate([
-    swagger_1.ApiProperty(),
     class_validator_1.IsOptional(),
     class_validator_1.IsArray(),
     __metadata("design:type", Array)
 ], SetUpdateDto.prototype, "units", void 0);
+__decorate([
+    class_validator_1.IsIn([0, 1]),
+    __metadata("design:type", Number)
+], SetUpdateDto.prototype, "active", void 0);
+__decorate([
+    class_validator_1.IsString(),
+    class_validator_1.IsOptional(),
+    __metadata("design:type", String)
+], SetUpdateDto.prototype, "image", void 0);
 exports.SetUpdateDto = SetUpdateDto;
-class SetTypeUpdateDto {
-}
-__decorate([
-    swagger_1.ApiProperty(),
-    class_validator_1.IsString(),
-    __metadata("design:type", String)
-], SetTypeUpdateDto.prototype, "oldName", void 0);
-__decorate([
-    swagger_1.ApiProperty(),
-    class_validator_1.IsString(),
-    __metadata("design:type", String)
-], SetTypeUpdateDto.prototype, "newName", void 0);
-exports.SetTypeUpdateDto = SetTypeUpdateDto;
 //# sourceMappingURL=set-update.dto.js.map

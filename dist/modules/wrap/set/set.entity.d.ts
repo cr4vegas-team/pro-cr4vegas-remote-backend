@@ -1,4 +1,4 @@
-import { UnitEntity } from "../../unit/unit/unit.entity";
+import { UnitEntity } from '../../unit/unit/unit.entity';
 import { SetTypeEntity } from './set-type.entity';
 export declare class SetEntity {
     id: number;
@@ -10,4 +10,5 @@ export declare class SetEntity {
     updated: Date;
     created: Date;
     active: number;
+    image: string;
 }

@@ -1,67 +1,98 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Patch,
+    Post,
+    Put
+} from '@nestjs/common';
+import {
+    ApiBadRequestResponse,
+    ApiConflictResponse,
+    ApiNotFoundResponse,
+    ApiTags
+} from '@nestjs/swagger';
 import { SetCreateDto } from './dto/set-create.dto';
-import { SetTypeUpdateDto, SetUpdateDto } from './dto/set-update.dto';
+import { SetRO, SetsRO } from './dto/set-response.dto';
+import { SetTypeUpdateDto } from './dto/set-type-update.dto';
+import { SetUpdateDto } from './dto/set-update.dto';
+import { SetExceptionMSG } from './set-exception.msg';
 import { SetTypeEntity } from './set-type.entity';
-import { SetRO, SetsRO } from './set.interfaces';
 import { SetService } from './set.service';
 
 @ApiTags('set')
 @Controller('set')
 export class SetController {
+  constructor(private readonly _setService: SetService) {}
 
-    constructor(
-        private readonly _setService: SetService
-    ) { }
+  // ==================================================
+  
+  @Get('all')
+  findAll(): Promise<SetsRO> {
+    return this._setService.findAll();
+  }
 
-    @Get('all')
-    findAll(): Promise<SetsRO> {
-        return this._setService.findAll();
-    }
+  // ==================================================
+  
+  @Get('one/:id')
+  findOne(@Param('id') id: number): Promise<SetRO> {
+    return this._setService.findOneWithUnits(id);
+  }
 
-    @ApiParam({ name: 'id', type: Number, required: true })
-    @Get('one/:id')
-    findOne(@Param('id') id: number): Promise<SetRO> {
-        return this._setService.findOneWithUnits(id);
-    }
+  // ==================================================
+  
+  @ApiConflictResponse({
+    description:
+      SetExceptionMSG.CONFLICT_CODE + '  | ' + SetExceptionMSG.CONFLICT_NAME,
+  })
+  @Post()
+  createOne(@Body() dto: SetCreateDto): Promise<SetRO> {
+    return this._setService.createOne(dto);
+  }
 
-    @Post()
-    createOne(@Body() dto: SetCreateDto): Promise<SetRO> {
-        return this._setService.createOne(dto);
-    }
+  // ==================================================
+  
+  @ApiNotFoundResponse({ description: SetExceptionMSG.NOT_FOUND })
+  @ApiConflictResponse({
+    description:
+      SetExceptionMSG.CONFLICT_CODE + '  | ' + SetExceptionMSG.CONFLICT_NAME,
+  })
+  @Put()
+  updateOne(@Body() dto: SetUpdateDto): Promise<SetRO> {
+    return this._setService.updateOne(dto);
+  }
 
-    @Put()
-    updateOne(@Body() dto: SetUpdateDto): Promise<SetRO> {
-        return this._setService.updateOne(dto);
-    }
+  // ==================================================
+  
+  @Get('set-type')
+  findAllSetTypes(): Promise<SetTypeEntity[]> {
+    return this._setService.findAllSetTypes();
+  }
 
-    @Delete(':id')
-    deleteOne(@Param('id') id: number): Promise<boolean> {
-        return this._setService.deleteOne(id);
-    }
+  // ==================================================
+  
+  @ApiConflictResponse({ description: SetExceptionMSG.CONFLICT_TYPE })
+  @Post('set-type')
+  insertSetType(@Body() dto: SetTypeEntity): Promise<SetTypeEntity> {
+    return this._setService.insertSetType(dto);
+  }
 
-    @Patch(':id')
-    activateOne(@Param('id') id: number): Promise<boolean> {
-        return this._setService.activateOne(id);
-    }
+  // ==================================================
+  
+  @ApiNotFoundResponse({ description: SetExceptionMSG.NOT_FOUND_TYPE })
+  @Delete('set-type/:name')
+  deleteSetType(@Param('name') name: string): Promise<boolean> {
+    return this._setService.deleteSetType(name);
+  }
 
-    @Get('set-type')
-    findAllSetTypes(): Promise<SetTypeEntity[]> {
-        return this._setService.findAllSetTypes();
-    }
-
-    @Post('set-type')
-    insertSetType(@Body() dto: SetTypeEntity): Promise<SetTypeEntity> {
-        return this._setService.insertSetType(dto);
-    }
-
-    @Delete('set-type/:name')
-    deleteSetType(@Param('name') name: string): Promise<boolean> {
-        return this._setService.deleteSetType(name);
-    }
-
-    @Put('set-type')
-    updateSetType(@Body() dto: SetTypeUpdateDto): Promise<SetTypeEntity> {
-        return this._setService.updateSetType(dto);
-    }
+  // ==================================================
+  
+  @ApiNotFoundResponse({ description: SetExceptionMSG.NOT_FOUND_TYPE })
+  @ApiBadRequestResponse({ description: SetExceptionMSG.SET_TYPE_LINKED })
+  @Put('set-type')
+  updateSetType(@Body() dto: SetTypeUpdateDto): Promise<SetTypeEntity> {
+    return this._setService.updateSetType(dto);
+  }
 }

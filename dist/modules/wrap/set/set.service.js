@@ -16,8 +16,8 @@ exports.SetService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const class_transformer_1 = require("class-transformer");
-const unit_service_1 = require("../../unit/unit/unit.service");
 const typeorm_2 = require("typeorm");
+const unit_service_1 = require("../../unit/unit/unit.service");
 const set_exception_msg_1 = require("./set-exception.msg");
 const set_type_entity_1 = require("./set-type.entity");
 const set_entity_1 = require("./set.entity");
@@ -28,16 +28,18 @@ let SetService = class SetService {
         this._unitService = _unitService;
     }
     async findAll() {
-        const qb = await this._setRepository.createQueryBuilder('sets')
-            .leftJoinAndSelect("sets.units", "units")
+        const qb = await this._setRepository
+            .createQueryBuilder('sets')
+            .leftJoinAndSelect('sets.units', 'units')
             .leftJoinAndSelect('sets.setType', 'setType')
-            .orderBy("sets.created", "DESC");
+            .orderBy('sets.created', 'DESC');
         const setsCount = await qb.getCount();
         const foundSets = await qb.getMany();
         return { sets: foundSets, count: setsCount };
     }
     async findAllByIds(ids) {
-        const qb = await this._setRepository.createQueryBuilder('sets')
+        const qb = await this._setRepository
+            .createQueryBuilder('sets')
             .leftJoinAndSelect('sets.setType', 'setType')
             .whereInIds(ids);
         const sets = await qb.getMany();
@@ -45,25 +47,27 @@ let SetService = class SetService {
         return { sets, count };
     }
     async findOne(id) {
-        const qb = await this._setRepository.createQueryBuilder('sets')
+        const qb = await this._setRepository
+            .createQueryBuilder('sets')
             .leftJoinAndSelect('sets.setType', 'setType')
-            .where("sets.id = :id", { id });
+            .where('sets.id = :id', { id });
         const foundSet = await qb.getOne();
         return { set: foundSet };
     }
     async findOneWithUnits(id) {
-        const qb = await this._setRepository.createQueryBuilder('sets')
-            .leftJoinAndSelect("sets.units", "units")
+        const qb = await this._setRepository
+            .createQueryBuilder('sets')
+            .leftJoinAndSelect('sets.units', 'units')
             .leftJoinAndSelect('sets.setType', 'setType')
-            .where("sets.id = :id", { id });
+            .where('sets.id = :id', { id });
         const foundSet = await qb.getOne();
         return { set: foundSet };
     }
     async createOne(dto) {
-        console.log(dto);
-        const foundSet = await this._setRepository.createQueryBuilder("sets")
-            .where("sets.code = :code", { code: dto.code })
-            .orWhere("sets.name = :name", { name: dto.name })
+        const foundSet = await this._setRepository
+            .createQueryBuilder('sets')
+            .where('sets.code = :code', { code: dto.code })
+            .orWhere('sets.name = :name', { name: dto.name })
             .getOne();
         if (foundSet) {
             if (foundSet.name === dto.name) {
@@ -73,52 +77,49 @@ let SetService = class SetService {
         }
         const newSet = class_transformer_1.plainToClass(set_entity_1.SetEntity, dto);
         newSet.units = (await this._unitService.findAllByIds(dto.units)).units;
-        newSet.setType = await this._setTypeRepository.findOne({ where: { name: dto.setType } });
+        newSet.setType = await this._setTypeRepository.findOne({
+            where: { name: dto.setType },
+        });
         const savedStation = await this._setRepository.save(newSet);
         console.log(savedStation);
         return { set: savedStation };
     }
     async updateOne(dto) {
-        let foundSet = await this._setRepository.createQueryBuilder("sets")
-            .where("sets.id = :id", { id: dto.id })
+        const foundSetConflict = await this._setRepository
+            .createQueryBuilder('sets')
+            .where('sets.code = :code', { code: dto.code })
+            .orWhere('sets.name = :name', { name: dto.name })
+            .getOne();
+        if (foundSetConflict && foundSetConflict.id !== dto.id) {
+            if (foundSetConflict.name === dto.name) {
+                throw new common_1.ConflictException(set_exception_msg_1.SetExceptionMSG.CONFLICT_NAME);
+            }
+            throw new common_1.ConflictException(set_exception_msg_1.SetExceptionMSG.CONFLICT_CODE);
+        }
+        let foundSet = await this._setRepository
+            .createQueryBuilder('sets')
+            .where('sets.id = :id', { id: dto.id })
             .getOne();
         if (!foundSet) {
-            throw new common_1.NotFoundException(set_exception_msg_1.SetExceptionMSG.NOT_FOUND_ID);
+            throw new common_1.NotFoundException(set_exception_msg_1.SetExceptionMSG.NOT_FOUND);
         }
         foundSet = class_transformer_1.plainToClass(set_entity_1.SetEntity, dto);
         foundSet.units = (await this._unitService.findAllByIds(dto.units)).units;
-        foundSet.setType = await this._setTypeRepository.findOne({ where: { name: dto.setType } });
+        foundSet.setType = await this._setTypeRepository.findOne({
+            where: { name: dto.setType },
+        });
         const updatedSet = await this._setRepository.save(foundSet);
-        console.log(updatedSet);
         return { set: updatedSet };
     }
-    async deleteOne(id) {
-        const foundSet = await this._setRepository.createQueryBuilder("sets")
-            .where("sets.id = :id", { id })
-            .getOne();
-        if (!foundSet) {
-            throw new common_1.NotFoundException(set_exception_msg_1.SetExceptionMSG.NOT_FOUND_ID);
-        }
-        const updatedStation = await this._setRepository.update(id, { active: 0 });
-        return updatedStation.affected > 0;
-    }
-    async activateOne(id) {
-        const foundSet = await this._setRepository.createQueryBuilder('sets')
-            .where("sets.id = :id", { id })
-            .getOne();
-        if (!foundSet) {
-            throw new common_1.NotFoundException(set_exception_msg_1.SetExceptionMSG.NOT_FOUND_ID);
-        }
-        const updatedUnit = await this._setRepository.update(id, { active: 1 });
-        return updatedUnit.affected > 0;
-    }
     async findAllSetTypes() {
-        const foundSetsTypes = await this._setTypeRepository.createQueryBuilder('sets_types')
+        const foundSetsTypes = await this._setTypeRepository
+            .createQueryBuilder('sets_types')
             .getMany();
         return foundSetsTypes;
     }
     async insertSetType(setType) {
-        const foundSetType = await this._setTypeRepository.createQueryBuilder('sets_types')
+        const foundSetType = await this._setTypeRepository
+            .createQueryBuilder('sets_types')
             .where('sets_types.name = :name', { name: setType.name })
             .getOne();
         if (foundSetType) {
@@ -127,7 +128,8 @@ let SetService = class SetService {
         return await this._setTypeRepository.save(setType);
     }
     async updateSetType(dto) {
-        const foundSetType = await this._setTypeRepository.createQueryBuilder('sets_types')
+        const foundSetType = await this._setTypeRepository
+            .createQueryBuilder('sets_types')
             .where('sets_types.name = :name', { name: dto.oldName })
             .getOne();
         if (!foundSetType) {
@@ -137,13 +139,18 @@ let SetService = class SetService {
         return await this._setTypeRepository.save(foundSetType);
     }
     async deleteSetType(name) {
-        const foundSetType = await this._setTypeRepository.createQueryBuilder('sets_types')
+        console.log('setType: ' + name);
+        const foundSetType = await this._setTypeRepository
+            .createQueryBuilder('sets_types')
             .where('sets_types.name = :name', { name })
             .getOne();
         if (!foundSetType) {
             throw new common_1.NotFoundException(set_exception_msg_1.SetExceptionMSG.NOT_FOUND_TYPE);
         }
-        const foundSet = await this._setRepository.createQueryBuilder('sets').where('sets.setType = :name', { name }).getOne();
+        const foundSet = await this._setRepository
+            .createQueryBuilder('sets')
+            .where('sets.setType = :name', { name })
+            .getOne();
         if (foundSet) {
             throw new common_1.BadRequestException(set_exception_msg_1.SetExceptionMSG.SET_TYPE_LINKED);
         }

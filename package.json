@@ -23,7 +23,7 @@
     "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
     "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
     "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",
-    "migration:generate": "ts-node ./node_modules/typeorm/cli.js -c production migration:generate",
+    "migration:generate": "ts-node ./node_modules/typeorm/cli.js -c production migration:generate -n alter-hydrants-unitid-nullable",
     "migration:run": "ts-node ./node_modules/typeorm/cli.js -c production migration:run",
     "migration:revert": "ts-node ./node_modules/typeorm/cli.js -c production migration:revert"
   },
@@ -40,6 +40,7 @@
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "mysql": "^2.18.1",
+    "node-pre-gyp": "^0.16.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",

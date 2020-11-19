@@ -5,8 +5,6 @@ export declare class SetUpdateDto {
     name: string;
     description: string;
     units?: number[];
-}
-export declare class SetTypeUpdateDto {
-    oldName: string;
-    newName: string;
+    active: number;
+    image: string;
 }

@@ -13,12 +13,15 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitHydrantController = void 0;
+const openapi = require("@nestjs/swagger");
+const unit_hydrant_exception_messages_1 = require("./unit-hydrant-exception-messages");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const jwt_auth_guard_1 = require("../../auth/auth/jwt-auth.guard");
 const unit_hydrant_create_dto_1 = require("./dto/unit-hydrant-create.dto");
 const unit_hydrant_update_dto_1 = require("./dto/unit-hydrant-update.dto");
 const unit_hydrant_service_1 = require("./unit-hydrant.service");
+const unit_exception_msg_enum_1 = require("../unit/unit-exception-msg.enum");
 let UnitHydrantController = class UnitHydrantController {
     constructor(_unitHydrantService) {
         this._unitHydrantService = _unitHydrantService;
@@ -38,13 +41,14 @@ let UnitHydrantController = class UnitHydrantController {
 };
 __decorate([
     common_1.Get(),
+    openapi.ApiResponse({ status: 200, type: require("./dto/unit-hydrant-response.dto").UnitsHydrantsRO }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UnitHydrantController.prototype, "findAll", null);
 __decorate([
-    swagger_1.ApiParam({ name: 'id', type: String, required: true }),
     common_1.Get(':id'),
+    openapi.ApiResponse({ status: 200, type: require("./dto/unit-hydrant-response.dto").UnitHydrantRO }),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -52,14 +56,17 @@ __decorate([
 ], UnitHydrantController.prototype, "findOne", null);
 __decorate([
     common_1.Post(),
+    openapi.ApiResponse({ status: 201, type: require("./dto/unit-hydrant-response.dto").UnitHydrantRO }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [unit_hydrant_create_dto_1.UnitHydrantCreateDto]),
     __metadata("design:returntype", Promise)
 ], UnitHydrantController.prototype, "createOne", null);
 __decorate([
-    swagger_1.ApiBody({ type: unit_hydrant_update_dto_1.UnitHydrantUpdateDto }),
+    swagger_1.ApiNotFoundResponse({ description: unit_hydrant_exception_messages_1.UnitHydrantExceptionMSG.NOT_FOUND + ' | ' + unit_exception_msg_enum_1.UnitExceptionMSG.NOT_FOUND }),
+    swagger_1.ApiConflictResponse({ description: unit_exception_msg_enum_1.UnitExceptionMSG.CONFLICT }),
     common_1.Put(),
+    openapi.ApiResponse({ status: 200, type: require("./dto/unit-hydrant-response.dto").UnitHydrantRO }),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [unit_hydrant_update_dto_1.UnitHydrantUpdateDto]),

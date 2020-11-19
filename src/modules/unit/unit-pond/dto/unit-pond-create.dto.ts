@@ -1,25 +1,19 @@
-
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, ValidateNested } from "class-validator";
+import { IsNumber, IsOptional, ValidateNested } from 'class-validator';
 import { UnitCreateDto } from '../../unit/dto/unit-create.dto';
 
-
 export class UnitPondCreateDto {
+  @ValidateNested()
+  unit: UnitCreateDto;
 
-    @ApiProperty()
-    @ValidateNested()
-    unit: UnitCreateDto;
+  // =======================================
 
-    // =======================================
+  @IsNumber()
+  @IsOptional()
+  m3?: number;
 
-    @ApiProperty()
-    @IsNumber()
-    m3: number;
+  // =======================================
 
-    // =======================================
-
-    @ApiProperty()
-    @IsNumber()
-    height: number;
-
+  @IsNumber()
+  @IsOptional()
+  height?: number;
 }

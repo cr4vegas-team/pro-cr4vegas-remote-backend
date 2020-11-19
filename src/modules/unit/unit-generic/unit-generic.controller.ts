@@ -1,9 +1,10 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiBody, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UnitHydrantUpdateDto } from '../unit-hydrant/dto/unit-hydrant-update.dto';
+import { ApiConflictResponse, ApiNotFoundResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UnitExceptionMSG } from '../unit/unit-exception-msg.enum';
 import { UnitGenericCreateDto } from './dto/unit-generic-create.dto';
+import { UnitGenericRO, UnitsGenericsRO } from './dto/unit-generic-response.dto';
 import { UnitGenericUpdateDto } from './dto/unit-generic-update.dto';
-import { UnitGenericRO, UnitsGenericsRO } from './unit-generic.interfaces';
+import { UnitGenericExceptionMSG } from './unit-generic-exception-messages';
 import { UnitGenericService } from './unit-generic.service';
 
 @ApiTags('unit-generic')
@@ -22,7 +23,6 @@ export class UnitGenericController {
 
     // ==========================================================
 
-    @ApiParam({ name: 'id', type: String, required: true })
     @Get(':id')
     findOne(@Param('id') id: number): Promise<UnitGenericRO> {
         return this._unitGenericService.findOneById(id);
@@ -30,6 +30,7 @@ export class UnitGenericController {
 
     // ==========================================================
 
+    @ApiConflictResponse({description: UnitExceptionMSG.CONFLICT})
     @Post()
     createOne(@Body() dto: UnitGenericCreateDto): Promise<UnitGenericRO> {
         return this._unitGenericService.create(dto);
@@ -37,7 +38,8 @@ export class UnitGenericController {
 
     // ==========================================================
 
-    @ApiBody({ type: UnitHydrantUpdateDto })
+    @ApiNotFoundResponse({description: UnitGenericExceptionMSG.NOT_FOUND + ' | ' + UnitExceptionMSG.NOT_FOUND})
+    @ApiConflictResponse({description: UnitExceptionMSG.CONFLICT})
     @Put()
     updateOne(@Body() dto: UnitGenericUpdateDto): Promise<UnitGenericRO> {
         return this._unitGenericService.update(dto);

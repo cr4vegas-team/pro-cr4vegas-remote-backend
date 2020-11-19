@@ -16,11 +16,8 @@ exports.SectorService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const class_transformer_1 = require("class-transformer");
-const unit_service_1 = require("../../unit/unit/unit.service");
 const typeorm_2 = require("typeorm");
-const unit_generic_entity_1 = require("../../unit/unit-generic/unit-generic.entity");
-const unit_hydrant_entity_1 = require("../../unit/unit-hydrant/unit-hydrant.entity");
-const unit_pond_entity_1 = require("../../unit/unit-pond/unit-pond.entity");
+const unit_service_1 = require("../../unit/unit/unit.service");
 const sector_exception_msg_1 = require("./sector-exception.msg");
 const sector_entity_1 = require("./sector.entity");
 let SectorService = class SectorService {
@@ -29,36 +26,42 @@ let SectorService = class SectorService {
         this._unitService = _unitService;
     }
     async findAll() {
-        const qb = await this._sectorRepository.createQueryBuilder('sectors')
-            .leftJoin("sectors.units", "unit")
-            .leftJoinAndSelect(unit_generic_entity_1.UnitGenericEntity, 'unit_generic', 'unit_generic.unitId = unit.id')
-            .leftJoinAndSelect(unit_hydrant_entity_1.UnitHydrantEntity, 'unit_hydrant', 'unit_hydrant.unitId = unit.id')
-            .leftJoinAndSelect(unit_pond_entity_1.UnitPondEntity, 'unit_pond', 'unit_pond.unitId = unit.id')
-            .orderBy("sectors.created", "DESC");
+        const qb = await this._sectorRepository
+            .createQueryBuilder('sectors')
+            .leftJoinAndSelect('sectors.units', 'units')
+            .orderBy('sectors.created', 'DESC');
         const stationsCount = await qb.getCount();
         const foundSectors = await qb.getMany();
         return { sectors: foundSectors, count: stationsCount };
     }
     async findOne(id) {
-        const qb = await this._sectorRepository.createQueryBuilder('sectors')
-            .where("sectors.id = :id", { id });
+        const qb = await this._sectorRepository
+            .createQueryBuilder('sectors')
+            .where('sectors.id = :id', { id });
         const foundSector = await qb.getOne();
         return { sector: foundSector };
     }
     async findOneWithUnits(id) {
-        const qb = await this._sectorRepository.createQueryBuilder('sectors')
-            .leftJoinAndSelect("sectors.units", "units")
-            .where("sectors.id = :id", { id });
+        const qb = await this._sectorRepository
+            .createQueryBuilder('sectors')
+            .leftJoinAndSelect('sectors.units', 'units')
+            .where('sectors.id = :id', { id });
         const foundSector = await qb.getOne();
         return { sector: foundSector };
     }
     async createOne(dto) {
-        const foundSector = await this._sectorRepository.createQueryBuilder('sectors')
+        const foundSector = await this._sectorRepository
+            .createQueryBuilder('sectors')
             .where('sectors.code = :code', { code: dto.code })
             .orWhere('sectors.name = :name', { name: dto.name })
             .getOne();
         if (foundSector) {
-            throw new common_1.ConflictException(sector_exception_msg_1.SectorExceptionMSG.CONFLICT);
+            if (foundSector.name === dto.name) {
+                throw new common_1.ConflictException(sector_exception_msg_1.SectorExceptionMSG.CONFLICT_NAME);
+            }
+            if (foundSector.code === dto.code) {
+                throw new common_1.ConflictException(sector_exception_msg_1.SectorExceptionMSG.CONFLICT_CODE);
+            }
         }
         const newSector = class_transformer_1.plainToClass(sector_entity_1.SectorEntity, dto);
         newSector.units = (await this._unitService.findAllByIds(dto.units)).units;
@@ -66,11 +69,25 @@ let SectorService = class SectorService {
         return { sector: savedSector };
     }
     async updateOne(dto) {
-        let foundSector = await this._sectorRepository.createQueryBuilder('sectors')
+        const foundSectorConflict = await this._sectorRepository
+            .createQueryBuilder('sectors')
+            .where('sectors.code = :code', { code: dto.code })
+            .orWhere('sectors.name = :name', { name: dto.name })
+            .getOne();
+        if (foundSectorConflict && foundSectorConflict.id !== dto.id) {
+            if (foundSectorConflict.name === dto.name) {
+                throw new common_1.ConflictException(sector_exception_msg_1.SectorExceptionMSG.CONFLICT_NAME);
+            }
+            if (foundSectorConflict.code === dto.code) {
+                throw new common_1.ConflictException(sector_exception_msg_1.SectorExceptionMSG.CONFLICT_CODE);
+            }
+        }
+        let foundSector = await this._sectorRepository
+            .createQueryBuilder('sectors')
             .where('sectors.id = :id', { id: dto.id })
             .getOne();
         if (!foundSector) {
-            throw new common_1.NotFoundException(sector_exception_msg_1.SectorExceptionMSG.NOT_FOUND_ID);
+            throw new common_1.NotFoundException(sector_exception_msg_1.SectorExceptionMSG.NOT_FOUND);
         }
         foundSector = class_transformer_1.plainToClass(sector_entity_1.SectorEntity, dto);
         foundSector.units = (await this._unitService.findAllByIds(dto.units)).units;
@@ -78,22 +95,24 @@ let SectorService = class SectorService {
         return { sector: updatedSector };
     }
     async deleteOne(id) {
-        const foundSector = await this._sectorRepository.createQueryBuilder('sectors')
+        const foundSector = await this._sectorRepository
+            .createQueryBuilder('sectors')
             .where('sectors.id = :id', { id })
             .getOne();
         if (!foundSector) {
-            throw new common_1.NotFoundException(sector_exception_msg_1.SectorExceptionMSG.NOT_FOUND_ID);
+            throw new common_1.NotFoundException(sector_exception_msg_1.SectorExceptionMSG.NOT_FOUND);
         }
-        return (await this._sectorRepository.update(id, { active: 0 })).affected > 0;
+        return ((await this._sectorRepository.update(id, { active: 0 })).affected > 0);
     }
     async activateOne(id) {
-        const foundSector = await this._sectorRepository.createQueryBuilder('sectors')
+        const foundSector = await this._sectorRepository
+            .createQueryBuilder('sectors')
             .where('sectors.id = :id', { id })
             .getOne();
         if (!foundSector) {
-            throw new common_1.NotFoundException(sector_exception_msg_1.SectorExceptionMSG.NOT_FOUND_ID);
+            throw new common_1.NotFoundException(sector_exception_msg_1.SectorExceptionMSG.NOT_FOUND);
         }
-        return (await this._sectorRepository.update(id, { active: 1 })).affected > 0;
+        return ((await this._sectorRepository.update(id, { active: 1 })).affected > 0);
     }
 };
 SectorService = __decorate([
