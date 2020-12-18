@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
+const auth_controller_1 = require("./auth/auth.controller");
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
@@ -42,7 +43,7 @@ AuthModule = __decorate([
             jwt_strategy_1.JwtStrategy,
             config_1.ConfigService,
         ],
-        controllers: [user_controller_1.UserController],
+        controllers: [user_controller_1.UserController, auth_controller_1.AuthController],
         exports: [
             auth_service_1.AuthService,
             user_service_1.UserService,

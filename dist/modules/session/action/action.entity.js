@@ -16,7 +16,7 @@ const session_entity_1 = require("../session/session.entity");
 const typeorm_1 = require("typeorm");
 let ActionEntity = class ActionEntity {
     static _OPENAPI_METADATA_FACTORY() {
-        return { id: { required: true, type: () => Number }, session: { required: true, type: () => require("../session/session.entity").SessionEntity }, unit: { required: true, type: () => require("../../unit/unit/unit.entity").UnitEntity }, created: { required: true, type: () => Date } };
+        return { id: { required: true, type: () => Number }, session: { required: true, type: () => require("../session/session.entity").SessionEntity }, unit: { required: true, type: () => require("../../unit/unit/unit.entity").UnitEntity }, action: { required: true, type: () => String }, created: { required: true, type: () => Date } };
     }
 };
 __decorate([
@@ -33,6 +33,13 @@ __decorate([
     typeorm_1.JoinColumn(),
     __metadata("design:type", unit_entity_1.UnitEntity)
 ], ActionEntity.prototype, "unit", void 0);
+__decorate([
+    typeorm_1.Column({
+        type: 'varchar',
+        length: 255,
+    }),
+    __metadata("design:type", String)
+], ActionEntity.prototype, "action", void 0);
 __decorate([
     typeorm_1.CreateDateColumn({
         type: 'timestamp',

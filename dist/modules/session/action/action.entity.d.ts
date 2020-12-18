@@ -4,5 +4,6 @@ export declare class ActionEntity {
     id: number;
     session: SessionEntity;
     unit: UnitEntity;
+    action: string;
     created: Date;
 }

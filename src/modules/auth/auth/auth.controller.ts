@@ -1,19 +1,20 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  UseGuards,
-  Request,
+    Body,
+    Controller,
+    Get,
+    Post,
+
+    Request, UseGuards
 } from '@nestjs/common';
 import {
-  ApiBadRequestResponse,
-  ApiBearerAuth,
-  ApiConflictResponse,
-  ApiNotFoundResponse,
-  ApiQuery,
-  ApiTags,
-  ApiUnauthorizedResponse,
+    ApiBadRequestResponse,
+    ApiBearerAuth,
+    ApiConflictResponse,
+    ApiNotFoundResponse,
+    ApiQuery,
+    ApiTags,
+    ApiUnauthorizedResponse
 } from '@nestjs/swagger';
 import { UserCreateDto } from '../user/dto/user-create.dto';
 import { UserDto, UserRO } from '../user/dto/user-response.dto';
@@ -31,7 +32,7 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @UseGuards(JwtAuthGuard)
-  @Get('auth')
+  @Get('user')
   async validate(@Request() req: any): Promise<UserDto> {
     return req.user;
   }
@@ -44,7 +45,7 @@ export class AuthController {
   @ApiQuery({ name: 'password', type: String })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
+  @Post('login')
   async login(@Request() req: any): Promise<TokenRO> {
     return this._authService.getToken(req.user);
   }
@@ -57,7 +58,7 @@ export class AuthController {
       UserExceptionMSG.CONFLICT_USERNAME,
   })
   @ApiBadRequestResponse({ description: UserExceptionMSG.BAD_REQUEST })
-  @Post('auth/signin')
+  @Post('signin')
   async signin(@Body() dto: UserCreateDto): Promise<UserRO> {
     return await this._authService.signin(dto);
   }
