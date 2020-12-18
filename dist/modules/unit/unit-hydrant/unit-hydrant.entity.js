@@ -15,7 +15,7 @@ const typeorm_1 = require("typeorm");
 const unit_entity_1 = require("../unit/unit.entity");
 let UnitHydrantEntity = class UnitHydrantEntity {
     static _OPENAPI_METADATA_FACTORY() {
-        return { id: { required: true, type: () => Number }, unit: { required: true, type: () => require("../unit/unit.entity").UnitEntity }, diameter: { required: true, type: () => Number }, filter: { required: true, type: () => Number } };
+        return { id: { required: true, type: () => Number }, unit: { required: true, type: () => require("../unit/unit.entity").UnitEntity }, initBatch: { required: true, type: () => Number }, diameter: { required: true, type: () => Number }, filter: { required: true, type: () => Number } };
     }
 };
 __decorate([
@@ -27,6 +27,13 @@ __decorate([
     typeorm_1.JoinColumn(),
     __metadata("design:type", unit_entity_1.UnitEntity)
 ], UnitHydrantEntity.prototype, "unit", void 0);
+__decorate([
+    typeorm_1.Column({
+        type: 'int',
+        nullable: true,
+    }),
+    __metadata("design:type", Number)
+], UnitHydrantEntity.prototype, "initBatch", void 0);
 __decorate([
     typeorm_1.Column({
         type: 'tinyint',

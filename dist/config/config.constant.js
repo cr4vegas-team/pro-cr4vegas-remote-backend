@@ -7,6 +7,7 @@ var CONFIG;
     CONFIG["APP_PORT"] = "app.port";
     CONFIG["APP_GLOBAL_PREFIX"] = "app.global_prefix";
     CONFIG["APP_JWT_SECRET"] = "app.jwt_secret";
+    CONFIG["MQTT_URL"] = "mqtt.url";
     CONFIG["DATABASE"] = "database";
     CONFIG["MULTER_DEST"] = "multer_dest";
 })(CONFIG = exports.CONFIG || (exports.CONFIG = {}));

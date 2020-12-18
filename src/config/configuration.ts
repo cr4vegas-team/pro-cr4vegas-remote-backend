@@ -1,9 +1,13 @@
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default () => ({
   app: {
     port: parseInt(process.env.CR4VEGAS_BACK_APP_PORT, 10),
     global_prefix: process.env.CR4VEGAS_BACK_APP_GLOBAL_PREFIX,
     jwt_secret: process.env.CR4VEGAS_BACK_JWT_SECRET,
     multer_dest: process.env.MULTER_DEST,
+  },
+  mqtt: {
+    url: process.env.CR4VEGAS_BACK_MQTT_URL,
   },
   database: {
     type: process.env.CR4VEGAS_BACK_DB_TYPE,

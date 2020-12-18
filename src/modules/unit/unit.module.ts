@@ -1,7 +1,8 @@
-import { forwardRef, Global, Module } from '@nestjs/common';
+import { SharedModule } from './../shared/shared.module';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { StationService } from '../wrap/station/station.service';
 import { WrapModule } from '../wrap/wrap.module';
+import { AppModule } from './../../app.module';
 import { UnitGenericController } from './unit-generic/unit-generic.controller';
 import { UnitGenericEntity } from './unit-generic/unit-generic.entity';
 import { UnitGenericService } from './unit-generic/unit-generic.service';
@@ -14,17 +15,21 @@ import { UnitPondService } from './unit-pond/unit-pond.service';
 import { UnitController } from './unit/unit.controller';
 import { UnitEntity } from './unit/unit.entity';
 import { UnitService } from './unit/unit.service';
+import { UnitHydrantGateway } from './unit-hydrant/unit-hydrant.gateway';
+import { UnitPondGateway } from './unit-pond/unit-pond.gateway';
+import { UnitGenericGateway } from './unit-generic/unit-generic.gateway';
 
 @Module({
-
   imports: [
     TypeOrmModule.forFeature([
-      UnitEntity, 
-      UnitHydrantEntity, 
-      UnitPondEntity, 
-      UnitGenericEntity
+      UnitEntity,
+      UnitHydrantEntity,
+      UnitPondEntity,
+      UnitGenericEntity,
     ]),
     forwardRef(() => WrapModule),
+    forwardRef(() => AppModule),
+    SharedModule,
   ],
 
   controllers: [
@@ -39,6 +44,9 @@ import { UnitService } from './unit/unit.service';
     UnitHydrantService,
     UnitPondService,
     UnitGenericService,
+    UnitHydrantGateway,
+    UnitGenericGateway,
+    UnitPondGateway,
   ],
 
   exports: [
@@ -46,6 +54,6 @@ import { UnitService } from './unit/unit.service';
     UnitHydrantService,
     UnitPondService,
     UnitGenericService,
-  ]
+  ],
 })
-export class UnitModule { }
+export class UnitModule {}

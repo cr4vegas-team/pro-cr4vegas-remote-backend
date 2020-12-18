@@ -16,6 +16,7 @@ exports.StationController = void 0;
 const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
+const jwt_auth_guard_1 = require("./../../auth/auth/jwt-auth.guard");
 const station_create_dto_1 = require("./dto/station-create.dto");
 const station_update_dto_1 = require("./dto/station-update.dto");
 const station_exception_msg_1 = require("./station-exception.msg");
@@ -104,6 +105,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], StationController.prototype, "activateOne", null);
 StationController = __decorate([
+    common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
     swagger_1.ApiTags('station'),
     common_1.Controller('station'),
     __metadata("design:paramtypes", [station_service_1.StationService])

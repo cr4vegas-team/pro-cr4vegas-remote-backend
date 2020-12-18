@@ -7,6 +7,9 @@ exports.default = () => ({
         jwt_secret: process.env.CR4VEGAS_BACK_JWT_SECRET,
         multer_dest: process.env.MULTER_DEST,
     },
+    mqtt: {
+        url: process.env.CR4VEGAS_BACK_MQTT_URL,
+    },
     database: {
         type: process.env.CR4VEGAS_BACK_DB_TYPE,
         host: process.env.CR4VEGAS_BACK_DB_HOST,

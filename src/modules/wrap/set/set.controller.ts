@@ -1,18 +1,17 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Patch,
-    Post,
-    Put
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put
 } from '@nestjs/common';
 import {
-    ApiBadRequestResponse,
-    ApiConflictResponse,
-    ApiNotFoundResponse,
-    ApiTags
+  ApiBadRequestResponse,
+  ApiConflictResponse,
+  ApiNotFoundResponse,
+  ApiTags
 } from '@nestjs/swagger';
 import { SetCreateDto } from './dto/set-create.dto';
 import { SetRO, SetsRO } from './dto/set-response.dto';
@@ -28,21 +27,21 @@ export class SetController {
   constructor(private readonly _setService: SetService) {}
 
   // ==================================================
-  
+
   @Get('all')
   findAll(): Promise<SetsRO> {
     return this._setService.findAll();
   }
 
   // ==================================================
-  
+
   @Get('one/:id')
   findOne(@Param('id') id: number): Promise<SetRO> {
     return this._setService.findOneWithUnits(id);
   }
 
   // ==================================================
-  
+
   @ApiConflictResponse({
     description:
       SetExceptionMSG.CONFLICT_CODE + '  | ' + SetExceptionMSG.CONFLICT_NAME,
@@ -53,7 +52,7 @@ export class SetController {
   }
 
   // ==================================================
-  
+
   @ApiNotFoundResponse({ description: SetExceptionMSG.NOT_FOUND })
   @ApiConflictResponse({
     description:
@@ -65,14 +64,14 @@ export class SetController {
   }
 
   // ==================================================
-  
+
   @Get('set-type')
   findAllSetTypes(): Promise<SetTypeEntity[]> {
     return this._setService.findAllSetTypes();
   }
 
   // ==================================================
-  
+
   @ApiConflictResponse({ description: SetExceptionMSG.CONFLICT_TYPE })
   @Post('set-type')
   insertSetType(@Body() dto: SetTypeEntity): Promise<SetTypeEntity> {
@@ -80,7 +79,7 @@ export class SetController {
   }
 
   // ==================================================
-  
+
   @ApiNotFoundResponse({ description: SetExceptionMSG.NOT_FOUND_TYPE })
   @Delete('set-type/:name')
   deleteSetType(@Param('name') name: string): Promise<boolean> {
@@ -88,7 +87,7 @@ export class SetController {
   }
 
   // ==================================================
-  
+
   @ApiNotFoundResponse({ description: SetExceptionMSG.NOT_FOUND_TYPE })
   @ApiBadRequestResponse({ description: SetExceptionMSG.SET_TYPE_LINKED })
   @Put('set-type')

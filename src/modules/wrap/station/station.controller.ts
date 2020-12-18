@@ -1,46 +1,48 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Patch,
-    Post,
-    Put
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+  UseGuards
 } from '@nestjs/common';
 import {
-    ApiConflictResponse,
-    ApiNotFoundResponse,
-
-    ApiTags
+  ApiConflictResponse,
+  ApiNotFoundResponse,
+  ApiTags
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from './../../auth/auth/jwt-auth.guard';
 import { StationCreateDto } from './dto/station-create.dto';
 import { StationRO, StationsRO } from './dto/station-response.dto';
 import { StationUpdateDto } from './dto/station-update.dto';
 import { StationExceptionMSG } from './station-exception.msg';
 import { StationService } from './station.service';
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('station')
 @Controller('station')
 export class StationController {
   constructor(private readonly _statioService: StationService) {}
 
   // ==================================================
-  
+
   @Get()
   findAll(): Promise<StationsRO> {
     return this._statioService.findAll();
   }
 
   // ==================================================
-  
+
   @Get(':id')
   findOne(@Param('id') id: number): Promise<StationRO> {
     return this._statioService.findOneWithUnits(id);
   }
 
   // ==================================================
-  
+
   @ApiConflictResponse({
     description:
       StationExceptionMSG.CONFLICT_CODE +
@@ -53,7 +55,7 @@ export class StationController {
   }
 
   // ==================================================
-  
+
   @ApiConflictResponse({
     description:
       StationExceptionMSG.CONFLICT_CODE +
@@ -67,7 +69,7 @@ export class StationController {
   }
 
   // ==================================================
-  
+
   @ApiNotFoundResponse({ description: StationExceptionMSG.NOT_FOUND })
   @Delete(':id')
   deleteOne(@Param('id') id: number): Promise<boolean> {
@@ -75,7 +77,7 @@ export class StationController {
   }
 
   // ==================================================
-  
+
   @ApiNotFoundResponse({ description: StationExceptionMSG.NOT_FOUND })
   @Patch(':id')
   activateOne(@Param('id') id: number): Promise<boolean> {

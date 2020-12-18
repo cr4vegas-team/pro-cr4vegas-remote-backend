@@ -5,6 +5,9 @@ declare const _default: () => {
         jwt_secret: string;
         multer_dest: string;
     };
+    mqtt: {
+        url: string;
+    };
     database: {
         type: string;
         host: string;

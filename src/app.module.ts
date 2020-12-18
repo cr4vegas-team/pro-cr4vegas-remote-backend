@@ -1,21 +1,24 @@
 import {
   ClassSerializerInterceptor,
+  Inject,
   Module,
+  OnApplicationBootstrap,
   ValidationPipe,
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { ClientProxy, ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { CONFIG } from './config/config.constant';
 import configuration from './config/configuration';
 import { AllExceptionsFilter } from './global/filters/all.exception.filter';
 import { AuthModule } from './modules/auth/auth.module';
+import { GeneralModule } from './modules/general/general.module';
 import { SessionModule } from './modules/session/session.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { UnitModule } from './modules/unit/unit.module';
 import { WrapModule } from './modules/wrap/wrap.module';
-import { GeneralModule } from './modules/general/general.module';
 
 @Module({
   imports: [
@@ -29,6 +32,15 @@ import { GeneralModule } from './modules/general/general.module';
         configService.get<any>(CONFIG.DATABASE),
       inject: [ConfigService],
     }),
+    ClientsModule.register([
+      {
+        name: 'MQTT_SERVICE',
+        transport: Transport.MQTT,
+        options: {
+          url: 'mqtt://emqx.rubenfgr.com:1883',
+        },
+      },
+    ]),
     AuthModule,
     UnitModule,
     WrapModule,
@@ -58,5 +70,13 @@ import { GeneralModule } from './modules/general/general.module';
       useClass: ClassSerializerInterceptor,
     },
   ],
+
+  exports: [ClientsModule],
 })
-export class AppModule {}
+export class AppModule implements OnApplicationBootstrap {
+  constructor(@Inject('MQTT_SERVICE') private readonly client: ClientProxy) {}
+
+  async onApplicationBootstrap(): Promise<void> {
+    await this.client.connect();
+  }
+}

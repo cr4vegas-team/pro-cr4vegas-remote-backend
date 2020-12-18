@@ -16,7 +16,7 @@ const class_validator_1 = require("class-validator");
 const unit_update_dto_1 = require("../../unit/dto/unit-update.dto");
 class UnitHydrantUpdateDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { id: { required: true, type: () => Number }, unit: { required: true, type: () => require("../../unit/dto/unit-update.dto").UnitUpdateDto }, diameter: { required: false, type: () => Number }, filter: { required: false, type: () => Number } };
+        return { id: { required: true, type: () => Number }, unit: { required: true, type: () => require("../../unit/dto/unit-update.dto").UnitUpdateDto }, initBatch: { required: false, type: () => Number }, diameter: { required: false, type: () => Number }, filter: { required: false, type: () => Number } };
     }
 }
 __decorate([
@@ -29,6 +29,12 @@ __decorate([
     class_validator_1.ValidateNested(),
     __metadata("design:type", unit_update_dto_1.UnitUpdateDto)
 ], UnitHydrantUpdateDto.prototype, "unit", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    class_validator_1.IsNumber(),
+    class_validator_1.IsOptional(),
+    __metadata("design:type", Number)
+], UnitHydrantUpdateDto.prototype, "initBatch", void 0);
 __decorate([
     swagger_1.ApiProperty(),
     class_validator_1.IsNumber(),

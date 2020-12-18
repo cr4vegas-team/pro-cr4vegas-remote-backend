@@ -4,7 +4,7 @@ import {
   Entity,
   JoinColumn,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { UnitEntity } from '../unit/unit.entity';
 
@@ -18,6 +18,14 @@ export class UnitHydrantEntity {
   @OneToOne(type => UnitEntity, { eager: true, nullable: false })
   @JoinColumn()
   unit: UnitEntity;
+
+  // =======================================
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  initBatch: number;
 
   // =======================================
 

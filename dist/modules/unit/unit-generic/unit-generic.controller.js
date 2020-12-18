@@ -14,16 +14,27 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitGenericController = void 0;
 const openapi = require("@nestjs/swagger");
+const unit_generic_gateway_1 = require("./unit-generic.gateway");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
+const jwt_auth_guard_1 = require("../../auth/auth/jwt-auth.guard");
 const unit_exception_msg_enum_1 = require("../unit/unit-exception-msg.enum");
 const unit_generic_create_dto_1 = require("./dto/unit-generic-create.dto");
 const unit_generic_update_dto_1 = require("./dto/unit-generic-update.dto");
 const unit_generic_exception_messages_1 = require("./unit-generic-exception-messages");
 const unit_generic_service_1 = require("./unit-generic.service");
+const microservices_1 = require("@nestjs/microservices");
 let UnitGenericController = class UnitGenericController {
-    constructor(_unitGenericService) {
+    constructor(_unitGenericService, _unitGenericGateway) {
         this._unitGenericService = _unitGenericService;
+        this._unitGenericGateway = _unitGenericGateway;
+    }
+    async getNotifications(message, context) {
+        const mqttPacket = JSON.stringify({
+            topic: context.getTopic(),
+            message,
+        });
+        this._unitGenericGateway.emit(mqttPacket);
     }
     findAll() {
         return this._unitGenericService.findAll();
@@ -38,6 +49,15 @@ let UnitGenericController = class UnitGenericController {
         return this._unitGenericService.update(dto);
     }
 };
+__decorate([
+    microservices_1.MessagePattern('n/u/g/+'),
+    openapi.ApiResponse({ status: 200, type: Object }),
+    __param(0, microservices_1.Payload()),
+    __param(1, microservices_1.Ctx()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array, microservices_1.MqttContext]),
+    __metadata("design:returntype", Promise)
+], UnitGenericController.prototype, "getNotifications", null);
 __decorate([
     swagger_1.ApiResponse({}),
     common_1.Get(),
@@ -64,7 +84,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UnitGenericController.prototype, "createOne", null);
 __decorate([
-    swagger_1.ApiNotFoundResponse({ description: unit_generic_exception_messages_1.UnitGenericExceptionMSG.NOT_FOUND + ' | ' + unit_exception_msg_enum_1.UnitExceptionMSG.NOT_FOUND }),
+    swagger_1.ApiNotFoundResponse({
+        description: unit_generic_exception_messages_1.UnitGenericExceptionMSG.NOT_FOUND + ' | ' + unit_exception_msg_enum_1.UnitExceptionMSG.NOT_FOUND,
+    }),
     swagger_1.ApiConflictResponse({ description: unit_exception_msg_enum_1.UnitExceptionMSG.CONFLICT }),
     common_1.Put(),
     openapi.ApiResponse({ status: 200, type: require("./dto/unit-generic-response.dto").UnitGenericRO }),
@@ -74,9 +96,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UnitGenericController.prototype, "updateOne", null);
 UnitGenericController = __decorate([
+    common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
     swagger_1.ApiTags('unit-generic'),
     common_1.Controller('unit-generic'),
-    __metadata("design:paramtypes", [unit_generic_service_1.UnitGenericService])
+    __metadata("design:paramtypes", [unit_generic_service_1.UnitGenericService,
+        unit_generic_gateway_1.UnitGenericGateway])
 ], UnitGenericController);
 exports.UnitGenericController = UnitGenericController;
 //# sourceMappingURL=unit-generic.controller.js.map

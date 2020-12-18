@@ -11,6 +11,9 @@ import { SetService } from './set/set.service';
 import { StationController } from './station/station.controller';
 import { StationEntity } from './station/station.entity';
 import { StationService } from './station/station.service';
+import { SectorGateway } from './sector/sector.gateway';
+import { SetGateway } from './set/set.gateway';
+import { StationGateway } from './station/station.gateway';
 
 @Module({
   imports: [
@@ -31,6 +34,9 @@ import { StationService } from './station/station.service';
     StationService,
     SectorService,
     SetService,
+    SectorGateway,
+    SetGateway,
+    StationGateway,
   ],
   exports: [
     StationService,

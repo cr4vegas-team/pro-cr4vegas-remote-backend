@@ -7,12 +7,12 @@ import {
   Patch,
   Post,
   Put,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiConflictResponse,
   ApiNotFoundResponse,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/auth/jwt-auth.guard';
 import { SectorCreateDto } from './dto/sector-create.dto';
@@ -25,7 +25,9 @@ import { SectorService } from './sector.service';
 @UseGuards(JwtAuthGuard)
 @Controller('sector')
 export class SectorController {
-  constructor(private readonly _sectorService: SectorService) {}
+  constructor(
+    private readonly _sectorService: SectorService,
+  ) {}
 
   // ==========================================================
 

@@ -12,11 +12,8 @@ import { UserEntity } from './user/user.entity';
 import { UserService } from './user/user.service';
 
 @Module({
-
   imports: [
-    TypeOrmModule.forFeature([
-      UserEntity
-    ]),
+    TypeOrmModule.forFeature([UserEntity]),
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -25,27 +22,25 @@ import { UserService } from './user/user.service';
         signOptions: { expiresIn: '24h' },
       }),
       inject: [ConfigService],
-    })
+    }),
   ],
 
   providers: [
-    AuthService, 
-    UserService, 
-    LocalStrategy, 
-    JwtStrategy, 
-    ConfigService
+    AuthService,
+    UserService,
+    LocalStrategy,
+    JwtStrategy,
+    ConfigService,
   ],
 
-  controllers: [
-    UserController
-  ],
+  controllers: [UserController],
 
   exports: [
-    AuthService, 
-    UserService, 
-    LocalStrategy, 
-    JwtStrategy, 
-    ConfigService
-  ]
+    AuthService,
+    UserService,
+    LocalStrategy,
+    JwtStrategy,
+    ConfigService,
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}

@@ -20,6 +20,9 @@ const set_service_1 = require("./set/set.service");
 const station_controller_1 = require("./station/station.controller");
 const station_entity_1 = require("./station/station.entity");
 const station_service_1 = require("./station/station.service");
+const sector_gateway_1 = require("./sector/sector.gateway");
+const set_gateway_1 = require("./set/set.gateway");
+const station_gateway_1 = require("./station/station.gateway");
 let WrapModule = class WrapModule {
 };
 WrapModule = __decorate([
@@ -42,6 +45,9 @@ WrapModule = __decorate([
             station_service_1.StationService,
             sector_service_1.SectorService,
             set_service_1.SetService,
+            sector_gateway_1.SectorGateway,
+            set_gateway_1.SetGateway,
+            station_gateway_1.StationGateway,
         ],
         exports: [
             station_service_1.StationService,

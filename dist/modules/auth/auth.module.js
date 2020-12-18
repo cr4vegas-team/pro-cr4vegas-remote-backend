@@ -24,9 +24,7 @@ let AuthModule = class AuthModule {
 AuthModule = __decorate([
     common_1.Module({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([
-                user_entity_1.UserEntity
-            ]),
+            typeorm_1.TypeOrmModule.forFeature([user_entity_1.UserEntity]),
             passport_1.PassportModule,
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
@@ -35,25 +33,23 @@ AuthModule = __decorate([
                     signOptions: { expiresIn: '24h' },
                 }),
                 inject: [config_1.ConfigService],
-            })
+            }),
         ],
         providers: [
             auth_service_1.AuthService,
             user_service_1.UserService,
             local_strategy_1.LocalStrategy,
             jwt_strategy_1.JwtStrategy,
-            config_1.ConfigService
+            config_1.ConfigService,
         ],
-        controllers: [
-            user_controller_1.UserController
-        ],
+        controllers: [user_controller_1.UserController],
         exports: [
             auth_service_1.AuthService,
             user_service_1.UserService,
             local_strategy_1.LocalStrategy,
             jwt_strategy_1.JwtStrategy,
-            config_1.ConfigService
-        ]
+            config_1.ConfigService,
+        ],
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;
