@@ -9,7 +9,7 @@ CR4VEGAS_BACK_MULTER_DEST=/public/upload/images
 # ==========================================================
 # MQTT
 # ===========================================================
-CR4VEGAS_BACK_MQTT_URL=mqtt://emqx.rubenfgr.com:1883
+CR4VEGAS_BACK_MQTT_URL=mqtt://emqx.rubenfgr.com:8883
 
 # ==========================================================
 # DATABASE

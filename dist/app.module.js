@@ -41,7 +41,7 @@ AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
-                envFilePath: ['.env.production.local'],
+                envFilePath: ['.env.development.local'],
                 load: [configuration_1.default],
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
@@ -51,10 +51,7 @@ AppModule = __decorate([
             microservices_1.ClientsModule.register([
                 {
                     name: 'MQTT_SERVICE',
-                    transport: microservices_1.Transport.MQTT,
-                    options: {
-                        url: 'mqtt://emqx.rubenfgr.com:1883',
-                    },
+                    transport: microservices_1.Transport.MQTT
                 },
             ]),
             auth_module_1.AuthModule,
@@ -82,6 +79,14 @@ AppModule = __decorate([
             {
                 provide: core_1.APP_INTERCEPTOR,
                 useClass: common_1.ClassSerializerInterceptor,
+            },
+            {
+                provide: 'MQTT_SERVICE',
+                useFactory: (configService) => {
+                    const options = configService.get(config_constant_1.CONFIG.MQTT);
+                    return microservices_1.ClientProxyFactory.create(options);
+                },
+                inject: [config_1.ConfigService],
             },
         ],
         exports: [microservices_1.ClientsModule],

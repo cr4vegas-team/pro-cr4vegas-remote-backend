@@ -1,3 +1,4 @@
+import { Transport } from '@nestjs/microservices';
 declare const _default: () => {
     app: {
         port: number;
@@ -6,7 +7,11 @@ declare const _default: () => {
         multer_dest: string;
     };
     mqtt: {
-        url: string;
+        transport: Transport;
+        options: {
+            url: string;
+            rejectUnauthorized: boolean;
+        };
     };
     database: {
         type: string;

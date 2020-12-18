@@ -1,3 +1,5 @@
+import { Transport } from '@nestjs/microservices';
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default () => ({
   app: {
@@ -7,7 +9,11 @@ export default () => ({
     multer_dest: process.env.MULTER_DEST,
   },
   mqtt: {
-    url: process.env.CR4VEGAS_BACK_MQTT_URL,
+    transport: Transport.MQTT,
+    options: {
+      url: process.env.CR4VEGAS_BACK_MQTT_URL,
+      rejectUnauthorized: false,
+    },
   },
   database: {
     type: process.env.CR4VEGAS_BACK_DB_TYPE,

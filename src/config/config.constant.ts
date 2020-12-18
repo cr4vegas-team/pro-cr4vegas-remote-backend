@@ -6,4 +6,5 @@ export enum CONFIG {
     MQTT_URL = 'mqtt.url',
     DATABASE = 'database',
     MULTER_DEST = 'multer_dest',
+    MQTT = 'mqtt',
 }

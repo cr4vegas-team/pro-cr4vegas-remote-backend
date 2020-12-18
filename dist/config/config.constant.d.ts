@@ -5,5 +5,6 @@ export declare enum CONFIG {
     APP_JWT_SECRET = "app.jwt_secret",
     MQTT_URL = "mqtt.url",
     DATABASE = "database",
-    MULTER_DEST = "multer_dest"
+    MULTER_DEST = "multer_dest",
+    MQTT = "mqtt"
 }

@@ -1,13 +1,19 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   ClassSerializerInterceptor,
   Inject,
   Module,
   OnApplicationBootstrap,
-  ValidationPipe,
+  ValidationPipe
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { ClientProxy, ClientsModule, Transport } from '@nestjs/microservices';
+import {
+  ClientProxy,
+  ClientProxyFactory,
+  ClientsModule,
+  Transport
+} from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { CONFIG } from './config/config.constant';
@@ -24,7 +30,7 @@ import { WrapModule } from './modules/wrap/wrap.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.production.local'],
+      envFilePath: ['.env.development.local'],
       load: [configuration],
     }),
     TypeOrmModule.forRootAsync({
@@ -35,10 +41,7 @@ import { WrapModule } from './modules/wrap/wrap.module';
     ClientsModule.register([
       {
         name: 'MQTT_SERVICE',
-        transport: Transport.MQTT,
-        options: {
-          url: 'mqtt://emqx.rubenfgr.com:1883',
-        },
+        transport: Transport.MQTT
       },
     ]),
     AuthModule,
@@ -68,6 +71,14 @@ import { WrapModule } from './modules/wrap/wrap.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: 'MQTT_SERVICE',
+      useFactory: (configService: ConfigService) => {
+        const options = configService.get<any>(CONFIG.MQTT);
+        return ClientProxyFactory.create(options);
+      },
+      inject: [ConfigService],
     },
   ],
 

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const microservices_1 = require("@nestjs/microservices");
 exports.default = () => ({
     app: {
         port: parseInt(process.env.CR4VEGAS_BACK_APP_PORT, 10),
@@ -8,7 +9,11 @@ exports.default = () => ({
         multer_dest: process.env.MULTER_DEST,
     },
     mqtt: {
-        url: process.env.CR4VEGAS_BACK_MQTT_URL,
+        transport: microservices_1.Transport.MQTT,
+        options: {
+            url: process.env.CR4VEGAS_BACK_MQTT_URL,
+            rejectUnauthorized: false,
+        },
     },
     database: {
         type: process.env.CR4VEGAS_BACK_DB_TYPE,

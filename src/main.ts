@@ -1,6 +1,5 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { Transport } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { CONFIG } from './config/config.constant';
@@ -30,28 +29,13 @@ async function bootstrap() {
   SwaggerModule.setup('swagger', app, document);
 
   app.enableCors({
-    origin: true,
+    origin: '*',
     allowedHeaders: [
-      'Authorization, X-HTTP-Method-Override, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method',
+      'Authorization, X-HTTP-Method-Override, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method, Access-Control-Allow-Origin',
     ],
     methods: ['GET,PUT,POST,PATCH,DELETE,UPDATE,OPTIONS'],
     credentials: true,
   });
-
-  // ==================================================
-  //  Add microservice MQTT
-  // ==================================================
-  app.connectMicroservice(
-    {
-      transport: Transport.MQTT,
-      options: {
-        url: configService.get(CONFIG.MQTT_URL),
-      },
-    },
-    { inheritAppConfig: true },
-  );
-
-  await app.startAllMicroservicesAsync();
 
   await app.listen(configService.get(CONFIG.APP_PORT));
 }

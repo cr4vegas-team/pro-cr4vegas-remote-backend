@@ -10,5 +10,6 @@ var CONFIG;
     CONFIG["MQTT_URL"] = "mqtt.url";
     CONFIG["DATABASE"] = "database";
     CONFIG["MULTER_DEST"] = "multer_dest";
+    CONFIG["MQTT"] = "mqtt";
 })(CONFIG = exports.CONFIG || (exports.CONFIG = {}));
 //# sourceMappingURL=config.constant.js.map
