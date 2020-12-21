@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { CONFIG } from './config/config.constant';
@@ -36,6 +37,8 @@ async function bootstrap() {
     methods: ['GET,PUT,POST,PATCH,DELETE,UPDATE,OPTIONS'],
     credentials: true,
   });
+
+  app.useWebSocketAdapter(new WsAdapter(app));
 
   await app.listen(configService.get(CONFIG.APP_PORT));
 }

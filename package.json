@@ -35,7 +35,7 @@
     "@nestjs/microservices": "^7.6.3",
     "@nestjs/passport": "^7.1.5",
     "@nestjs/platform-express": "^7.6.3",
-    "@nestjs/platform-socket.io": "^7.3.0",
+    "@nestjs/platform-ws": "^7.6.3",
     "@nestjs/swagger": "^4.7.8",
     "@nestjs/typeorm": "^7.1.5",
     "@nestjs/websockets": "^7.3.0",
