@@ -1,5 +1,5 @@
-import { Socket } from 'socket.io';
 export declare class SectorGateway {
-    wsCreate(client: Socket, unitHydrant: string): string;
-    wsUpdate(client: Socket, unitHydrant: string): string;
+    private _server;
+    wsCreate(client: any, data: string): any;
+    wsUpdate(client: any, dto: string): any;
 }

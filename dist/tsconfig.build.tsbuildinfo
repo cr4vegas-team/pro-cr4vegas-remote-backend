@@ -4441,21 +4441,6 @@
         "signature": "a28b5c0c372fb375910b3fe3c3ce4331509bc18ccef7cc39c9ee9d8daf8225d1",
         "affectsGlobalScope": false
       },
-      "../src/modules/general/setting/setting.controller.ts": {
-        "version": "855953e5b156232767172adfcbc4c0adf7e8890245197e7346031f750f8c5193",
-        "signature": "55f8bfdaac02663d7805eb4db44280328f63f059114c763d6604ebc5c11b6395",
-        "affectsGlobalScope": false
-      },
-      "../src/modules/general/setting/setting.service.ts": {
-        "version": "95e9cf66c321fd445a2a7f5268d29c3c93aaaadefa6f7f2b8a1efd62a7fe125b",
-        "signature": "098551c02a9ef3e2e8f07a16e2b4dac12745423d6ae388df117262004632443c",
-        "affectsGlobalScope": false
-      },
-      "../src/modules/general/general.module.ts": {
-        "version": "745c90c3fbe70201600f58b9653349b4d4952b1c0108a6ae23e996a4687ffa5b",
-        "signature": "9e6421aed88a34fed895545d8b7f46580a150355866f8079a2e289daabf4f7e0",
-        "affectsGlobalScope": false
-      },
       "../src/modules/session/action/dto/action-create.dto.ts": {
         "version": "c068036c83d5819f32774a09e671daec6ce6e12e6757312a7c21039f29420cac",
         "signature": "b69df57e4121ac12019d903fe1ebc01a38a57e382d368de67b96a770030bdde1",
@@ -4921,34 +4906,24 @@
         "signature": "4bc4c7612f5cc6298b01f76f7a21674181ae6e199a0b07c518107c15bde32344",
         "affectsGlobalScope": false
       },
-      "../node_modules/@types/engine.io/index.d.ts": {
-        "version": "2bc5a885dc91b4006192c477dfae4f2856e5809c6ffbf62cc242ac010f15ab51",
-        "signature": "2bc5a885dc91b4006192c477dfae4f2856e5809c6ffbf62cc242ac010f15ab51",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@types/socket.io-parser/index.d.ts": {
-        "version": "8487571622eefb9421499874014fa1cc0898bd15724565002a27b67d8e285072",
-        "signature": "8487571622eefb9421499874014fa1cc0898bd15724565002a27b67d8e285072",
-        "affectsGlobalScope": false
-      },
-      "../node_modules/@types/socket.io/index.d.ts": {
-        "version": "589a23e38353a6ba3a66b339c81cee68aa7604776f9322b4c50564165d9fa0f6",
-        "signature": "589a23e38353a6ba3a66b339c81cee68aa7604776f9322b4c50564165d9fa0f6",
+      "../node_modules/@types/ws/index.d.ts": {
+        "version": "c6e185824cae1ddea6706f4256d4bd499e8e9a37ed10689946c22984d68798c3",
+        "signature": "c6e185824cae1ddea6706f4256d4bd499e8e9a37ed10689946c22984d68798c3",
         "affectsGlobalScope": false
       },
       "../src/modules/wrap/sector/sector.gateway.ts": {
-        "version": "e0214e9fafeb0e8d1578a402b5313414337d0dbd64de7d9c6f5127198a3741f1",
-        "signature": "deb9d5aea013890ec1d2cd657e2184504fb293acda634c38e62dc4c0b3ae45e8",
+        "version": "2ee57860307eda9c65e8266f51791d04c6b8f97c4f10ae74c387bdcb8b7c2dd6",
+        "signature": "b6d62f613c2c8b3cdc981a92b5632f1b272152586cf60bf1bb2115f8755d26cc",
         "affectsGlobalScope": false
       },
       "../src/modules/wrap/set/set.gateway.ts": {
-        "version": "61c86b4bf3b18bc5d84ff1e6b1f5fc68c4cc9e3b0893e254180f26ad6272cf16",
-        "signature": "d671ef53083ae4da3946914d2f9581aee70b1d64ca5920d753acc21ca18741b7",
+        "version": "57275cc40e68e314ee67435b6de8b614f6582118d4a26e46d7acc4f4cbe4e880",
+        "signature": "08fc168cca5bacab93e17a63b86a02e197e2ab8dbaf934d24b57eec201f6c5c2",
         "affectsGlobalScope": false
       },
       "../src/modules/wrap/station/station.gateway.ts": {
-        "version": "5ff18be78a38e7e0571991df63bc286d02923afccdbef079ee6e8b093ed35a8f",
-        "signature": "e44d51ec20ec0f9b850eebc358cd0d408013cda57eeee70915879b602e4d8996",
+        "version": "2e5734670e308f286d8e88858c4d99b1d7a73714ef2ebf30cdeef15293bcffef",
+        "signature": "9ca1b7338c2ea509f99c2b33bf3482a2dc0858b25d073831bf8fced97a0376c5",
         "affectsGlobalScope": false
       },
       "../src/modules/wrap/wrap.module.ts": {
@@ -4957,8 +4932,8 @@
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-generic/unit-generic.gateway.ts": {
-        "version": "0c1c7a9ea0dc87cc2522df61a16af7554154531cb6422065771c88bc59aae8b4",
-        "signature": "f8261136bdd2b486f6b2fa836adb633607aedd0fe3da521c4aeb52c1fb4ec3c8",
+        "version": "da1b15d437b94a5daa7d3a3db9bac7a64c8fa9a96b8717d4eb632539864d3a36",
+        "signature": "9ddcf2c8fea1f88707b17f050f506fc579c4f8addb60bf8473bce52e0badfed9",
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-generic/dto/unit-generic-create.dto.ts": {
@@ -4997,8 +4972,8 @@
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-hydrant/unit-hydrant.gateway.ts": {
-        "version": "7773bcc3637866b46ed85850054d93c1a664c2171a7dd1f4f373d7bd710933cf",
-        "signature": "e79f5fd932364a8e8190a20f0a4663f3f793779ae18e93ddbee5c2ac63097149",
+        "version": "d21704df6200d8ad533fb65e351b2f4ce5600bcef313c1588fa68c6e63157d9a",
+        "signature": "d29652a0c94bcdbba42e7f6666813fadf98fd5cf622739cf76d582d4274a9e98",
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-hydrant/dto/unit-hydrant-create.dto.ts": {
@@ -5032,13 +5007,13 @@
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-hydrant/unit-hydrant.controller.ts": {
-        "version": "3ffd285aa83326cf94cb0b0c9ff19acce53451b9add4c9d98f172e50b6e387a4",
+        "version": "16a2bb7a3d82f8207e35be70fab413ee1360ea269e98b44dcb681956c086c009",
         "signature": "b12560ab865ae3f5d35742af10032c3885b5cbecdd4f1b1cce22c8042ae83b5d",
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-pond/unit-pond.gateway.ts": {
-        "version": "243e183f1e4101ffc519256042d2bd62f989f744fe763866751c6c41b0ab00ad",
-        "signature": "ada16dc04c3ff159c903ba68638022592ecf862a930d5a7d0a22efe9ab7f27cc",
+        "version": "d6cacd4936836ac716b9b7a7d39b65338e277b67a6cdd028b96842305f2420dc",
+        "signature": "bd4df9af9eb86b138dcb53248bbc08f98bb40f0acc50ed5e175a2a330ec50c78",
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-pond/dto/unit-pond-create.dto.ts": {
@@ -5072,7 +5047,7 @@
         "affectsGlobalScope": false
       },
       "../src/modules/unit/unit-pond/unit-pond.controller.ts": {
-        "version": "317e35072c94f2df4c796cc5691af48320a3d1f37c2dcdd613ce7a8a22e78f8a",
+        "version": "b0197f06352c906a0d24b86ede08e4c192d552280e791324ef83346def5069e3",
         "signature": "2b387ce9ca3d1a5efec3e779c219df6e6f3fd6fcf7b84616deb31d7a865d946e",
         "affectsGlobalScope": false
       },
@@ -5087,12 +5062,27 @@
         "affectsGlobalScope": false
       },
       "../src/app.module.ts": {
-        "version": "4562c0462e1c97c381e7bebd2c4f77057edd7c0e8a25af89e59488e988b63edf",
+        "version": "808c5bfa6e7d22100fa6ff7c51d9c8dd2b382fb9fe1492544f1c4143797dc7b2",
         "signature": "ec79d3de6b0fee035639f25d264bc49c97648bcda00e7be11cd9d7948eaa986a",
         "affectsGlobalScope": false
       },
+      "../node_modules/@nestjs/platform-ws/adapters/ws-adapter.d.ts": {
+        "version": "08d314d9fca87cb94a3dd3d7ed9d7d01f9c9cab03fe0129246cd0688e8831b2b",
+        "signature": "08d314d9fca87cb94a3dd3d7ed9d7d01f9c9cab03fe0129246cd0688e8831b2b",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/platform-ws/adapters/index.d.ts": {
+        "version": "6aac2c5ca00378e4d1421a03f614643dc1e9fd02279257cbf2e8e2a713b00907",
+        "signature": "6aac2c5ca00378e4d1421a03f614643dc1e9fd02279257cbf2e8e2a713b00907",
+        "affectsGlobalScope": false
+      },
+      "../node_modules/@nestjs/platform-ws/index.d.ts": {
+        "version": "62233ea74c1bf9917eb1ae257b912e7680e8aa7c373568eb075fc3e46e5c9d05",
+        "signature": "62233ea74c1bf9917eb1ae257b912e7680e8aa7c373568eb075fc3e46e5c9d05",
+        "affectsGlobalScope": false
+      },
       "../src/main.ts": {
-        "version": "49a4d84a35dfb131896ca84af57824f956896fa66bacf871784435fb5632cdb0",
+        "version": "e903e49228c42787d2d506c3e5dfab9c5e0df9c02d996530deceba3f5b339adc",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
         "affectsGlobalScope": false
       },
@@ -6585,6 +6575,18 @@
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/platform-express/multer/interfaces/files-upload-module.interface.d.ts"
       ],
+      "../node_modules/@nestjs/platform-ws/adapters/index.d.ts": [
+        "../node_modules/@nestjs/platform-ws/adapters/ws-adapter.d.ts"
+      ],
+      "../node_modules/@nestjs/platform-ws/adapters/ws-adapter.d.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/websockets/gateway-metadata-explorer.d.ts",
+        "../node_modules/@nestjs/websockets/index.d.ts",
+        "../node_modules/rxjs/index.d.ts"
+      ],
+      "../node_modules/@nestjs/platform-ws/index.d.ts": [
+        "../node_modules/@nestjs/platform-ws/adapters/index.d.ts"
+      ],
       "../node_modules/@nestjs/swagger/dist/decorators/api-body.decorator.d.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/swagger/dist/interfaces/open-api-spec.interface.d.ts",
@@ -6808,12 +6810,6 @@
       "../node_modules/@types/connect/index.d.ts": [
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts"
-      ],
-      "../node_modules/@types/engine.io/index.d.ts": [
-        "../node_modules/@types/node/events.d.ts",
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/node/net.d.ts"
       ],
       "../node_modules/@types/eslint-scope/index.d.ts": [
         "../node_modules/@types/eslint/index.d.ts",
@@ -7039,16 +7035,6 @@
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts"
       ],
-      "../node_modules/@types/socket.io-parser/index.d.ts": [
-        "../node_modules/@types/node/index.d.ts"
-      ],
-      "../node_modules/@types/socket.io/index.d.ts": [
-        "../node_modules/@types/engine.io/index.d.ts",
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/https.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/socket.io-parser/index.d.ts"
-      ],
       "../node_modules/@types/superagent/index.d.ts": [
         "../node_modules/@types/cookiejar/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
@@ -7147,6 +7133,17 @@
         "../node_modules/@types/uglify-js/node_modules/source-map/source-map.d.ts",
         "../node_modules/@types/webpack-sources/index.d.ts",
         "../node_modules/anymatch/index.d.ts"
+      ],
+      "../node_modules/@types/ws/index.d.ts": [
+        "../node_modules/@types/node/events.d.ts",
+        "../node_modules/@types/node/http.d.ts",
+        "../node_modules/@types/node/https.d.ts",
+        "../node_modules/@types/node/index.d.ts",
+        "../node_modules/@types/node/net.d.ts",
+        "../node_modules/@types/node/stream.d.ts",
+        "../node_modules/@types/node/tls.d.ts",
+        "../node_modules/@types/node/url.d.ts",
+        "../node_modules/@types/node/zlib.d.ts"
       ],
       "../node_modules/@types/yargs/index.d.ts": [
         "../node_modules/@types/yargs-parser/index.d.ts"
@@ -9103,12 +9100,12 @@
         "../node_modules/@nestjs/core/index.d.ts",
         "../node_modules/@nestjs/microservices/index.d.ts",
         "../node_modules/@nestjs/typeorm/index.d.ts",
+        "../node_modules/@types/node/events.d.ts",
         "../src/app.controller.ts",
         "../src/config/config.constant.ts",
         "../src/config/configuration.ts",
         "../src/global/filters/all.exception.filter.ts",
         "../src/modules/auth/auth.module.ts",
-        "../src/modules/general/general.module.ts",
         "../src/modules/session/session.module.ts",
         "../src/modules/shared/shared.module.ts",
         "../src/modules/unit/unit.module.ts",
@@ -9160,7 +9157,10 @@
       "../src/main.ts": [
         "../node_modules/@nestjs/config/index.d.ts",
         "../node_modules/@nestjs/core/index.d.ts",
+        "../node_modules/@nestjs/microservices/index.d.ts",
+        "../node_modules/@nestjs/platform-ws/index.d.ts",
         "../node_modules/@nestjs/swagger/index.d.ts",
+        "../node_modules/@types/node/events.d.ts",
         "../src/app.module.ts",
         "../src/config/config.constant.ts"
       ],
@@ -9259,17 +9259,6 @@
         "../src/modules/auth/user/dto/user-update.dto.ts",
         "../src/modules/auth/user/user-exception.msg.ts",
         "../src/modules/auth/user/user.entity.ts"
-      ],
-      "../src/modules/general/general.module.ts": [
-        "../node_modules/@nestjs/common/index.d.ts",
-        "../src/modules/general/setting/setting.controller.ts",
-        "../src/modules/general/setting/setting.service.ts"
-      ],
-      "../src/modules/general/setting/setting.controller.ts": [
-        "../node_modules/@nestjs/common/index.d.ts"
-      ],
-      "../src/modules/general/setting/setting.service.ts": [
-        "../node_modules/@nestjs/common/index.d.ts"
       ],
       "../src/modules/session/action/action.controller.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
@@ -9462,8 +9451,7 @@
         "../node_modules/@nestjs/microservices/index.d.ts",
         "../node_modules/@nestjs/websockets/decorators/index.d.ts",
         "../node_modules/@nestjs/websockets/index.d.ts",
-        "../node_modules/@types/socket.io/index.d.ts",
-        "../src/modules/auth/auth/jwt-auth.guard.ts"
+        "../node_modules/@types/ws/index.d.ts"
       ],
       "../src/modules/unit/unit-generic/unit-generic.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
@@ -9515,8 +9503,7 @@
         "../node_modules/@nestjs/microservices/external/mqtt-client.interface.d.ts",
         "../node_modules/@nestjs/microservices/index.d.ts",
         "../node_modules/@nestjs/websockets/index.d.ts",
-        "../node_modules/@types/socket.io/index.d.ts",
-        "../src/modules/auth/auth/jwt-auth.guard.ts"
+        "../node_modules/@types/ws/index.d.ts"
       ],
       "../src/modules/unit/unit-hydrant/unit-hydrant.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
@@ -9564,10 +9551,9 @@
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/microservices/external/mqtt-client.interface.d.ts",
         "../node_modules/@nestjs/microservices/index.d.ts",
+        "../node_modules/@nestjs/websockets/decorators/index.d.ts",
         "../node_modules/@nestjs/websockets/index.d.ts",
-        "../node_modules/@types/socket.io/index.d.ts",
-        "../node_modules/typeorm/index.d.ts",
-        "../src/modules/auth/auth/jwt-auth.guard.ts"
+        "../node_modules/@types/ws/index.d.ts"
       ],
       "../src/modules/unit/unit-pond/unit-pond.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
@@ -9671,10 +9657,8 @@
         "../src/modules/unit/unit/unit.entity.ts"
       ],
       "../src/modules/wrap/sector/sector.gateway.ts": [
-        "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/websockets/index.d.ts",
-        "../node_modules/@types/socket.io/index.d.ts",
-        "../src/modules/auth/auth/jwt-auth.guard.ts"
+        "../node_modules/@types/ws/index.d.ts"
       ],
       "../src/modules/wrap/sector/sector.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
@@ -9721,10 +9705,8 @@
         "../src/modules/wrap/set/set-type.entity.ts"
       ],
       "../src/modules/wrap/set/set.gateway.ts": [
-        "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/websockets/index.d.ts",
-        "../node_modules/@types/socket.io/index.d.ts",
-        "../src/modules/auth/auth/jwt-auth.guard.ts"
+        "../node_modules/@types/ws/index.d.ts"
       ],
       "../src/modules/wrap/set/set.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
@@ -9764,10 +9746,8 @@
         "../src/modules/unit/unit/unit.entity.ts"
       ],
       "../src/modules/wrap/station/station.gateway.ts": [
-        "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/websockets/index.d.ts",
-        "../node_modules/@types/socket.io/index.d.ts",
-        "../src/modules/auth/auth/jwt-auth.guard.ts"
+        "../node_modules/@types/ws/index.d.ts"
       ],
       "../src/modules/wrap/station/station.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
@@ -10904,6 +10884,18 @@
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/platform-express/multer/interfaces/files-upload-module.interface.d.ts"
       ],
+      "../node_modules/@nestjs/platform-ws/adapters/index.d.ts": [
+        "../node_modules/@nestjs/platform-ws/adapters/ws-adapter.d.ts"
+      ],
+      "../node_modules/@nestjs/platform-ws/adapters/ws-adapter.d.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../node_modules/@nestjs/websockets/gateway-metadata-explorer.d.ts",
+        "../node_modules/@nestjs/websockets/index.d.ts",
+        "../node_modules/rxjs/index.d.ts"
+      ],
+      "../node_modules/@nestjs/platform-ws/index.d.ts": [
+        "../node_modules/@nestjs/platform-ws/adapters/index.d.ts"
+      ],
       "../node_modules/@nestjs/swagger/dist/decorators/api-body.decorator.d.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/swagger/dist/interfaces/open-api-spec.interface.d.ts",
@@ -11127,12 +11119,6 @@
       "../node_modules/@types/connect/index.d.ts": [
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts"
-      ],
-      "../node_modules/@types/engine.io/index.d.ts": [
-        "../node_modules/@types/node/events.d.ts",
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/node/net.d.ts"
       ],
       "../node_modules/@types/eslint-scope/index.d.ts": [
         "../node_modules/@types/eslint/index.d.ts",
@@ -11358,16 +11344,6 @@
         "../node_modules/@types/node/http.d.ts",
         "../node_modules/@types/node/index.d.ts"
       ],
-      "../node_modules/@types/socket.io-parser/index.d.ts": [
-        "../node_modules/@types/node/index.d.ts"
-      ],
-      "../node_modules/@types/socket.io/index.d.ts": [
-        "../node_modules/@types/engine.io/index.d.ts",
-        "../node_modules/@types/node/http.d.ts",
-        "../node_modules/@types/node/https.d.ts",
-        "../node_modules/@types/node/index.d.ts",
-        "../node_modules/@types/socket.io-parser/index.d.ts"
-      ],
       "../node_modules/@types/superagent/index.d.ts": [
         "../node_modules/@types/cookiejar/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
@@ -11466,6 +11442,17 @@
         "../node_modules/@types/uglify-js/node_modules/source-map/source-map.d.ts",
         "../node_modules/@types/webpack-sources/index.d.ts",
         "../node_modules/anymatch/index.d.ts"
+      ],
+      "../node_modules/@types/ws/index.d.ts": [
+        "../node_modules/@types/node/events.d.ts",
+        "../node_modules/@types/node/http.d.ts",
+        "../node_modules/@types/node/https.d.ts",
+        "../node_modules/@types/node/index.d.ts",
+        "../node_modules/@types/node/net.d.ts",
+        "../node_modules/@types/node/stream.d.ts",
+        "../node_modules/@types/node/tls.d.ts",
+        "../node_modules/@types/node/url.d.ts",
+        "../node_modules/@types/node/zlib.d.ts"
       ],
       "../node_modules/@types/yargs/index.d.ts": [
         "../node_modules/@types/yargs-parser/index.d.ts"
@@ -13594,8 +13581,7 @@
         "../src/modules/unit/unit/unit.entity.ts"
       ],
       "../src/modules/unit/unit-generic/unit-generic.gateway.ts": [
-        "../node_modules/@nestjs/microservices/index.d.ts",
-        "../node_modules/@types/socket.io/index.d.ts"
+        "../node_modules/@nestjs/microservices/index.d.ts"
       ],
       "../src/modules/unit/unit-generic/unit-generic.service.ts": [
         "../node_modules/typeorm/index.d.ts",
@@ -13626,8 +13612,7 @@
         "../src/modules/unit/unit/unit.entity.ts"
       ],
       "../src/modules/unit/unit-hydrant/unit-hydrant.gateway.ts": [
-        "../node_modules/@nestjs/microservices/index.d.ts",
-        "../node_modules/@types/socket.io/index.d.ts"
+        "../node_modules/@nestjs/microservices/index.d.ts"
       ],
       "../src/modules/unit/unit-hydrant/unit-hydrant.service.ts": [
         "../node_modules/typeorm/index.d.ts",
@@ -13658,8 +13643,7 @@
         "../src/modules/unit/unit/unit.entity.ts"
       ],
       "../src/modules/unit/unit-pond/unit-pond.gateway.ts": [
-        "../node_modules/@nestjs/microservices/index.d.ts",
-        "../node_modules/@types/socket.io/index.d.ts"
+        "../node_modules/@nestjs/microservices/index.d.ts"
       ],
       "../src/modules/unit/unit-pond/unit-pond.service.ts": [
         "../node_modules/typeorm/index.d.ts",
@@ -13712,9 +13696,6 @@
       "../src/modules/wrap/sector/sector.entity.ts": [
         "../src/modules/unit/unit/unit.entity.ts"
       ],
-      "../src/modules/wrap/sector/sector.gateway.ts": [
-        "../node_modules/@types/socket.io/index.d.ts"
-      ],
       "../src/modules/wrap/sector/sector.service.ts": [
         "../node_modules/typeorm/index.d.ts",
         "../src/modules/unit/unit/unit.service.ts",
@@ -13738,9 +13719,6 @@
         "../src/modules/unit/unit/unit.entity.ts",
         "../src/modules/wrap/set/set-type.entity.ts"
       ],
-      "../src/modules/wrap/set/set.gateway.ts": [
-        "../node_modules/@types/socket.io/index.d.ts"
-      ],
       "../src/modules/wrap/set/set.service.ts": [
         "../node_modules/typeorm/index.d.ts",
         "../src/modules/unit/unit/unit.service.ts",
@@ -13762,9 +13740,6 @@
       ],
       "../src/modules/wrap/station/station.entity.ts": [
         "../src/modules/unit/unit/unit.entity.ts"
-      ],
-      "../src/modules/wrap/station/station.gateway.ts": [
-        "../node_modules/@types/socket.io/index.d.ts"
       ],
       "../src/modules/wrap/station/station.service.ts": [
         "../node_modules/typeorm/index.d.ts",
@@ -14067,6 +14042,9 @@
       "../node_modules/@nestjs/platform-express/multer/interfaces/index.d.ts",
       "../node_modules/@nestjs/platform-express/multer/interfaces/multer-options.interface.d.ts",
       "../node_modules/@nestjs/platform-express/multer/multer.module.d.ts",
+      "../node_modules/@nestjs/platform-ws/adapters/index.d.ts",
+      "../node_modules/@nestjs/platform-ws/adapters/ws-adapter.d.ts",
+      "../node_modules/@nestjs/platform-ws/index.d.ts",
       "../node_modules/@nestjs/swagger/dist/decorators/api-basic.decorator.d.ts",
       "../node_modules/@nestjs/swagger/dist/decorators/api-bearer.decorator.d.ts",
       "../node_modules/@nestjs/swagger/dist/decorators/api-body.decorator.d.ts",
@@ -14146,7 +14124,6 @@
       "../node_modules/@types/body-parser/index.d.ts",
       "../node_modules/@types/connect/index.d.ts",
       "../node_modules/@types/cookiejar/index.d.ts",
-      "../node_modules/@types/engine.io/index.d.ts",
       "../node_modules/@types/eslint-scope/index.d.ts",
       "../node_modules/@types/eslint-visitor-keys/index.d.ts",
       "../node_modules/@types/eslint/helpers.d.ts",
@@ -14221,8 +14198,6 @@
       "../node_modules/@types/qs/index.d.ts",
       "../node_modules/@types/range-parser/index.d.ts",
       "../node_modules/@types/serve-static/index.d.ts",
-      "../node_modules/@types/socket.io-parser/index.d.ts",
-      "../node_modules/@types/socket.io/index.d.ts",
       "../node_modules/@types/source-list-map/index.d.ts",
       "../node_modules/@types/stack-utils/index.d.ts",
       "../node_modules/@types/superagent/index.d.ts",
@@ -14246,6 +14221,7 @@
       "../node_modules/@types/webpack-sources/lib/index.d.ts",
       "../node_modules/@types/webpack/index.d.ts",
       "../node_modules/@types/webpack/node_modules/source-map/source-map.d.ts",
+      "../node_modules/@types/ws/index.d.ts",
       "../node_modules/@types/yargs-parser/index.d.ts",
       "../node_modules/@types/yargs/index.d.ts",
       "../node_modules/anymatch/index.d.ts",
@@ -14779,9 +14755,6 @@
       "../src/modules/auth/user/user.controller.ts",
       "../src/modules/auth/user/user.entity.ts",
       "../src/modules/auth/user/user.service.ts",
-      "../src/modules/general/general.module.ts",
-      "../src/modules/general/setting/setting.controller.ts",
-      "../src/modules/general/setting/setting.service.ts",
       "../src/modules/session/action/action.controller.ts",
       "../src/modules/session/action/action.entity.ts",
       "../src/modules/session/action/action.service.ts",

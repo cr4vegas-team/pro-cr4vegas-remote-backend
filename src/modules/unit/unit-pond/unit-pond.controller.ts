@@ -57,7 +57,6 @@ export class UnitPondController {
   @ApiConflictResponse({ description: UnitExceptionMSG.CONFLICT })
   @Post()
   createOne(@Body() dto: UnitPondCreateDto): Promise<UnitPondRO> {
-    console.log(dto);
     return this._unitPondService.createOne(dto);
   }
 
@@ -70,7 +69,6 @@ export class UnitPondController {
   @ApiConflictResponse({ description: UnitExceptionMSG.CONFLICT })
   @Put()
   updateOne(@Body() dto: UnitPondUpdateDto): Promise<UnitPondRO> {
-    console.log(dto);
     return this._unitPondService.updateOne(dto);
   }
 }

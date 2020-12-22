@@ -16,32 +16,38 @@ exports.UnitHydrantGateway = void 0;
 const common_1 = require("@nestjs/common");
 const microservices_1 = require("@nestjs/microservices");
 const websockets_1 = require("@nestjs/websockets");
-const jwt_auth_guard_1 = require("../../auth/auth/jwt-auth.guard");
+const ws_1 = require("ws");
 let UnitHydrantGateway = class UnitHydrantGateway {
     constructor(_client) {
         this._client = _client;
         this._mqttClient = this._client.createClient();
     }
-    handleMessage(client, payload) {
-        const payloadJSON = JSON.parse(payload);
+    handleMessage(client, data) {
+        const payloadJSON = JSON.parse(data);
         this._mqttClient.publish(payloadJSON.topic, payloadJSON.message);
         return undefined;
     }
-    emit(packet) {
-        this._server.emit('ws-server/unit/hydrant', packet);
+    emit(data) {
+        this._server.clients.forEach(serverClient => {
+            serverClient.send(JSON.stringify({ event: 'ws-server/unit/hydrant', data }));
+        });
     }
-    wsCreate(client, unitHydrant) {
-        client.broadcast.emit('ws-server/create/unit/hydrant', unitHydrant);
+    wsCreate(client, data) {
+        this._server.clients.forEach(serverClient => {
+            serverClient.send(JSON.stringify({ event: 'ws-server/create/unit/hydrant', data }));
+        });
         return undefined;
     }
-    wsUpdate(client, unitHydrant) {
-        client.broadcast.emit('ws-server/create/unit/hydrant', unitHydrant);
+    wsUpdate(client, data) {
+        this._server.clients.forEach(serverClient => {
+            serverClient.send(JSON.stringify({ event: 'ws-server/update/unit/hydrant', data }));
+        });
         return undefined;
     }
 };
 __decorate([
     websockets_1.WebSocketServer(),
-    __metadata("design:type", Object)
+    __metadata("design:type", ws_1.Server)
 ], UnitHydrantGateway.prototype, "_server", void 0);
 __decorate([
     websockets_1.SubscribeMessage('ws-client/unit/hydrant'),
@@ -53,17 +59,16 @@ __decorate([
     websockets_1.SubscribeMessage('ws-client/create/unit/hydrant'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Object)
 ], UnitHydrantGateway.prototype, "wsCreate", null);
 __decorate([
     websockets_1.SubscribeMessage('ws-client/update/unit/hydrant'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Object)
 ], UnitHydrantGateway.prototype, "wsUpdate", null);
 UnitHydrantGateway = __decorate([
-    common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
-    websockets_1.WebSocketGateway(),
+    websockets_1.WebSocketGateway(8882),
     __param(0, common_1.Inject('MQTT_SERVICE')),
     __metadata("design:paramtypes", [microservices_1.ClientMqtt])
 ], UnitHydrantGateway);

@@ -23,7 +23,6 @@ const config_constant_1 = require("./config/config.constant");
 const configuration_1 = require("./config/configuration");
 const all_exception_filter_1 = require("./global/filters/all.exception.filter");
 const auth_module_1 = require("./modules/auth/auth.module");
-const general_module_1 = require("./modules/general/general.module");
 const session_module_1 = require("./modules/session/session.module");
 const shared_module_1 = require("./modules/shared/shared.module");
 const unit_module_1 = require("./modules/unit/unit.module");
@@ -41,7 +40,7 @@ AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
-                envFilePath: ['.env.development.local'],
+                envFilePath: ['.env.production.local'],
                 load: [configuration_1.default],
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
@@ -51,7 +50,7 @@ AppModule = __decorate([
             microservices_1.ClientsModule.register([
                 {
                     name: 'MQTT_SERVICE',
-                    transport: microservices_1.Transport.MQTT
+                    transport: microservices_1.Transport.MQTT,
                 },
             ]),
             auth_module_1.AuthModule,
@@ -59,7 +58,6 @@ AppModule = __decorate([
             wrap_module_1.WrapModule,
             session_module_1.SessionModule,
             shared_module_1.SharedModule,
-            general_module_1.GeneralModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [

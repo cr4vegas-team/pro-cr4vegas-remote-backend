@@ -1,12 +1,11 @@
 import { ClientMqtt } from '@nestjs/microservices';
-import { Socket } from 'socket.io';
 export declare class UnitGenericGateway {
     private _client;
     private _server;
     private _mqttClient;
     constructor(_client: ClientMqtt);
-    handleMessage(client: Socket, payload: string): string;
-    emit(packet: string): void;
-    wsCreate(client: Socket, unitHydrant: string): string;
-    wsUpdate(client: Socket, unitHydrant: string): string;
+    handleMessage(client: any, data: string): any;
+    emit(data: string): void;
+    wsCreate(client: any, data: string): any;
+    wsUpdate(client: any, data: string): any;
 }

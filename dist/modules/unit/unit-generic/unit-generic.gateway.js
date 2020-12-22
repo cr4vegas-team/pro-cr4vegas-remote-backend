@@ -13,58 +13,63 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitGenericGateway = void 0;
-const jwt_auth_guard_1 = require("./../../auth/auth/jwt-auth.guard");
 const common_1 = require("@nestjs/common");
 const microservices_1 = require("@nestjs/microservices");
 const websockets_1 = require("@nestjs/websockets");
 const decorators_1 = require("@nestjs/websockets/decorators");
+const ws_1 = require("ws");
 let UnitGenericGateway = class UnitGenericGateway {
     constructor(_client) {
         this._client = _client;
         this._mqttClient = this._client.createClient();
     }
-    handleMessage(client, payload) {
-        const payloadJSON = JSON.parse(payload);
+    handleMessage(client, data) {
+        const payloadJSON = JSON.parse(data);
         this._mqttClient.publish(payloadJSON.topic, payloadJSON.message);
         return undefined;
     }
-    emit(packet) {
-        this._server.emit('ws-server/unit/generic', packet);
+    emit(data) {
+        this._server.clients.forEach(serverClient => {
+            serverClient.send(JSON.stringify({ event: 'ws-server/unit/hydrant', data }));
+        });
     }
-    wsCreate(client, unitHydrant) {
-        client.broadcast.emit('ws-server/create/unit/generic', unitHydrant);
+    wsCreate(client, data) {
+        this._server.clients.forEach(serverClient => {
+            serverClient.send(JSON.stringify({ event: 'ws-server/create/unit/generic', dto: data }));
+        });
         return undefined;
     }
-    wsUpdate(client, unitHydrant) {
-        client.broadcast.emit('ws-server/create/unit/generic', unitHydrant);
+    wsUpdate(client, data) {
+        this._server.clients.forEach(serverClient => {
+            serverClient.send(JSON.stringify({ event: 'ws-server/update/unit/generic', dto: data }));
+        });
         return undefined;
     }
 };
 __decorate([
     decorators_1.WebSocketServer(),
-    __metadata("design:type", Object)
+    __metadata("design:type", ws_1.Server)
 ], UnitGenericGateway.prototype, "_server", void 0);
 __decorate([
     websockets_1.SubscribeMessage('ws-client/unit/generic'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Object)
 ], UnitGenericGateway.prototype, "handleMessage", null);
 __decorate([
     websockets_1.SubscribeMessage('ws-client/create/unit/generic'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Object)
 ], UnitGenericGateway.prototype, "wsCreate", null);
 __decorate([
     websockets_1.SubscribeMessage('ws-client/update/unit/generic'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Object)
 ], UnitGenericGateway.prototype, "wsUpdate", null);
 UnitGenericGateway = __decorate([
-    common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
-    websockets_1.WebSocketGateway(),
+    websockets_1.WebSocketGateway(8882),
     __param(0, common_1.Inject('MQTT_SERVICE')),
     __metadata("design:paramtypes", [microservices_1.ClientMqtt])
 ], UnitGenericGateway);

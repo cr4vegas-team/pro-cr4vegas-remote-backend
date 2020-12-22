@@ -1,4 +1,5 @@
-import { Inject, UseGuards } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Inject } from '@nestjs/common';
 import { ClientMqtt } from '@nestjs/microservices';
 import { MqttClient } from '@nestjs/microservices/external/mqtt-client.interface';
 import {
@@ -6,11 +7,9 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
-import { JwtAuthGuard } from 'src/modules/auth/auth/jwt-auth.guard';
+import { Server } from 'ws';
 
-@UseGuards(JwtAuthGuard)
-@WebSocketGateway()
+@WebSocketGateway(8882)
 export class UnitHydrantGateway {
   @WebSocketServer()
   private _server: Server;
@@ -27,28 +26,40 @@ export class UnitHydrantGateway {
   //  MQTT
   // ==================================================
   @SubscribeMessage('ws-client/unit/hydrant')
-  handleMessage(client: Socket, payload: string): string {
-    const payloadJSON = JSON.parse(payload);
+  handleMessage(client: any, data: string): string {
+    const payloadJSON = JSON.parse(data);
     this._mqttClient.publish(payloadJSON.topic, payloadJSON.message);
     return undefined;
   }
 
-  public emit(packet: string): void {
-    this._server.emit('ws-server/unit/hydrant', packet);
+  public emit(data: string): void {
+    this._server.clients.forEach(serverClient => {
+      serverClient.send(
+        JSON.stringify({ event: 'ws-server/unit/hydrant', data }),
+      ); // data = payload
+    });
   }
 
   // ==================================================
   //  WS
   // ==================================================
   @SubscribeMessage('ws-client/create/unit/hydrant')
-  wsCreate(client: Socket, unitHydrant: string): string {
-    client.broadcast.emit('ws-server/create/unit/hydrant', unitHydrant);
+  wsCreate(client: any, data: string): any {
+    this._server.clients.forEach(serverClient => {
+      serverClient.send(
+        JSON.stringify({ event: 'ws-server/create/unit/hydrant', data }),
+      );
+    });
     return undefined;
   }
 
   @SubscribeMessage('ws-client/update/unit/hydrant')
-  wsUpdate(client: Socket, unitHydrant: string): string {
-    client.broadcast.emit('ws-server/create/unit/hydrant', unitHydrant);
+  wsUpdate(client: any, data: string): any {
+    this._server.clients.forEach(serverClient => {
+      serverClient.send(
+        JSON.stringify({ event: 'ws-server/update/unit/hydrant', data }),
+      );
+    });
     return undefined;
   }
 }

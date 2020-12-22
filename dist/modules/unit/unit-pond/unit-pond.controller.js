@@ -42,11 +42,9 @@ let UnitPondController = class UnitPondController {
         return this._unitPondService.findOneById(id);
     }
     createOne(dto) {
-        console.log(dto);
         return this._unitPondService.createOne(dto);
     }
     updateOne(dto) {
-        console.log(dto);
         return this._unitPondService.updateOne(dto);
     }
 };

@@ -13,58 +13,63 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnitPondGateway = void 0;
-const jwt_auth_guard_1 = require("./../../auth/auth/jwt-auth.guard");
 const common_1 = require("@nestjs/common");
 const microservices_1 = require("@nestjs/microservices");
 const websockets_1 = require("@nestjs/websockets");
-const typeorm_1 = require("typeorm");
+const decorators_1 = require("@nestjs/websockets/decorators");
+const ws_1 = require("ws");
 let UnitPondGateway = class UnitPondGateway {
     constructor(_client) {
         this._client = _client;
         this._mqttClient = this._client.createClient();
     }
-    handleMessage(client, payload) {
-        const payloadJSON = JSON.parse(payload);
+    handleMessage(client, data) {
+        const payloadJSON = JSON.parse(data);
         this._mqttClient.publish(payloadJSON.topic, payloadJSON.message);
         return undefined;
     }
-    emit(packet) {
-        this._server.emit('ws-server/unit/pond', packet);
+    emit(data) {
+        this._server.clients.forEach(serverClient => {
+            serverClient.send(JSON.stringify({ event: 'ws-server/unit/hydrant', data }));
+        });
     }
-    wsCreate(client, unitHydrant) {
-        client.broadcast.emit('ws-server/create/unit/pond', unitHydrant);
+    wsCreate(client, data) {
+        this._server.clients.forEach(serverClient => {
+            serverClient.send(JSON.stringify({ event: 'ws-server/create/unit/pond', data }));
+        });
         return undefined;
     }
-    wsUpdate(client, unitHydrant) {
-        client.broadcast.emit('ws-server/create/unit/pond', unitHydrant);
+    wsUpdate(client, data) {
+        this._server.clients.forEach(serverClient => {
+            serverClient.send(JSON.stringify({ event: 'ws-server/update/unit/pond', data }));
+        });
         return undefined;
     }
 };
 __decorate([
-    websockets_1.WebSocketServer(),
-    __metadata("design:type", typeorm_1.Server)
+    decorators_1.WebSocketServer(),
+    __metadata("design:type", ws_1.Server)
 ], UnitPondGateway.prototype, "_server", void 0);
 __decorate([
     websockets_1.SubscribeMessage('ws-client/unit/pond'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Object)
 ], UnitPondGateway.prototype, "handleMessage", null);
 __decorate([
     websockets_1.SubscribeMessage('ws-client/create/unit/pond'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Object)
 ], UnitPondGateway.prototype, "wsCreate", null);
 __decorate([
     websockets_1.SubscribeMessage('ws-client/update/unit/pond'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
-    __metadata("design:returntype", String)
+    __metadata("design:returntype", Object)
 ], UnitPondGateway.prototype, "wsUpdate", null);
 UnitPondGateway = __decorate([
-    common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
-    websockets_1.WebSocketGateway(),
+    websockets_1.WebSocketGateway(8882),
     __param(0, common_1.Inject('MQTT_SERVICE')),
     __metadata("design:paramtypes", [microservices_1.ClientMqtt])
 ], UnitPondGateway);

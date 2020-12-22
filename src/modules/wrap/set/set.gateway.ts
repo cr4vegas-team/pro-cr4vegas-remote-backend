@@ -1,26 +1,35 @@
-import { UseGuards } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   SubscribeMessage,
-  WebSocketGateway
+  WebSocketGateway,
+  WebSocketServer
 } from '@nestjs/websockets';
-import { Socket } from 'socket.io';
-import { JwtAuthGuard } from './../../auth/auth/jwt-auth.guard';
+import { Server } from 'ws';
 
-@UseGuards(JwtAuthGuard)
-@WebSocketGateway()
+@WebSocketGateway(8882)
 export class SetGateway {
+  @WebSocketServer()
+  private _server: Server;
   // ==================================================
   //  WS
   // ==================================================
   @SubscribeMessage('ws-client/create/set')
-  wsCreate(client: Socket, unitHydrant: string): string {
-    client.broadcast.emit('ws-server/create/set', unitHydrant);
+  wsCreate(client: any, data: string): any {
+    this._server.clients.forEach(serverClient => {
+      serverClient.send(
+        JSON.stringify({ event: 'ws-server/create/set', dto: data }),
+      );
+    });
     return undefined;
   }
 
   @SubscribeMessage('ws-client/update/set')
-  wsUpdate(client: Socket, unitHydrant: string): string {
-    client.broadcast.emit('ws-server/create/set', unitHydrant);
+  wsUpdate(client: any, data: string): any {
+    this._server.clients.forEach(serverClient => {
+      serverClient.send(
+        JSON.stringify({ event: 'ws-server/update/set', data }),
+      );
+    });
     return undefined;
   }
 }

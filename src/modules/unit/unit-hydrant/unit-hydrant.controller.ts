@@ -30,7 +30,7 @@ import { UnitHydrantUpdateDto } from './dto/unit-hydrant-update.dto';
 import { UnitHydrantExceptionMSG } from './unit-hydrant-exception-messages';
 import { UnitHydrantService } from './unit-hydrant.service';
 
-@UseGuards(JwtAuthGuard)
+
 @ApiTags('unit-hydrant')
 @Controller('unit-hydrant')
 export class UnitHydrantController {

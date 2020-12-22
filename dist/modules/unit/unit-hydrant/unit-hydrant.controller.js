@@ -95,7 +95,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UnitHydrantController.prototype, "updateOne", null);
 UnitHydrantController = __decorate([
-    common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
     swagger_1.ApiTags('unit-hydrant'),
     common_1.Controller('unit-hydrant'),
     __metadata("design:paramtypes", [unit_hydrant_service_1.UnitHydrantService,

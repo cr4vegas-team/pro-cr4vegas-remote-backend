@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const microservices_1 = require("@nestjs/microservices");
 const config_1 = require("@nestjs/config");
 const core_1 = require("@nestjs/core");
+const platform_ws_1 = require("@nestjs/platform-ws");
 const swagger_1 = require("@nestjs/swagger");
 const app_module_1 = require("./app.module");
 const config_constant_1 = require("./config/config.constant");
@@ -29,6 +31,15 @@ async function bootstrap() {
         methods: ['GET,PUT,POST,PATCH,DELETE,UPDATE,OPTIONS'],
         credentials: true,
     });
+    app.useWebSocketAdapter(new platform_ws_1.WsAdapter(app));
+    app.connectMicroservice({
+        transport: microservices_1.Transport.MQTT,
+        options: {
+            url: 'mqtts://emqx.rubenfgr.com:8883',
+            rejectUnauthorized: false,
+        },
+    });
+    app.startAllMicroservicesAsync();
     await app.listen(configService.get(config_constant_1.CONFIG.APP_PORT));
 }
 bootstrap();
