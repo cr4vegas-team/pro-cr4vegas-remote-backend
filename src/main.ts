@@ -9,10 +9,13 @@ import { CONFIG } from './config/config.constant';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const configService = app.get(ConfigService);
+  const configService = await app.get(ConfigService);
 
+  // ==================================================
+  //  CORS Configuration
+  // ==================================================
   app.enableCors({
-    origin: true,
+    origin: "*",
     allowedHeaders: [
       'Authorization, X-HTTP-Method-Override, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method',
     ],
@@ -20,8 +23,14 @@ async function bootstrap() {
     credentials: true,
   });
 
+  // ==================================================
+  //  Global Prefix adjust
+  // ==================================================
   app.setGlobalPrefix(configService.get(CONFIG.APP_GLOBAL_PREFIX));
 
+  // ==================================================
+  //  SwaggerModule configuration
+  // ==================================================
   const options = new DocumentBuilder()
     .addBearerAuth()
     .setTitle('API - Comunidad de regantes las cuatro vegas de Almería')
@@ -39,14 +48,41 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('swagger', app, document);
 
+  // ==================================================
+  //  load WS Adapter
+  // ==================================================
   app.useWebSocketAdapter(new WsAdapter(app));
 
+  // ==================================================
+  //  Connect MQTT Microservices
+  // ==================================================
   app.connectMicroservice<MicroserviceOptions>(
     configService.get<any>(CONFIG.MQTT),
   );
+  app
+    .startAllMicroservicesAsync()
+    .then(() => {
+      console.log('Microservicios inicializados!');
+    })
+    .catch(() => {
+      console.log('ERROR al inicializar los microservicios');
+    });
 
-  app.startAllMicroservicesAsync();
-
-  await app.listen(configService.get(CONFIG.APP_PORT));
+  // ==================================================
+  //  Launch APP
+  // ==================================================
+  await app
+    .listen(configService.get(CONFIG.APP_PORT))
+    .then(() =>
+      console.log(
+        'APP escuchando en el puerto ' + configService.get(CONFIG.APP_PORT),
+      ),
+    )
+    .catch(() =>
+      console.log(
+        'ERROR al inicializar la aplicación en el puerto ' +
+          configService.get(CONFIG.APP_PORT),
+      ),
+    );
 }
 bootstrap();

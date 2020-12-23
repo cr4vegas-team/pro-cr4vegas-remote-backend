@@ -29,7 +29,7 @@ import { WrapModule } from './modules/wrap/wrap.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.production.local'],
+      envFilePath: ['.env.development.local'],
       load: [configuration],
     }),
     TypeOrmModule.forRootAsync({
@@ -86,6 +86,10 @@ export class AppModule implements OnApplicationBootstrap {
   constructor(@Inject('MQTT_SERVICE') private readonly client: ClientProxy) {}
 
   onApplicationBootstrap() {
-    this.client.connect();
+    /* this.client.connect().then(() => {
+      console.log('MQTT conectado!');
+    }).catch(() => {
+      console.log('ERROR al conectar con MQTT');
+    }); */
   }
 }

@@ -5,7 +5,7 @@ import { MqttClient } from '@nestjs/microservices/external/mqtt-client.interface
 import {
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer,
+  WebSocketServer
 } from '@nestjs/websockets';
 import { Server } from 'ws';
 
@@ -22,9 +22,6 @@ export class UnitHydrantGateway {
     this._mqttClient = this._client.createClient();
   }
 
-  // ==================================================
-  //  MQTT
-  // ==================================================
   @SubscribeMessage('ws-client/unit/hydrant')
   handleMessage(client: any, data: string): string {
     const payloadJSON = JSON.parse(data);
@@ -39,10 +36,7 @@ export class UnitHydrantGateway {
       ); // data = payload
     });
   }
-
-  // ==================================================
-  //  WS
-  // ==================================================
+  
   @SubscribeMessage('ws-client/create/unit/hydrant')
   wsCreate(client: any, data: string): any {
     this._server.clients.forEach(serverClient => {

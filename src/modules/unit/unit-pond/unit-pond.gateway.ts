@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Inject } from '@nestjs/common';
-import { ClientMqtt } from '@nestjs/microservices';
+import {
+  ClientMqtt
+} from '@nestjs/microservices';
 import { MqttClient } from '@nestjs/microservices/external/mqtt-client.interface';
 import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { WebSocketServer } from '@nestjs/websockets/decorators';
@@ -19,9 +21,6 @@ export class UnitPondGateway {
     this._mqttClient = this._client.createClient();
   }
 
-  // ==================================================
-  //  MQTT
-  // ==================================================
   @SubscribeMessage('ws-client/unit/pond')
   handleMessage(client: any, data: string): any {
     const payloadJSON = JSON.parse(data);
@@ -37,9 +36,6 @@ export class UnitPondGateway {
     });
   }
 
-  // ==================================================
-  //  WS
-  // ==================================================
   @SubscribeMessage('ws-client/create/unit/pond')
   wsCreate(client: any, data: string): any {
     this._server.clients.forEach(serverClient => {

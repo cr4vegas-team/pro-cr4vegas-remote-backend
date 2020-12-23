@@ -1,66 +1,40 @@
-import { UnitPondGateway } from './unit-pond.gateway';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import {
   ApiConflictResponse,
   ApiNotFoundResponse,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/modules/auth/auth/jwt-auth.guard';
 import { UnitExceptionMSG } from '../unit/unit-exception-msg.enum';
 import { UnitPondCreateDto } from './dto/unit-pond-create.dto';
 import { UnitPondRO, UnitsPondsRO } from './dto/unit-pond-response.dto';
 import { UnitPondUpdateDto } from './dto/unit-pond-update.dto';
 import { UnitPondExceptionMSG } from './unit-pond-exception-messages';
 import { UnitPondService } from './unit-pond.service';
-import {
-  MessagePattern,
-  Payload,
-  Ctx,
-  MqttContext,
-} from '@nestjs/microservices';
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('unit-pond')
 @Controller('unit-pond')
 export class UnitPondController {
   constructor(
     private readonly _unitPondService: UnitPondService,
-    private readonly _unitPondGateway: UnitPondGateway,
   ) {}
-
-  @MessagePattern('n/u/p/+') // node/unit/pond/+
-  async getNotifications(
-    @Payload() message: number[],
-    @Ctx() context: MqttContext,
-  ): Promise<any> {
-    const mqttPacket = JSON.stringify({
-      topic: context.getTopic(),
-      message,
-    });
-    this._unitPondGateway.emit(mqttPacket);
-  }
-
-  // ==========================================================
 
   @Get()
   findAll(): Promise<UnitsPondsRO> {
     return this._unitPondService.findAll();
   }
 
-  // ==========================================================
-
   @Get(':id')
   findOne(@Param('id') id: number): Promise<UnitPondRO> {
     return this._unitPondService.findOneById(id);
   }
-
-  // ==========================================================
 
   @ApiConflictResponse({ description: UnitExceptionMSG.CONFLICT })
   @Post()
   createOne(@Body() dto: UnitPondCreateDto): Promise<UnitPondRO> {
     return this._unitPondService.createOne(dto);
   }
-
-  // ==========================================================
 
   @ApiNotFoundResponse({
     description:

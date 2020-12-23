@@ -18,10 +18,7 @@ export class UnitGenericGateway {
   ) {
     this._mqttClient = this._client.createClient();
   }
-
-  // ==================================================
-  //  MQTT
-  // ==================================================
+  
   @SubscribeMessage('ws-client/unit/generic')
   handleMessage(client: any, data: string): any {
     const payloadJSON = JSON.parse(data);
@@ -37,9 +34,6 @@ export class UnitGenericGateway {
     });
   }
 
-  // ==================================================
-  //  WS
-  // ==================================================
   @SubscribeMessage('ws-client/create/unit/generic')
   wsCreate(client: any, data: string): any {
     this._server.clients.forEach(serverClient => {

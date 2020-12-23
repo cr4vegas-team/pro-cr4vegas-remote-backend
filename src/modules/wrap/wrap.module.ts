@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { forwardRef, Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UnitModule } from '../unit/unit.module';
 import { SectorController } from './sector/sector.controller';
@@ -18,18 +18,14 @@ import { StationGateway } from './station/station.gateway';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      StationEntity, 
-      SetEntity, 
-      SectorEntity, 
-      SetTypeEntity
+      StationEntity,
+      SetEntity,
+      SectorEntity,
+      SetTypeEntity,
     ]),
     forwardRef(() => UnitModule),
   ],
-  controllers: [
-    StationController, 
-    SectorController, 
-    SetController
-  ],
+  controllers: [StationController, SectorController, SetController],
   providers: [
     StationService,
     SectorService,
@@ -38,10 +34,10 @@ import { StationGateway } from './station/station.gateway';
     SetGateway,
     StationGateway,
   ],
-  exports: [
-    StationService,
-    SectorService,
-    SetService,
-  ]
+  exports: [StationService, SectorService, SetService],
 })
-export class WrapModule { }
+export class WrapModule implements OnModuleInit {
+  onModuleInit(): void {
+    console.log('Módulo WRAP inicializado!');
+  }
+}
