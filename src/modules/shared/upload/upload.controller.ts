@@ -3,6 +3,7 @@ import {
   BadRequestException,
   Controller,
   Get,
+  NotFoundException,
   Post,
   Query,
   Res,
@@ -10,6 +11,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
+import * as fs from 'fs';
 
 // ==================================================
 
@@ -46,13 +49,17 @@ export class UploadController {
     if (!file) {
       throw new BadRequestException('Se require una imagen en formato .jpg');
     }
-    return {filename: file.filename};
+    return { filename: file.filename };
   }
 
   // ==================================================
 
   @Get('image')
-  getImage(@Query('filename') filename, @Res() res) {
-    return res.sendFile(filename, { root: './upload/images' });
+  getImage(@Query('filename') filename, @Res() res: Response) {
+    if (fs.existsSync('./upload/images/' + filename)) {
+      return res.sendFile(filename, { root: './upload/images' });
+    } else {
+      throw new NotFoundException('La imagen no existe. Vuelva a cargar una');
+    }
   }
 }
