@@ -16,6 +16,7 @@ exports.UploadController = exports.imageJPGLimits = exports.imageJPGFileFilter =
 const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
+const fs = require("fs");
 exports.imageJPGFileFilter = (req, file, callback) => {
     if (!file.originalname.match(/\.(jpg|jpeg)$/)) {
         callback(new common_1.BadRequestException('Solo se permiten imagenes en JPG'), false);
@@ -34,7 +35,12 @@ let UploadController = class UploadController {
         return { filename: file.filename };
     }
     getImage(filename, res) {
-        return res.sendFile(filename, { root: './upload/images' });
+        if (fs.existsSync('./upload/images/' + filename)) {
+            return res.sendFile(filename, { root: './upload/images' });
+        }
+        else {
+            throw new common_1.NotFoundException('La imagen no existe. Vuelva a cargar una');
+        }
     }
 };
 __decorate([
@@ -52,7 +58,7 @@ __decorate([
 ], UploadController.prototype, "uploadImage", null);
 __decorate([
     common_1.Get('image'),
-    openapi.ApiResponse({ status: 200, type: Object }),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, common_1.Query('filename')), __param(1, common_1.Res()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),

@@ -1,3 +1,4 @@
+import { Response } from 'express';
 export declare const imageJPGFileFilter: (req: any, file: any, callback: any) => void;
 export declare const imageJPGLimits: {
     fileSize: number;
@@ -5,5 +6,5 @@ export declare const imageJPGLimits: {
 };
 export declare class UploadController {
     uploadImage(file: any): any;
-    getImage(filename: any, res: any): any;
+    getImage(filename: any, res: Response): void;
 }

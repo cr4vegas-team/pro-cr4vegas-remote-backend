@@ -11,7 +11,6 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const platform_express_1 = require("@nestjs/platform-express");
 const upload_controller_1 = require("./upload/upload.controller");
-const upload_service_1 = require("./upload/upload.service");
 let SharedModule = class SharedModule {
 };
 SharedModule = __decorate([
@@ -26,7 +25,6 @@ SharedModule = __decorate([
             }),
         ],
         controllers: [upload_controller_1.UploadController],
-        providers: [upload_service_1.UploadService],
     })
 ], SharedModule);
 exports.SharedModule = SharedModule;

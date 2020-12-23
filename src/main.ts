@@ -1,16 +1,24 @@
-import { Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions } from '@nestjs/microservices';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { CONFIG } from './config/config.constant';
-import { EventEmitter } from 'events';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
+
+  app.enableCors({
+    origin: true,
+    allowedHeaders: [
+      'Authorization, X-HTTP-Method-Override, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method',
+    ],
+    methods: ['GET,PUT,POST,DELETE,UPDATE,OPTIONS'],
+    credentials: true,
+  });
 
   app.setGlobalPrefix(configService.get(CONFIG.APP_GLOBAL_PREFIX));
 
@@ -31,24 +39,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('swagger', app, document);
 
-  app.enableCors({
-    origin: '*',
-    allowedHeaders: [
-      'Authorization, X-HTTP-Method-Override, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method, Access-Control-Allow-Origin',
-    ],
-    methods: ['GET,PUT,POST,PATCH,DELETE,UPDATE,OPTIONS'],
-    credentials: true,
-  });
-
   app.useWebSocketAdapter(new WsAdapter(app));
 
-  app.connectMicroservice({
-    transport: Transport.MQTT,
-    options: {
-      url: 'mqtts://emqx.rubenfgr.com:8883',
-      rejectUnauthorized: false,
-    },
-  });
+  app.connectMicroservice<MicroserviceOptions>(
+    configService.get<any>(CONFIG.MQTT),
+  );
 
   app.startAllMicroservicesAsync();
 

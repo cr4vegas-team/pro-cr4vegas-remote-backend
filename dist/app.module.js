@@ -31,8 +31,8 @@ let AppModule = class AppModule {
     constructor(client) {
         this.client = client;
     }
-    async onApplicationBootstrap() {
-        await this.client.connect();
+    onApplicationBootstrap() {
+        this.client.connect();
     }
 };
 AppModule = __decorate([
