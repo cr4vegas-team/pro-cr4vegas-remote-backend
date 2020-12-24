@@ -86,10 +86,10 @@ export class AppModule implements OnApplicationBootstrap {
   constructor(@Inject('MQTT_SERVICE') private readonly client: ClientProxy) {}
 
   onApplicationBootstrap() {
-    /* this.client.connect().then(() => {
-      console.log('MQTT conectado!');
-    }).catch(() => {
-      console.log('ERROR al conectar con MQTT');
-    }); */
+    this.client.connect().then(() => {
+      console.log('Conexión a MQTT exitosa!!!');
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 }

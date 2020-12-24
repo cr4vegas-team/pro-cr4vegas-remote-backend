@@ -7,7 +7,7 @@ import {
 } from '@nestjs/microservices';
 import { UnitHydrantGateway } from './unit-hydrant.gateway';
 
-@Controller('unit-hydrant-mqtt')
+@Controller()
 export class UnitHydrantMqttController {
   constructor(private readonly _unitHydrantGateway: UnitHydrantGateway) {}
 
@@ -16,6 +16,7 @@ export class UnitHydrantMqttController {
     @Payload() message: number[],
     @Ctx() context: MqttContext,
   ): Promise<any> {
+    console.log(message);
     const mqttPacket = JSON.stringify({
       topic: context.getTopic(),
       message,

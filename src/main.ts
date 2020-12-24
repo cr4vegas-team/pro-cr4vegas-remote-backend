@@ -15,12 +15,12 @@ async function bootstrap() {
   //  CORS Configuration
   // ==================================================
   app.enableCors({
-    origin: "*",
+    origin: '*',
     allowedHeaders: [
       'Authorization, X-HTTP-Method-Override, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method',
     ],
     methods: ['GET,PUT,POST,DELETE,UPDATE,OPTIONS'],
-    credentials: true,
+    credentials: false,
   });
 
   // ==================================================
@@ -59,30 +59,11 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>(
     configService.get<any>(CONFIG.MQTT),
   );
-  app
-    .startAllMicroservicesAsync()
-    .then(() => {
-      console.log('Microservicios inicializados!');
-    })
-    .catch(() => {
-      console.log('ERROR al inicializar los microservicios');
-    });
+  app.startAllMicroservicesAsync();
 
   // ==================================================
   //  Launch APP
   // ==================================================
-  await app
-    .listen(configService.get(CONFIG.APP_PORT))
-    .then(() =>
-      console.log(
-        'APP escuchando en el puerto ' + configService.get(CONFIG.APP_PORT),
-      ),
-    )
-    .catch(() =>
-      console.log(
-        'ERROR al inicializar la aplicación en el puerto ' +
-          configService.get(CONFIG.APP_PORT),
-      ),
-    );
+  await app.listen(configService.get(CONFIG.APP_PORT));
 }
 bootstrap();

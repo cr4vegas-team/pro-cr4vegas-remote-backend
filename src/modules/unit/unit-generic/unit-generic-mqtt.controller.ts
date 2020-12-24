@@ -7,7 +7,7 @@ import {
 } from '@nestjs/microservices';
 import { UnitGenericGateway } from './unit-generic.gateway';
 
-@Controller('unit-generic-mqtt')
+@Controller()
 export class UnitGenericMqttController {
   constructor(private readonly _unitGenericGateway: UnitGenericGateway) {}
 
