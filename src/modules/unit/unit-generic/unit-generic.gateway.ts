@@ -29,7 +29,7 @@ export class UnitGenericGateway {
   public emit(data: string): void {
     this._server.clients.forEach(serverClient => {
       serverClient.send(
-        JSON.stringify({ event: 'ws-server/unit/hydrant', data }), // data = payload
+        JSON.stringify({ event: 'ws-server/unit/generic', data }), // data = payload
       );
     });
   }

@@ -9,6 +9,7 @@ import { UserCreateDto } from './dto/user-create.dto';
 import { UserDto, UserRO, UsersRO } from './dto/user-response.dto';
 import { UpdateUserDto } from './dto/user-update.dto';
 import { UserExceptionMSG } from './user-exception.msg';
+import { UserRole } from './user-role.enum';
 import { UserEntity } from './user.entity';
 
 @Injectable()
@@ -63,8 +64,8 @@ export class UserService {
     newUser.username = dto.username;
     newUser.password = dto.password;
     newUser.email = dto.email;
-    newUser.active = dto.active;
-    newUser.role = dto.role;
+    newUser.active = 1;
+    newUser.role = UserRole.NONE;
     const savedUser: UserEntity = await this._userRepository.save(newUser);
     const user: UserDto = this.buildUserData(savedUser);
     return { user };

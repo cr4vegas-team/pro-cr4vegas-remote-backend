@@ -12,7 +12,7 @@ export class AuthService {
   constructor(
     private readonly _userService: UserService,
     private readonly _jwtService: JwtService,
-  ) {}
+  ) { }
 
   async validateUser(username: string, password: string): Promise<UserDto> {
     const foundUser: UserEntity = await this._userService.findOneToValidation(
@@ -24,6 +24,7 @@ export class AuthService {
       userDto.username = foundUser.username;
       userDto.email = foundUser.email;
       userDto.role = foundUser.role;
+      userDto.active = foundUser.active;
       return userDto;
     } else {
       return null;
@@ -37,9 +38,10 @@ export class AuthService {
       email: userDto.email,
       role: userDto.role,
     };
+    console.log(userDto);
     return {
       access_token: this._jwtService.sign(payload),
-      role: userDto.role,
+      user: userDto,
     };
   }
 

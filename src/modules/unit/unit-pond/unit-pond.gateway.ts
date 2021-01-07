@@ -4,12 +4,12 @@ import {
   ClientMqtt
 } from '@nestjs/microservices';
 import { MqttClient } from '@nestjs/microservices/external/mqtt-client.interface';
-import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { OnGatewayInit, SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { WebSocketServer } from '@nestjs/websockets/decorators';
 import { Server } from 'ws';
 
 @WebSocketGateway(8882)
-export class UnitPondGateway {
+export class UnitPondGateway implements OnGatewayInit {
   @WebSocketServer()
   private _server: Server;
   private _mqttClient: MqttClient;
@@ -19,6 +19,9 @@ export class UnitPondGateway {
     private _client: ClientMqtt,
   ) {
     this._mqttClient = this._client.createClient();
+  }
+  afterInit(server: Server) {
+    server.setMaxListeners(0);
   }
 
   @SubscribeMessage('ws-client/unit/pond')
