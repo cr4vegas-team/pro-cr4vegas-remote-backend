@@ -1,12 +1,11 @@
-import { SessionEntity } from '../session/session.entity';
-import { plainToClass } from 'class-transformer';
-import { RegistryCreateDto } from './dto/registry-create.dto';
-import { SessionService } from '../session/session.service';
-import { RegistryEntity } from './registry.entity';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RegistriesRO, RegistryRO } from './dto/registry-response.dto';
+import { SessionService } from '../session/session.service';
+import { RegistriesRO } from './dto/registry-response.dto';
+import { RegistryEntity } from './registry.entity';
 
 @Injectable()
 export class RegistryService {
@@ -33,12 +32,12 @@ export class RegistryService {
         return { registries, count };
     }
 
-    async insertOne(registryCreateDto: RegistryCreateDto): Promise<RegistryRO> {
-        const registryEntity: RegistryEntity = plainToClass(RegistryEntity, registryCreateDto);
-        const foundSession: SessionEntity = (await this._sessionService.findOneById(registryCreateDto.session)).session;
-        registryEntity.session = foundSession;
+    async insertOne(req: any): Promise<void> {
+        const msg = req.method + " " + req.originalUrl + " " + JSON.stringify(req.body);
+        const registryEntity: RegistryEntity = new RegistryEntity();
+        registryEntity.session = req.user.session;
+        registryEntity.message = msg;
         const savedRegistry: RegistryEntity = await this._registryRepository.save(registryEntity);
-        return { registry: savedRegistry };
     }
 
 }

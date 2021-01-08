@@ -1,3 +1,4 @@
+import { SessionModule } from './../session/session.module';
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UnitModule } from '../unit/unit.module';
@@ -24,6 +25,7 @@ import { StationService } from './station/station.service';
       SetTypeEntity,
     ]),
     forwardRef(() => UnitModule),
+    SessionModule,
   ],
   controllers: [StationController, SectorController, SetController],
   providers: [

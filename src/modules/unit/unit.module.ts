@@ -1,3 +1,4 @@
+import { SessionModule } from './../session/session.module';
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WrapModule } from '../wrap/wrap.module';
@@ -33,6 +34,7 @@ import { UnitService } from './unit/unit.service';
     forwardRef(() => WrapModule),
     forwardRef(() => AppModule),
     SharedModule,
+    SessionModule,
   ],
 
   controllers: [

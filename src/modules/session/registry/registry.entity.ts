@@ -31,14 +31,6 @@ export class RegistryEntity {
 
   // ==================================================
 
-  @Column({
-    type: 'tinyint',
-    default: 1,
-  })
-  active: number;
-
-  // ==================================================
-
   @CreateDateColumn({
     type: 'varchar',
   })

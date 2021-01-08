@@ -4,8 +4,9 @@ import {
   Controller,
   Get,
   Post,
+  Req,
   Request,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -14,7 +15,7 @@ import {
   ApiNotFoundResponse,
   ApiQuery,
   ApiTags,
-  ApiUnauthorizedResponse,
+  ApiUnauthorizedResponse
 } from '@nestjs/swagger';
 import { UserCreateDto } from '../user/dto/user-create.dto';
 import { UserDto, UserRO } from '../user/dto/user-response.dto';
@@ -27,7 +28,7 @@ import { LocalAuthGuard } from './local-auth.guard';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly _authService: AuthService) {}
+  constructor(private readonly _authService: AuthService) { }
 
   @ApiBearerAuth()
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
@@ -43,11 +44,12 @@ export class AuthController {
     description: 'Username or Email',
   })
   @ApiQuery({ name: 'password', type: String })
+  @ApiQuery({ name: 'userAgent', type: String })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req: any): Promise<TokenRO> {
-    return this._authService.getToken(req.user);
+  async login(@Req() req: any): Promise<TokenRO> {
+    return this._authService.getToken(req);
   }
 
   @ApiNotFoundResponse({ description: UserExceptionMSG.NOT_FOUND })

@@ -1,3 +1,6 @@
+import { UserRoleGuard } from './../../auth/user/user-role.guard';
+import { JwtAuthGuard } from './../../auth/auth/jwt-auth.guard';
+import { UseGuards } from '@nestjs/common';
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   BadRequestException,
@@ -13,6 +16,8 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import * as fs from 'fs';
+import { Roles } from '../../auth/user/user-role.decorator';
+import { UserRole } from '../../auth/user/user-role.enum';
 
 // ==================================================
 
@@ -35,8 +40,11 @@ export const imageJPGLimits = {
 
 // ==================================================
 
+@UseGuards(JwtAuthGuard, UserRoleGuard)
 @Controller('upload')
 export class UploadController {
+
+  @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @Post('image')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -54,6 +62,7 @@ export class UploadController {
 
   // ==================================================
 
+  @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get('image')
   getImage(@Query('filename') filename, @Res() res: Response) {
     if (fs.existsSync('./upload/images/' + filename)) {

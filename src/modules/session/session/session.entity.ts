@@ -1,8 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { RegistryEntity } from '../registry/registry.entity';
-import { OrderEntity } from '../order/order.entity';
-import { ActionEntity } from '../action/action.entity';
-import { UserEntity } from '../../auth/user/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,8 +6,12 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
+import { UserEntity } from '../../auth/user/user.entity';
+import { ActionEntity } from '../action/action.entity';
+import { OrderEntity } from '../order/order.entity';
+import { RegistryEntity } from '../registry/registry.entity';
 
 @Entity('sessions')
 export class SessionEntity {
@@ -58,6 +58,22 @@ export class SessionEntity {
     default: 1,
   })
   active: number;
+
+  // ==================================================
+
+  @Column({
+    type: 'varchar',
+    nullable: true
+  })
+  userAgent: string;
+
+  // ==================================================
+
+  @Column({
+    type: 'varchar',
+    nullable: true
+  })
+  origin: string;
 
   // ==================================================
 

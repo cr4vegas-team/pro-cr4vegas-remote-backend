@@ -1,48 +1,62 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { UserRoleGuard } from './../../auth/user/user-role.guard';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import {
   ApiConflictResponse,
   ApiNotFoundResponse,
   ApiTags
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/modules/auth/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../../../modules/auth/auth/jwt-auth.guard';
 import { UnitExceptionMSG } from '../unit/unit-exception-msg.enum';
+import { RegistryService } from './../../session/registry/registry.service';
 import { UnitPondCreateDto } from './dto/unit-pond-create.dto';
 import { UnitPondRO, UnitsPondsRO } from './dto/unit-pond-response.dto';
 import { UnitPondUpdateDto } from './dto/unit-pond-update.dto';
 import { UnitPondExceptionMSG } from './unit-pond-exception-messages';
 import { UnitPondService } from './unit-pond.service';
+import { Roles } from '../../auth/user/user-role.decorator';
+import { UserRole } from '../../auth/user/user-role.enum';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, UserRoleGuard)
 @ApiTags('unit-pond')
 @Controller('unit-pond')
 export class UnitPondController {
   constructor(
     private readonly _unitPondService: UnitPondService,
-  ) {}
+    private readonly _registryService: RegistryService,
+  ) { }
 
+  @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get()
   findAll(): Promise<UnitsPondsRO> {
     return this._unitPondService.findAll();
   }
 
+  @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get(':id')
-  findOne(@Param('id') id: number): Promise<UnitPondRO> {
-    return this._unitPondService.findOneById(id);
+  async findOne(@Param('id') id: number): Promise<UnitPondRO> {
+    return await this._unitPondService.findOneById(id);
   }
 
+  @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiConflictResponse({ description: UnitExceptionMSG.CONFLICT })
   @Post()
-  createOne(@Body() dto: UnitPondCreateDto): Promise<UnitPondRO> {
-    return this._unitPondService.createOne(dto);
+  async createOne(@Req() req: any, @Body() dto: UnitPondCreateDto): Promise<UnitPondRO> {
+    const unitPondRO = await this._unitPondService.createOne(dto);
+    await this._registryService.insertOne(req);
+    return unitPondRO;
   }
 
+  @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiNotFoundResponse({
     description:
       UnitPondExceptionMSG.NOT_FOUND + ' | ' + UnitExceptionMSG.NOT_FOUND,
   })
   @ApiConflictResponse({ description: UnitExceptionMSG.CONFLICT })
   @Put()
-  updateOne(@Body() dto: UnitPondUpdateDto): Promise<UnitPondRO> {
-    return this._unitPondService.updateOne(dto);
+  async updateOne(@Req() req: any, @Body() dto: UnitPondUpdateDto): Promise<UnitPondRO> {
+    const unitPondRO = await this._unitPondService.updateOne(dto);
+    await this._registryService.insertOne(req);
+    return unitPondRO;
   }
 }

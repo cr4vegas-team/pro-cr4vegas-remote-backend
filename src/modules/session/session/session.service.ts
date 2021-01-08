@@ -1,11 +1,13 @@
-import { SessionExceptionMSG } from './session-exception.msg';
-import { plainToClass } from 'class-transformer';
-import { SessionCreateDto } from './dto/session-create.dto';
-import { SessionEntity } from './session.entity';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { UserLoginDto } from './../../auth/user/dto/user-login.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
+import { UserEntity } from './../../auth/user/user.entity';
 import { SessionRO, SessionsRO } from './dto/session-response.dto';
+import { SessionExceptionMSG } from './session-exception.msg';
+import { SessionEntity } from './session.entity';
 
 @Injectable()
 export class SessionService {
@@ -38,8 +40,11 @@ export class SessionService {
         return { session: foundSession };
     }
 
-    async startSession(sessionCreateDto: SessionCreateDto): Promise<SessionRO> {
-        const sessionEntity: SessionEntity = plainToClass(SessionEntity, sessionCreateDto);
+    async startSession(req: any): Promise<SessionRO> {
+        const sessionEntity = new SessionEntity();
+        sessionEntity.user = req.user;
+        sessionEntity.userAgent = req.headers['user-agent'];
+        sessionEntity.origin = req.headers['origin'];
         const savedSession: SessionEntity = await this._sessionRepository.save(sessionEntity);
         return { session: savedSession };
     }

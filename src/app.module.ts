@@ -2,9 +2,12 @@
 import {
   ClassSerializerInterceptor,
   Inject,
+
   Module,
+
   OnApplicationBootstrap,
-  ValidationPipe,
+
+  ValidationPipe
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
@@ -12,7 +15,7 @@ import {
   ClientProxy,
   ClientProxyFactory,
   ClientsModule,
-  Transport,
+  Transport
 } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -83,7 +86,7 @@ import { WrapModule } from './modules/wrap/wrap.module';
   exports: [ClientsModule],
 })
 export class AppModule implements OnApplicationBootstrap {
-  constructor(@Inject('MQTT_SERVICE') private readonly client: ClientProxy) {}
+  constructor(@Inject('MQTT_SERVICE') private readonly client: ClientProxy) { }
 
   onApplicationBootstrap() {
     this.client.connect().then(() => {

@@ -3,14 +3,14 @@ import {
   forwardRef,
   Inject,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { UnitService } from 'src/modules/unit/unit/unit.service';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
+import { UnitService } from '../../../modules/unit/unit/unit.service';
 import { StationCreateDto } from './dto/station-create.dto';
-import { StationsRO, StationRO } from './dto/station-response.dto';
+import { StationRO, StationsRO } from './dto/station-response.dto';
 import { StationUpdateDto } from './dto/station-update.dto';
 import { StationExceptionMSG } from './station-exception.msg';
 import { StationEntity } from './station.entity';
@@ -117,35 +117,4 @@ export class StationService {
     return { station: updatedStation };
   }
 
-  // ==================================================
-
-  async deleteOne(id: number): Promise<boolean> {
-    const foundStation: StationEntity = await this._stationRepository.findOne(
-      id,
-    );
-    if (!foundStation) {
-      throw new NotFoundException(StationExceptionMSG.NOT_FOUND);
-    }
-    const updatedStation: UpdateResult = await this._stationRepository.update(
-      id,
-      { active: 0 },
-    );
-    return updatedStation.affected > 0;
-  }
-
-  // ==================================================
-
-  async activateOne(id: number): Promise<boolean> {
-    const foundStation: StationEntity = await this._stationRepository.findOne(
-      id,
-    );
-    if (!foundStation) {
-      throw new NotFoundException(StationExceptionMSG.NOT_FOUND);
-    }
-    const updatedSector: UpdateResult = await this._stationRepository.update(
-      id,
-      { active: 1 },
-    );
-    return updatedSector.affected > 0;
-  }
 }

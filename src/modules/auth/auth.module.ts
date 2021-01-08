@@ -1,3 +1,4 @@
+import { SessionModule } from './../session/session.module';
 import { AuthController } from './auth/auth.controller';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -24,6 +25,7 @@ import { UserService } from './user/user.service';
       }),
       inject: [ConfigService],
     }),
+    SessionModule
   ],
 
   providers: [

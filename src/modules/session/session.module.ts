@@ -24,17 +24,22 @@ import { SessionService } from './session/session.service';
   ],
 
   controllers: [
-    RegistryController, 
-    OrderController, 
+    RegistryController,
+    OrderController,
     ActionController
   ],
 
   providers: [
-    RegistryService, 
-    ActionService, 
-    OrderService, 
+    RegistryService,
+    ActionService,
+    OrderService,
     SessionService
+  ],
+
+  exports: [
+    SessionService,
+    RegistryService
   ]
 
 })
-export class SessionModule {}
+export class SessionModule { }

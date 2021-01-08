@@ -1,12 +1,13 @@
 import {
   ConflictException,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserCreateDto } from './dto/user-create.dto';
 import { UserDto, UserRO, UsersRO } from './dto/user-response.dto';
+import { UserRoleUpdateDto } from './dto/user-role-update.dto';
 import { UpdateUserDto } from './dto/user-update.dto';
 import { UserExceptionMSG } from './user-exception.msg';
 import { UserRole } from './user-role.enum';
@@ -83,6 +84,19 @@ export class UserService {
     foundUser.password = dto.password ? dto.password : foundUser.password;
     foundUser.email = dto.email ? dto.email : foundUser.email;
     foundUser.active = dto.active;
+    const updatedUser: UserEntity = await this._userRepository.save(foundUser);
+    const user = this.buildUserData(updatedUser);
+    return { user };
+  }
+
+  async updateUserRole(dto: UserRoleUpdateDto): Promise<UserRO> {
+    const foundUser: UserEntity = await this._userRepository
+      .createQueryBuilder('users')
+      .where('users.id = :id', { id: dto.id })
+      .getOne();
+    if (!foundUser) {
+      throw new NotFoundException(UserExceptionMSG.NOT_FOUND);
+    }
     foundUser.role = dto.role;
     const updatedUser: UserEntity = await this._userRepository.save(foundUser);
     const user = this.buildUserData(updatedUser);
