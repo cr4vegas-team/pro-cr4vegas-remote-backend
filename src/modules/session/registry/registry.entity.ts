@@ -4,7 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { SessionEntity } from '../session/session.entity';
 
@@ -27,7 +27,23 @@ export class RegistryEntity {
     type: 'varchar',
     nullable: false,
   })
-  message: string;
+  method: string;
+
+  // ==================================================
+
+  @Column({
+    type: 'varchar',
+    nullable: false,
+  })
+  originalUrl: string;
+
+  // ==================================================
+
+  @Column({
+    type: 'text',
+    nullable: false,
+  })
+  body: string;
 
   // ==================================================
 

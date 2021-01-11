@@ -1,6 +1,5 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions } from '@nestjs/microservices';
 import { WsAdapter } from '@nestjs/platform-ws';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -52,14 +51,6 @@ async function bootstrap() {
   //  load WS Adapter
   // ==================================================
   app.useWebSocketAdapter(new WsAdapter(app));
-
-  // ==================================================
-  //  Connect MQTT Microservices
-  // ==================================================
-  app.connectMicroservice<MicroserviceOptions>(
-    configService.get<any>(CONFIG.MQTT),
-  );
-  app.startAllMicroservicesAsync();
 
   // ==================================================
   //  Launch APP

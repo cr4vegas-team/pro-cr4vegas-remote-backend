@@ -43,7 +43,6 @@
     "bcrypt": "^5.0.0",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
-    "mqtt": "^4.2.6",
     "mysql": "^2.18.1",
     "node-pre-gyp": "^0.16.0",
     "passport": "^0.4.1",

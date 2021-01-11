@@ -1,22 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   ClassSerializerInterceptor,
-  Inject,
-
   Module,
-
-  OnApplicationBootstrap,
-
   ValidationPipe
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import {
-  ClientProxy,
-  ClientProxyFactory,
-  ClientsModule,
-  Transport
-} from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { CONFIG } from './config/config.constant';
@@ -42,12 +31,6 @@ import { WrapModule } from './modules/wrap/wrap.module';
       inject: [ConfigService],
     }),
     /* TypeOrmModule.forRoot({}), */
-    ClientsModule.register([
-      {
-        name: 'MQTT_SERVICE',
-        transport: Transport.MQTT,
-      },
-    ]),
     AuthModule,
     UnitModule,
     WrapModule,
@@ -75,26 +58,6 @@ import { WrapModule } from './modules/wrap/wrap.module';
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
     },
-    {
-      provide: 'MQTT_SERVICE',
-      useFactory: (configService: ConfigService) => {
-        const options = configService.get<any>(CONFIG.MQTT);
-        return ClientProxyFactory.create(options);
-      },
-      inject: [ConfigService],
-    },
   ],
-
-  exports: [ClientsModule],
 })
-export class AppModule implements OnApplicationBootstrap {
-  constructor(@Inject('MQTT_SERVICE') private readonly client: ClientProxy) { }
-
-  onApplicationBootstrap() {
-    this.client.connect().then(() => {
-      console.log('Conexión a MQTT exitosa!!!');
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-}
+export class AppModule {}

@@ -8,8 +8,8 @@ import { Roles } from 'src/modules/auth/user/user-role.decorator';
 import { UserRole } from 'src/modules/auth/user/user-role.enum';
 
 @UseGuards(JwtAuthGuard, UserRoleGuard)
-@ApiTags('control')
-@Controller('control')
+@ApiTags('session')
+@Controller('session')
 export class SessionController {
   constructor(private readonly _controlService: SessionService) { }
 
