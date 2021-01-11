@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { classToPlain } from 'class-transformer';
@@ -52,5 +52,12 @@ export class AuthService {
 
   async signin(dto: UserCreateDto): Promise<UserRO> {
     return this._userService.createOne(dto);
+  }
+
+  async logout(req: any): Promise<boolean> {
+    if (!req.user && !req.user.session) {
+      throw new BadRequestException('No existe una sesión de usuario activa para desconectar');
+    }
+    return await this._sessionService.finalizeSession(req.user.session.id);
   }
 }

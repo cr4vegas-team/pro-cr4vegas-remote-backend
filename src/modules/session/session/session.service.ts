@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { UserLoginDto } from './../../auth/user/dto/user-login.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
-import { UserEntity } from './../../auth/user/user.entity';
 import { SessionRO, SessionsRO } from './dto/session-response.dto';
 import { SessionExceptionMSG } from './session-exception.msg';
 import { SessionEntity } from './session.entity';
@@ -53,16 +51,14 @@ export class SessionService {
         const foundSession: SessionEntity = await this._sessionRepository.createQueryBuilder('sessions')
             .where('sessions.id = :id', { id })
             .getOne();
+        console.log(foundSession);
         if (!foundSession) {
             throw new NotFoundException(SessionExceptionMSG.NOT_FOUND);
         }
         foundSession.active = 0;
         foundSession.finished = new Date();
-        const updateResult: UpdateResult = await this._sessionRepository.update(id, {
-            active: 0,
-            finished: new Date()
-        });
-        return updateResult.affected > 0;
+        const session: SessionEntity = await this._sessionRepository.save(foundSession);
+        return session ? true : false;
     }
 
 }

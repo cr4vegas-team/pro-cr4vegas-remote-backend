@@ -38,8 +38,10 @@ import { WrapModule } from './modules/wrap/wrap.module';
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) =>
         configService.get<any>(CONFIG.DATABASE),
+      
       inject: [ConfigService],
     }),
+    /* TypeOrmModule.forRoot({}), */
     ClientsModule.register([
       {
         name: 'MQTT_SERVICE',

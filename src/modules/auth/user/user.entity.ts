@@ -7,7 +7,7 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { SessionEntity } from '../../session/session/session.entity';
 import { UserRole } from './user-role.enum';

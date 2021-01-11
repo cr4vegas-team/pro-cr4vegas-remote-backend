@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   Body,
@@ -63,5 +64,13 @@ export class AuthController {
   @Post('signin')
   async signin(@Body() dto: UserCreateDto): Promise<UserRO> {
     return await this._authService.signin(dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiNotFoundResponse({ description: UserExceptionMSG.NOT_FOUND })
+  @ApiBadRequestResponse({ description: UserExceptionMSG.BAD_REQUEST })
+  @Post('logout')
+  async logout(@Req() req: any): Promise<boolean> {
+    return await this._authService.logout(req);
   }
 }
