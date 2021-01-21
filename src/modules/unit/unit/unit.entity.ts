@@ -9,12 +9,11 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { ActionEntity } from '../../session/action/action.entity';
 import { SectorEntity } from '../../wrap/sector/sector.entity';
 import { SetEntity } from '../../wrap/set/set.entity';
-import { StationEntity } from '../../wrap/station/station.entity';
 import { UnitTypeTableEnum } from './unit-type.enum';
 
 @Entity('units')
@@ -25,17 +24,8 @@ export class UnitEntity {
   // =======================================
 
   @ManyToOne(
-    type => StationEntity,
-    stationEntity => stationEntity.units,
-  )
-  @JoinColumn()
-  station: StationEntity;
-
-  // =======================================
-
-  @ManyToOne(
     type => SectorEntity,
-    sectorEntity => sectorEntity.units,
+    sectorEntity => sectorEntity.units, { nullable: true }
   )
   @JoinColumn()
   sector: SectorEntity;
@@ -129,4 +119,12 @@ export class UnitEntity {
     type: 'timestamp',
   })
   updated: Date;
+
+  // ==================================================
+
+  @Column({
+    type: 'text',
+    default: '',
+  })
+  name: string;
 }

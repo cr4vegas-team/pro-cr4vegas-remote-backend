@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { SessionRO, SessionsRO } from './dto/session-response.dto';
 import { SessionExceptionMSG } from './session-exception.msg';
 import { SessionEntity } from './session.entity';
@@ -51,7 +51,6 @@ export class SessionService {
         const foundSession: SessionEntity = await this._sessionRepository.createQueryBuilder('sessions')
             .where('sessions.id = :id', { id })
             .getOne();
-        console.log(foundSession);
         if (!foundSession) {
             throw new NotFoundException(SessionExceptionMSG.NOT_FOUND);
         }

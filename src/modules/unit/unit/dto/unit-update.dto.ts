@@ -27,12 +27,6 @@ export class UnitUpdateDto {
 
   @IsOptional()
   @IsNumber()
-  station?: number;
-
-  // ==================================================
-
-  @IsOptional()
-  @IsNumber()
   sector?: number;
 
   // ==================================================
@@ -72,4 +66,10 @@ export class UnitUpdateDto {
 
   @IsIn([0, 1])
   active: number;
+
+  // ==================================================
+
+  @IsString()
+  @IsOptional()
+  name: string;
 }

@@ -9,27 +9,15 @@ import { SetTypeEntity } from './set/set-type.entity';
 import { SetController } from './set/set.controller';
 import { SetEntity } from './set/set.entity';
 import { SetService } from './set/set.service';
-import { StationController } from './station/station.controller';
-import { StationEntity } from './station/station.entity';
-import { StationService } from './station/station.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      StationEntity,
-      SetEntity,
-      SectorEntity,
-      SetTypeEntity,
-    ]),
+    TypeOrmModule.forFeature([SetEntity, SectorEntity, SetTypeEntity]),
     forwardRef(() => UnitModule),
     SessionModule,
   ],
-  controllers: [StationController, SectorController, SetController],
-  providers: [
-    StationService,
-    SectorService,
-    SetService,
-  ],
-  exports: [StationService, SectorService, SetService],
+  controllers: [SectorController, SetController],
+  providers: [SectorService, SetService],
+  exports: [SectorService, SetService],
 })
 export class WrapModule {}

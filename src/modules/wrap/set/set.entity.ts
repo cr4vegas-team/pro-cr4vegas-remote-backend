@@ -38,15 +38,6 @@ export class SetEntity {
 
   @Column({
     type: 'varchar',
-    length: 5,
-    unique: true,
-  })
-  code: string;
-
-  // =======================================
-
-  @Column({
-    type: 'varchar',
     length: 45,
     unique: true,
   })

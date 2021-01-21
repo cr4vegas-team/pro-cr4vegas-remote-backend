@@ -1,3 +1,4 @@
+import { UnitStationPechinaEntity } from './unit-station-pechina/unit-station-pechina.entity';
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WrapModule } from '../wrap/wrap.module';
@@ -16,6 +17,8 @@ import { UnitPondService } from './unit-pond/unit-pond.service';
 import { UnitController } from './unit/unit.controller';
 import { UnitEntity } from './unit/unit.entity';
 import { UnitService } from './unit/unit.service';
+import { UnitStationPechinaController } from './unit-station-pechina/unit-station-pechina.controller';
+import { UnitStationPechinaService } from './unit-station-pechina/unit-station-pechina.service';
 
 @Module({
   imports: [
@@ -24,6 +27,7 @@ import { UnitService } from './unit/unit.service';
       UnitHydrantEntity,
       UnitPondEntity,
       UnitGenericEntity,
+      UnitStationPechinaEntity,
     ]),
     forwardRef(() => WrapModule),
     forwardRef(() => AppModule),
@@ -36,6 +40,7 @@ import { UnitService } from './unit/unit.service';
     UnitPondController,
     UnitController,
     UnitGenericController,
+    UnitStationPechinaController,
   ],
 
   providers: [
@@ -43,6 +48,7 @@ import { UnitService } from './unit/unit.service';
     UnitHydrantService,
     UnitPondService,
     UnitGenericService,
+    UnitStationPechinaService,
   ],
 
   exports: [
@@ -52,4 +58,4 @@ import { UnitService } from './unit/unit.service';
     UnitGenericService,
   ],
 })
-export class UnitModule {}
+export class UnitModule { }

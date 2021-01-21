@@ -28,7 +28,6 @@ import { SetExceptionMSG } from './set-exception.msg';
 import { SetTypeEntity } from './set-type.entity';
 import { SetService } from './set.service';
 
-@UseGuards(JwtAuthGuard, UserRoleGuard)
 @ApiTags('set')
 @Controller('set')
 export class SetController {
@@ -38,7 +37,6 @@ export class SetController {
 
   // ==================================================
 
-  @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get('all')
   findAll(): Promise<SetsRO> {
     return this._setService.findAll();
@@ -46,6 +44,7 @@ export class SetController {
 
   // ==================================================
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get('one/:id')
   async findOne(@Param('id') id: number): Promise<SetRO> {
@@ -54,6 +53,7 @@ export class SetController {
 
   // ==================================================
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiConflictResponse({
     description:
@@ -68,6 +68,7 @@ export class SetController {
 
   // ==================================================
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiNotFoundResponse({ description: SetExceptionMSG.NOT_FOUND })
   @ApiConflictResponse({
@@ -83,6 +84,7 @@ export class SetController {
 
   // ==================================================
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get('set-type')
   findAllSetTypes(): Promise<SetTypeEntity[]> {
@@ -91,6 +93,7 @@ export class SetController {
 
   // ==================================================
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiConflictResponse({ description: SetExceptionMSG.CONFLICT_TYPE })
   @Post('set-type')
@@ -102,6 +105,7 @@ export class SetController {
 
   // ==================================================
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiNotFoundResponse({ description: SetExceptionMSG.NOT_FOUND_TYPE })
   @Delete('set-type/:name')
@@ -113,6 +117,7 @@ export class SetController {
 
   // ==================================================
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiNotFoundResponse({ description: SetExceptionMSG.NOT_FOUND_TYPE })
   @ApiBadRequestResponse({ description: SetExceptionMSG.SET_TYPE_LINKED })

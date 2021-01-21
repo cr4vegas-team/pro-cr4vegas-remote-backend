@@ -26,6 +26,8 @@ export class UserRoleGuard implements CanActivate {
       return false;
     }
 
+    console.log(user);
+
     const authorized = requiredRoles.some((role) => user.role === role);
     if (authorized) {
       return true;

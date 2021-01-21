@@ -8,12 +8,6 @@ import {
 } from 'class-validator';
 
 export class SetCreateDto {
-  @IsString()
-  @MinLength(1)
-  @MaxLength(5)
-  code: string;
-
-  // ==========================================================
 
   @IsString()
   setType: string;

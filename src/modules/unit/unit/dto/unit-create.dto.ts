@@ -25,12 +25,7 @@ export class UnitCreateDto {
 
   @IsOptional()
   @IsNumber()
-  station?: number;
-
-  // ==================================================
-
-  @IsNumber()
-  sector: number;
+  sector?: number;
 
   // ==================================================
 
@@ -73,4 +68,10 @@ export class UnitCreateDto {
   @IsString()
   @IsOptional()
   image: string;
+
+  // ==================================================
+  
+  @IsString()
+  @IsOptional()
+  name?: string;
 }

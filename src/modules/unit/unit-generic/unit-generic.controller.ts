@@ -31,7 +31,6 @@ import { UnitGenericExceptionMSG } from './unit-generic-exception-messages';
 import { UnitGenericService } from './unit-generic.service';
 import { UserRole } from '../../auth/user/user-role.enum';
 
-@UseGuards(JwtAuthGuard, UserRoleGuard)
 @ApiTags('unit-generic')
 @Controller('unit-generic')
 export class UnitGenericController {
@@ -40,19 +39,19 @@ export class UnitGenericController {
     private readonly _registryService: RegistryService
   ) { }
 
-  @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
-  @ApiResponse({})
   @Get()
   async findAll(): Promise<UnitsGenericsRO> {
     return await this._unitGenericService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<UnitGenericRO> {
     return await this._unitGenericService.findOneById(id);
   }
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiConflictResponse({ description: UnitExceptionMSG.CONFLICT })
   @Post()
@@ -62,6 +61,7 @@ export class UnitGenericController {
     return unitGenericRO;
   }
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiNotFoundResponse({
     description:

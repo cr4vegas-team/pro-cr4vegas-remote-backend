@@ -86,14 +86,10 @@ export class SetService {
   async createOne(dto: SetCreateDto): Promise<SetRO> {
     const foundSet: SetEntity = await this._setRepository
       .createQueryBuilder('sets')
-      .where('sets.code = :code', { code: dto.code })
       .orWhere('sets.name = :name', { name: dto.name })
       .getOne();
     if (foundSet) {
-      if (foundSet.name === dto.name) {
-        throw new ConflictException(SetExceptionMSG.CONFLICT_NAME);
-      }
-      throw new ConflictException(SetExceptionMSG.CONFLICT_CODE);
+      throw new ConflictException(SetExceptionMSG.CONFLICT_NAME);
     }
     const newSet: SetEntity = plainToClass(SetEntity, dto);
     newSet.units = (await this._unitService.findAllByIds(dto.units)).units;
@@ -110,14 +106,10 @@ export class SetService {
   async updateOne(dto: SetUpdateDto): Promise<SetRO> {
     const foundSetConflict: SetEntity = await this._setRepository
       .createQueryBuilder('sets')
-      .where('sets.code = :code', { code: dto.code })
       .orWhere('sets.name = :name', { name: dto.name })
       .getOne();
     if (foundSetConflict && foundSetConflict.id !== dto.id) {
-      if (foundSetConflict.name === dto.name) {
-        throw new ConflictException(SetExceptionMSG.CONFLICT_NAME);
-      }
-      throw new ConflictException(SetExceptionMSG.CONFLICT_CODE);
+      throw new ConflictException(SetExceptionMSG.CONFLICT_NAME);
     }
     let foundSet: SetEntity = await this._setRepository
       .createQueryBuilder('sets')

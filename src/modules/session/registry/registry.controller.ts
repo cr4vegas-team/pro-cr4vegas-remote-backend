@@ -25,7 +25,6 @@ export class RegistryController {
     @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER])
     @Get(':sessionId')
     findAllBySessionId(@Param('sessionId') sessionId: number): Promise<RegistriesRO> {
-        console.log('asdf');
         return this._registryService.findAllBySessionId(sessionId);
     }
 

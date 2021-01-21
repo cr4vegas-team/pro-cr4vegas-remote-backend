@@ -17,7 +17,6 @@ import { UnitPondService } from './unit-pond.service';
 import { Roles } from '../../auth/user/user-role.decorator';
 import { UserRole } from '../../auth/user/user-role.enum';
 
-@UseGuards(JwtAuthGuard, UserRoleGuard)
 @ApiTags('unit-pond')
 @Controller('unit-pond')
 export class UnitPondController {
@@ -26,18 +25,19 @@ export class UnitPondController {
     private readonly _registryService: RegistryService,
   ) { }
 
-  @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get()
   findAll(): Promise<UnitsPondsRO> {
     return this._unitPondService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<UnitPondRO> {
     return await this._unitPondService.findOneById(id);
   }
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiConflictResponse({ description: UnitExceptionMSG.CONFLICT })
   @Post()
@@ -47,6 +47,7 @@ export class UnitPondController {
     return unitPondRO;
   }
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiNotFoundResponse({
     description:

@@ -29,7 +29,6 @@ import { UnitHydrantUpdateDto } from './dto/unit-hydrant-update.dto';
 import { UnitHydrantExceptionMSG } from './unit-hydrant-exception-messages';
 import { UnitHydrantService } from './unit-hydrant.service';
 
-@UseGuards(JwtAuthGuard, UserRoleGuard)
 @ApiTags('unit-hydrant')
 @Controller('unit-hydrant')
 export class UnitHydrantController {
@@ -38,18 +37,19 @@ export class UnitHydrantController {
     private readonly _unitHydrantService: UnitHydrantService,
     private readonly _registryService: RegistryService) { }
 
-  @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get()
   findAll(): Promise<UnitsHydrantsRO> {
     return this._unitHydrantService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<UnitHydrantRO> {
     return await this._unitHydrantService.findOneById(id);
   }
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @Post()
   async createOne(@Req() req: any, @Body() dto: UnitHydrantCreateDto): Promise<UnitHydrantRO> {
@@ -58,6 +58,7 @@ export class UnitHydrantController {
     return unitHydrantRO;
   }
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiNotFoundResponse({
     description:
@@ -67,6 +68,7 @@ export class UnitHydrantController {
   @Put()
   async updateOne(@Req() req: any, @Body() dto: UnitHydrantUpdateDto): Promise<UnitHydrantRO> {
     const unitHydrantRO = await this._unitHydrantService.updateOne(dto);
+    console.log(unitHydrantRO);
     await this._registryService.insertOne(req);
     return unitHydrantRO;
   }

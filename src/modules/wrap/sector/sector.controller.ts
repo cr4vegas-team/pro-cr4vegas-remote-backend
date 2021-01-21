@@ -14,9 +14,9 @@ import {
   ApiNotFoundResponse,
   ApiTags
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../auth/auth/jwt-auth.guard';
 import { Roles } from '../../auth/user/user-role.decorator';
 import { UserRole } from '../../auth/user/user-role.enum';
-import { JwtAuthGuard } from '../../auth/auth/jwt-auth.guard';
 import { UserRoleGuard } from './../../auth/user/user-role.guard';
 import { RegistryService } from './../../session/registry/registry.service';
 import { SectorCreateDto } from './dto/sector-create.dto';
@@ -25,7 +25,6 @@ import { SectorUpdateDto } from './dto/sector-update.dto';
 import { SectorExceptionMSG } from './sector-exception.msg';
 import { SectorService } from './sector.service';
 
-@UseGuards(JwtAuthGuard, UserRoleGuard)
 @ApiTags('sector')
 @Controller('sector')
 export class SectorController {
@@ -36,7 +35,6 @@ export class SectorController {
 
   // ==========================================================
 
-  @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get()
   findAll(): Promise<SectorsRO> {
     return this._sectorService.findAll();
@@ -44,6 +42,7 @@ export class SectorController {
 
   // ==========================================================
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<SectorRO> {
@@ -52,6 +51,7 @@ export class SectorController {
 
   // ==========================================================
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiConflictResponse({
     description:
@@ -66,6 +66,7 @@ export class SectorController {
 
   // ==========================================================
 
+  @UseGuards(JwtAuthGuard, UserRoleGuard)
   @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @ApiConflictResponse({
     description:

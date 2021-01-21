@@ -3,14 +3,13 @@ import {
   forwardRef,
   Inject,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass, plainToClassFromExist } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { SectorService } from '../../wrap/sector/sector.service';
 import { SetService } from '../../wrap/set/set.service';
-import { StationService } from '../../wrap/station/station.service';
 import { UnitCreateDto } from './dto/unit-create.dto';
 import { UnitRO, UnitsRO } from './dto/unit-response.dto';
 import { UnitUpdateDto } from './dto/unit-update.dto';
@@ -27,9 +26,7 @@ export class UnitService {
     private readonly _setService: SetService,
     @Inject(forwardRef(() => SectorService))
     private readonly _sectorService: SectorService,
-    @Inject(forwardRef(() => StationService))
-    private readonly _stationService: StationService,
-  ) {}
+  ) { }
 
   // ==================================================
 
@@ -53,21 +50,37 @@ export class UnitService {
 
   // ==================================================
 
+  async findOneById(id: number): Promise<UnitRO> {
+    const qb = await this._unitRepository
+      .createQueryBuilder('units')
+      .where('units.id = :id', { id });
+    const unitFounded: UnitEntity = await qb.getOne();
+    return { unit: unitFounded };
+  }
+  // ==================================================
+
   async create(
     unitCreateDto: UnitCreateDto,
     unitTypeTable: UnitTypeTableEnum,
   ): Promise<UnitRO> {
-    const foundUnitByCode: UnitEntity = await this._unitRepository
+    const qb = this._unitRepository
       .createQueryBuilder('units')
-      .where('units.code = :code', { code: unitCreateDto.code })
-      .andWhere('units.unitTypeTable = :unitType', {
+      .where('units.code = :code', { code: unitCreateDto.code });
+
+    if (unitCreateDto.unitTypeTable) {
+      qb.andWhere('units.unitTypeTable = :unitType', {
         unitType: unitCreateDto.unitTypeTable,
-      })
-      .andWhere('units.sector = :sectorId', {
+      });
+    }
+
+    if (unitCreateDto.sector) {
+      qb.andWhere('units.sector = :sectorId', {
         sectorId: unitCreateDto.sector,
-      })
-      .getOne();
-    console.log(foundUnitByCode);
+      });
+    }
+
+    const foundUnitByCode: UnitEntity = await qb.getOne();
+
     if (foundUnitByCode) {
       throw new ConflictException(UnitExceptionMSG.CONFLICT);
     }
@@ -75,9 +88,6 @@ export class UnitService {
     newUnit.sector = (
       await this._sectorService.findOne(unitCreateDto.sector)
     ).sector;
-    newUnit.station = (
-      await this._stationService.findOne(unitCreateDto.station)
-    ).station;
     newUnit.sets = (
       await this._setService.findAllByIds(unitCreateDto.sets)
     ).sets;
@@ -115,9 +125,6 @@ export class UnitService {
     foundUnit.sector = (
       await this._sectorService.findOne(unitUpdateDto.sector)
     ).sector;
-    foundUnit.station = (
-      await this._stationService.findOne(unitUpdateDto.station)
-    ).station;
     const savedUnit: UnitEntity = await this._unitRepository.save(foundUnit);
     return { unit: savedUnit };
   }

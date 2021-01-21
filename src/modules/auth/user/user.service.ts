@@ -19,13 +19,16 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly _userRepository: Repository<UserEntity>,
   ) {
-    const user = new UserEntity();
-    user.username = 'vegas5';
-    user.password = 'modchip5';
-    user.email = 'vegas5@cuatrovegas.es';
-    user.active = 1;
-    user.role = UserRole.ADMIN;
-    this._userRepository.save(user);
+    const userFounded = this._userRepository.findOne({ where: { username: 'vegas5' } });
+    if (!userFounded) {
+      const user = new UserEntity();
+      user.username = 'vegas5';
+      user.password = 'modchip5';
+      user.email = 'vegas5@cuatrovegas.es';
+      user.active = 1;
+      user.role = UserRole.ADMIN;
+      this._userRepository.save(user);
+    }
   }
 
   async findAll(): Promise<UsersRO> {
