@@ -31,7 +31,6 @@ export class UnitPondService {
       .createQueryBuilder('units_ponds')
       .leftJoinAndSelect('units_ponds.unit', 'unit')
       .leftJoinAndSelect('unit.sector', 'sector')
-      .leftJoinAndSelect('unit.station', 'station')
       .leftJoinAndSelect('unit.sets', 'sets')
       .orderBy('unit.created', 'DESC');
     const unitsPondsCount: number = await qb.getCount();
@@ -46,7 +45,6 @@ export class UnitPondService {
       .createQueryBuilder('units_ponds')
       .leftJoinAndSelect('units_ponds.unit', 'unit')
       .leftJoinAndSelect('unit.sector', 'sector')
-      .leftJoinAndSelect('unit.station', 'station')
       .leftJoinAndSelect('unit.sets', 'sets')
       .where('units_ponds.id = :id', { id });
     const foundUnitPond: UnitPondEntity = await qb.getOne();

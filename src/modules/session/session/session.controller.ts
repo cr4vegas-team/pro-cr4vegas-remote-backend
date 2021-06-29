@@ -1,28 +1,27 @@
-import { SessionExceptionMSG } from './session-exception.msg';
-import { SessionCreateDto } from './dto/session-create.dto';
+import { UserRoleGuard } from './../../auth/user/user-role.guard';
+import { JwtAuthGuard } from './../../auth/auth/jwt-auth.guard';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { SessionsRO } from './dto/session-response.dto';
 import { SessionService } from './session.service';
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { SessionRO, SessionsRO } from './dto/session-response.dto';
-import { ApiNotFoundResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/modules/auth/user/user-role.decorator';
+import { UserRole } from 'src/modules/auth/user/user-role.enum';
 
-@ApiTags('control')
-@Controller('control')
+@UseGuards(JwtAuthGuard, UserRoleGuard)
+@ApiTags('session')
+@Controller('session')
 export class SessionController {
-  constructor(private readonly _controlService: SessionService) {}
+  constructor(private readonly _controlService: SessionService) { }
 
+  @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER])
   @Get()
   findAll(): Promise<SessionsRO> {
     return this._controlService.findAll();
   }
 
+  @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER])
   @Get(':userId')
   findAllByUserId(@Param('userId') userId: number): Promise<SessionsRO> {
     return this._controlService.findAllByUserId(userId);
-  }
-
-  @ApiNotFoundResponse({ description: SessionExceptionMSG.NOT_FOUND })
-  @Post()
-  insertOne(@Body() dto: SessionCreateDto): Promise<SessionRO> {
-    return this._controlService.startSession(dto);
   }
 }

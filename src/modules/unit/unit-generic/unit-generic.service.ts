@@ -34,7 +34,6 @@ export class UnitGenericService {
       .createQueryBuilder('units_generics')
       .leftJoinAndSelect('units_generics.unit', 'unit')
       .leftJoinAndSelect('unit.sector', 'sector')
-      .leftJoinAndSelect('unit.station', 'station')
       .leftJoinAndSelect('unit.sets', 'sets')
       .orderBy('unit.created', 'DESC');
 
@@ -50,7 +49,6 @@ export class UnitGenericService {
       .createQueryBuilder('units_generics')
       .leftJoinAndSelect('units_generics.unit', 'unit')
       .leftJoinAndSelect('unit.sector', 'sector')
-      .leftJoinAndSelect('unit.station', 'station')
       .leftJoinAndSelect('unit.sets', 'sets')
       .where('units_generics.id = :id', { id });
 

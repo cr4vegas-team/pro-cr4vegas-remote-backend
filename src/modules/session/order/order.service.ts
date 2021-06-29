@@ -1,14 +1,14 @@
-import { SessionService } from '../session/session.service';
-import { SessionEntity } from '../session/session.entity';
-import { OrderExceptionMSG } from './order-exception.msg';
-import { plainToClass, plainToClassFromExist } from 'class-transformer';
-import { Repository, UpdateResult } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { OrderEntity } from './order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OrderRO, OrdersRO } from './dto/order-response.dto';
+import { plainToClass, plainToClassFromExist } from 'class-transformer';
+import { Repository } from 'typeorm';
+import { SessionEntity } from '../session/session.entity';
+import { SessionService } from '../session/session.service';
 import { OrderCreateDto } from './dto/order-create.dto';
+import { OrderRO, OrdersRO } from './dto/order-response.dto';
 import { OrderUpdateDto } from './dto/order-update.dto';
+import { OrderExceptionMSG } from './order-exception.msg';
+import { OrderEntity } from './order.entity';
 
 @Injectable()
 export class OrderService {
@@ -56,28 +56,6 @@ export class OrderService {
         const savedOrder: OrderEntity = await this._orderRepository.save(foundControl);
         return { order: savedOrder };
 
-    }
-
-    async deactivate(id: number): Promise<boolean> {
-        const foundOrder: OrderEntity = await this._orderRepository.createQueryBuilder('orders')
-            .where('orders.id = :id', { id })
-            .getOne();
-        if (!foundOrder) {
-            throw new NotFoundException(OrderExceptionMSG.NOT_FOUND);
-        }
-        const updateResult: UpdateResult = await this._orderRepository.update(id, { active: 0 });
-        return updateResult.affected > 0;
-    }
-
-    async activate(id: number): Promise<boolean> {
-        const foundOrder: OrderEntity = await this._orderRepository.createQueryBuilder('orders')
-            .where('orders.id = :id', { id })
-            .getOne();
-        if (!foundOrder) {
-            throw new NotFoundException(OrderExceptionMSG.NOT_FOUND);
-        }
-        const updateResult: UpdateResult = await this._orderRepository.update(id, { active: 1 });
-        return updateResult.affected > 0;
     }
 
 }

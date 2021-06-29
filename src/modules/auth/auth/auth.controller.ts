@@ -1,20 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
-    Body,
-    Controller,
-    Get,
-    Post,
-
-    Request, UseGuards
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Request,
+  UseGuards
 } from '@nestjs/common';
 import {
-    ApiBadRequestResponse,
-    ApiBearerAuth,
-    ApiConflictResponse,
-    ApiNotFoundResponse,
-    ApiQuery,
-    ApiTags,
-    ApiUnauthorizedResponse
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiConflictResponse,
+  ApiNotFoundResponse,
+  ApiQuery,
+  ApiTags,
+  ApiUnauthorizedResponse
 } from '@nestjs/swagger';
 import { UserCreateDto } from '../user/dto/user-create.dto';
 import { UserDto, UserRO } from '../user/dto/user-response.dto';
@@ -27,7 +29,7 @@ import { LocalAuthGuard } from './local-auth.guard';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly _authService: AuthService) {}
+  constructor(private readonly _authService: AuthService) { }
 
   @ApiBearerAuth()
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
@@ -43,11 +45,12 @@ export class AuthController {
     description: 'Username or Email',
   })
   @ApiQuery({ name: 'password', type: String })
+  @ApiQuery({ name: 'userAgent', type: String })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req: any): Promise<TokenRO> {
-    return this._authService.getToken(req.user);
+  async login(@Req() req: any): Promise<TokenRO> {
+    return this._authService.getToken(req);
   }
 
   @ApiNotFoundResponse({ description: UserExceptionMSG.NOT_FOUND })
@@ -61,5 +64,13 @@ export class AuthController {
   @Post('signin')
   async signin(@Body() dto: UserCreateDto): Promise<UserRO> {
     return await this._authService.signin(dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiNotFoundResponse({ description: UserExceptionMSG.NOT_FOUND })
+  @ApiBadRequestResponse({ description: UserExceptionMSG.BAD_REQUEST })
+  @Post('logout')
+  async logout(@Req() req: any): Promise<boolean> {
+    return await this._authService.logout(req);
   }
 }

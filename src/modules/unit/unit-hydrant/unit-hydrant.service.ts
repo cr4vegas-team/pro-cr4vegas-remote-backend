@@ -34,7 +34,6 @@ export class UnitHydrantService {
       .createQueryBuilder('units_hydrants')
       .leftJoinAndSelect('units_hydrants.unit', 'unit')
       .leftJoinAndSelect('unit.sector', 'sector')
-      .leftJoinAndSelect('unit.station', 'station')
       .leftJoinAndSelect('unit.sets', 'sets')
       .orderBy('unit.created', 'DESC');
     const unitsHydrantsCount: number = await qb.getCount();
@@ -49,7 +48,6 @@ export class UnitHydrantService {
       .createQueryBuilder('units_hydrants')
       .leftJoinAndSelect('units_hydrants.unit', 'unit')
       .leftJoinAndSelect('unit.sector', 'sector')
-      .leftJoinAndSelect('unit.station', 'station')
       .leftJoinAndSelect('unit.sets', 'sets')
       .where('units_hydrants.id = :id', { id });
     const foundUnitHydrant: UnitHydrantEntity = await qb.getOne();

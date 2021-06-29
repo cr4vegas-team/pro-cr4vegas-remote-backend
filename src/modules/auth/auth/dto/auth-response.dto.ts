@@ -1,6 +1,6 @@
-import { UserRole } from './../../user/user-role.enum';
+import { UserEntity } from './../../user/user.entity';
 
 export class TokenRO {
   token: string;
-  role: UserRole;
+  user: UserEntity;
 }

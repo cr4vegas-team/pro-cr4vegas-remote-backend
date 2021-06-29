@@ -1,3 +1,4 @@
+import { SessionController } from './session/session.controller';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActionController } from './action/action.controller';
@@ -24,17 +25,23 @@ import { SessionService } from './session/session.service';
   ],
 
   controllers: [
-    RegistryController, 
-    OrderController, 
-    ActionController
+    RegistryController,
+    OrderController,
+    ActionController,
+    SessionController,
   ],
 
   providers: [
-    RegistryService, 
-    ActionService, 
-    OrderService, 
+    RegistryService,
+    ActionService,
+    OrderService,
     SessionService
+  ],
+
+  exports: [
+    SessionService,
+    RegistryService
   ]
 
 })
-export class SessionModule {}
+export class SessionModule { }

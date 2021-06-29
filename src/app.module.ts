@@ -20,7 +20,6 @@ import { CONFIG } from './config/config.constant';
 import configuration from './config/configuration';
 import { AllExceptionsFilter } from './global/filters/all.exception.filter';
 import { AuthModule } from './modules/auth/auth.module';
-import { GeneralModule } from './modules/general/general.module';
 import { SessionModule } from './modules/session/session.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { UnitModule } from './modules/unit/unit.module';
@@ -50,7 +49,6 @@ import { WrapModule } from './modules/wrap/wrap.module';
     WrapModule,
     SessionModule,
     SharedModule,
-    GeneralModule,
   ],
 
   controllers: [AppController],
@@ -82,8 +80,6 @@ import { WrapModule } from './modules/wrap/wrap.module';
       inject: [ConfigService],
     },
   ],
-
-  exports: [ClientsModule],
 })
 export class AppModule implements OnApplicationBootstrap {
   constructor(@Inject('MQTT_SERVICE') private readonly client: ClientProxy) {}

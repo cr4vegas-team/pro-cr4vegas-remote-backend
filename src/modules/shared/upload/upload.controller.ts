@@ -1,8 +1,12 @@
+import { UserRoleGuard } from './../../auth/user/user-role.guard';
+import { JwtAuthGuard } from './../../auth/auth/jwt-auth.guard';
+import { UseGuards } from '@nestjs/common';
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   BadRequestException,
   Controller,
   Get,
+  NotFoundException,
   Post,
   Query,
   Res,
@@ -10,6 +14,10 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
+import * as fs from 'fs';
+import { Roles } from '../../auth/user/user-role.decorator';
+import { UserRole } from '../../auth/user/user-role.enum';
 
 // ==================================================
 
@@ -32,8 +40,11 @@ export const imageJPGLimits = {
 
 // ==================================================
 
+@UseGuards(JwtAuthGuard, UserRoleGuard)
 @Controller('upload')
 export class UploadController {
+
+  @Roles([UserRole.ADMIN, UserRole.MODERATOR])
   @Post('image')
   @UseInterceptors(
     FileInterceptor('file', {
@@ -46,13 +57,18 @@ export class UploadController {
     if (!file) {
       throw new BadRequestException('Se require una imagen en formato .jpg');
     }
-    return {filename: file.filename};
+    return { filename: file.filename };
   }
 
   // ==================================================
 
+  @Roles([UserRole.ADMIN, UserRole.MODERATOR, UserRole.VIEWER, UserRole.NONE])
   @Get('image')
-  getImage(@Query('filename') filename, @Res() res) {
-    return res.sendFile(filename, { root: './upload/images' });
+  getImage(@Query('filename') filename, @Res() res: Response) {
+    if (fs.existsSync('./upload/images/' + filename)) {
+      return res.sendFile(filename, { root: './upload/images' });
+    } else {
+      throw new NotFoundException('La imagen no existe. Vuelva a cargar una');
+    }
   }
 }

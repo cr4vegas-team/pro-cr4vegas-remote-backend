@@ -1,14 +1,13 @@
 import {
   IsEmail,
-  IsEnum,
+
   IsIn,
   IsNumber,
   IsOptional,
   IsString,
   MaxLength,
-  MinLength,
+  MinLength
 } from 'class-validator';
-import { UserRole } from '../user-role.enum';
 
 export class UpdateUserDto {
   @IsNumber()
@@ -32,8 +31,4 @@ export class UpdateUserDto {
 
   @IsIn([0, 1], {})
   active: number;
-
-  @IsString()
-  @IsEnum(UserRole, {})
-  role: UserRole;
 }

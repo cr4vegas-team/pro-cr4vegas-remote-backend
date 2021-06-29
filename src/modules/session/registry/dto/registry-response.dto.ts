@@ -1,11 +1,19 @@
-import { RegistryEntity } from '../registry.entity';
+import { SessionEntity } from '../../session/session.entity';
 
+export class RegistryDto {
+    id: number;
+    session: SessionEntity;
+    method: string;
+    originalUrl: string;
+    body: any;
+    created: Date;
+}
 
 export class RegistryRO {
-    registry: RegistryEntity;
+    registry: RegistryDto;
 }
 
 export class RegistriesRO {
-    registries: RegistryEntity[];
+    registries: RegistryDto[];
     count: number;
 }

@@ -1,8 +1,10 @@
-import { SharedModule } from './../shared/shared.module';
+import { UnitStationPechinaEntity } from './unit-station-pechina/unit-station-pechina.entity';
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WrapModule } from '../wrap/wrap.module';
 import { AppModule } from './../../app.module';
+import { SessionModule } from './../session/session.module';
+import { SharedModule } from './../shared/shared.module';
 import { UnitGenericController } from './unit-generic/unit-generic.controller';
 import { UnitGenericEntity } from './unit-generic/unit-generic.entity';
 import { UnitGenericService } from './unit-generic/unit-generic.service';
@@ -15,9 +17,8 @@ import { UnitPondService } from './unit-pond/unit-pond.service';
 import { UnitController } from './unit/unit.controller';
 import { UnitEntity } from './unit/unit.entity';
 import { UnitService } from './unit/unit.service';
-import { UnitHydrantGateway } from './unit-hydrant/unit-hydrant.gateway';
-import { UnitPondGateway } from './unit-pond/unit-pond.gateway';
-import { UnitGenericGateway } from './unit-generic/unit-generic.gateway';
+import { UnitStationPechinaController } from './unit-station-pechina/unit-station-pechina.controller';
+import { UnitStationPechinaService } from './unit-station-pechina/unit-station-pechina.service';
 
 @Module({
   imports: [
@@ -26,10 +27,12 @@ import { UnitGenericGateway } from './unit-generic/unit-generic.gateway';
       UnitHydrantEntity,
       UnitPondEntity,
       UnitGenericEntity,
+      UnitStationPechinaEntity,
     ]),
     forwardRef(() => WrapModule),
     forwardRef(() => AppModule),
     SharedModule,
+    SessionModule,
   ],
 
   controllers: [
@@ -37,6 +40,7 @@ import { UnitGenericGateway } from './unit-generic/unit-generic.gateway';
     UnitPondController,
     UnitController,
     UnitGenericController,
+    UnitStationPechinaController,
   ],
 
   providers: [
@@ -44,9 +48,7 @@ import { UnitGenericGateway } from './unit-generic/unit-generic.gateway';
     UnitHydrantService,
     UnitPondService,
     UnitGenericService,
-    UnitHydrantGateway,
-    UnitGenericGateway,
-    UnitPondGateway,
+    UnitStationPechinaService,
   ],
 
   exports: [
@@ -56,4 +58,4 @@ import { UnitGenericGateway } from './unit-generic/unit-generic.gateway';
     UnitGenericService,
   ],
 })
-export class UnitModule {}
+export class UnitModule { }

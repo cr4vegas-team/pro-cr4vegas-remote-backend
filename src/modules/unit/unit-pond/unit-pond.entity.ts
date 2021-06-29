@@ -9,21 +9,15 @@ export class UnitPondEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    // =======================================
-
     @OneToOne(type => UnitEntity, { eager: true })
     @JoinColumn()
     unit: UnitEntity;
-
-    // =======================================
 
     @Column({
         type: 'bigint',
         nullable: true
     })
     m3: number;
-
-    // =======================================
 
     @Column({
         type: 'float',

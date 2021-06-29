@@ -15,13 +15,6 @@ export class SetUpdateDto {
   // =======================================
 
   @IsString()
-  @MinLength(1)
-  @MaxLength(5)
-  code: string;
-
-  // =======================================
-
-  @IsString()
   setType: string;
 
   // =======================================

@@ -1,11 +1,8 @@
-import { UserRole } from './../user-role.enum';
 import {
   IsEmail,
-  IsEnum,
-  IsIn,
   IsString,
   MaxLength,
-  MinLength,
+  MinLength
 } from 'class-validator';
 
 export class UserCreateDto {
@@ -22,10 +19,4 @@ export class UserCreateDto {
   @MaxLength(250)
   password: string;
 
-  @IsIn([0, 1], {})
-  active: number;
-
-  @IsString()
-  @IsEnum(UserRole, {})
-  role: UserRole;
 }

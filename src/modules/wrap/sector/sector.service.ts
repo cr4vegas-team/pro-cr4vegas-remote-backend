@@ -112,34 +112,4 @@ export class SectorService {
     );
     return { sector: updatedSector };
   }
-
-  // ==========================================================
-
-  async deleteOne(id: number): Promise<boolean> {
-    const foundSector: SectorEntity = await this._sectorRepository
-      .createQueryBuilder('sectors')
-      .where('sectors.id = :id', { id })
-      .getOne();
-    if (!foundSector) {
-      throw new NotFoundException(SectorExceptionMSG.NOT_FOUND);
-    }
-    return (
-      (await this._sectorRepository.update(id, { active: 0 })).affected > 0
-    );
-  }
-
-  // ==========================================================
-
-  async activateOne(id: number): Promise<boolean> {
-    const foundSector: SectorEntity = await this._sectorRepository
-      .createQueryBuilder('sectors')
-      .where('sectors.id = :id', { id })
-      .getOne();
-    if (!foundSector) {
-      throw new NotFoundException(SectorExceptionMSG.NOT_FOUND);
-    }
-    return (
-      (await this._sectorRepository.update(id, { active: 1 })).affected > 0
-    );
-  }
 }

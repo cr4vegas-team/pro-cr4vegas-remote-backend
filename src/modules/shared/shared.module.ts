@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
+import { WsGateway } from './gateway/ws.gateway';
 import { UploadController } from './upload/upload.controller';
-import { UploadService } from './upload/upload.service';
 
 @Module({
   imports: [
@@ -15,6 +15,6 @@ import { UploadService } from './upload/upload.service';
     }),
   ],
   controllers: [UploadController],
-  providers: [UploadService],
+  providers: [WsGateway],
 })
 export class SharedModule {}

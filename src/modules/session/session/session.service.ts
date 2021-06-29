@@ -1,11 +1,11 @@
-import { SessionExceptionMSG } from './session-exception.msg';
-import { plainToClass } from 'class-transformer';
-import { SessionCreateDto } from './dto/session-create.dto';
-import { SessionEntity } from './session.entity';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { SessionRO, SessionsRO } from './dto/session-response.dto';
+import { SessionExceptionMSG } from './session-exception.msg';
+import { SessionEntity } from './session.entity';
 
 @Injectable()
 export class SessionService {
@@ -38,8 +38,11 @@ export class SessionService {
         return { session: foundSession };
     }
 
-    async startSession(sessionCreateDto: SessionCreateDto): Promise<SessionRO> {
-        const sessionEntity: SessionEntity = plainToClass(SessionEntity, sessionCreateDto);
+    async startSession(req: any): Promise<SessionRO> {
+        const sessionEntity = new SessionEntity();
+        sessionEntity.user = req.user;
+        sessionEntity.userAgent = req.headers['user-agent'];
+        sessionEntity.origin = req.headers['origin'];
         const savedSession: SessionEntity = await this._sessionRepository.save(sessionEntity);
         return { session: savedSession };
     }
@@ -53,11 +56,8 @@ export class SessionService {
         }
         foundSession.active = 0;
         foundSession.finished = new Date();
-        const updateResult: UpdateResult = await this._sessionRepository.update(id, {
-            active: 0,
-            finished: new Date()
-        });
-        return updateResult.affected > 0;
+        const session: SessionEntity = await this._sessionRepository.save(foundSession);
+        return session ? true : false;
     }
 
 }
