@@ -33,7 +33,7 @@ let AppModule = class AppModule {
         this.client = client;
     }
     async onApplicationBootstrap() {
-        await this.client.connect();
+        await this.client.connect().then(() => console.log('Mqtt On!'));
     }
 };
 AppModule = __decorate([
@@ -45,13 +45,15 @@ AppModule = __decorate([
                 load: [configuration_1.default],
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
-                useFactory: (configService) => configService.get(config_constant_1.CONFIG.DATABASE),
+                useFactory: (configService) => {
+                    return configService.get(config_constant_1.CONFIG.DATABASE);
+                },
                 inject: [config_1.ConfigService],
             }),
             microservices_1.ClientsModule.register([
                 {
                     name: 'MQTT_SERVICE',
-                    transport: microservices_1.Transport.MQTT
+                    transport: microservices_1.Transport.MQTT,
                 },
             ]),
             auth_module_1.AuthModule,

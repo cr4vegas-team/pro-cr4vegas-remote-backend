@@ -49,6 +49,8 @@ __decorate([
     typeorm_1.Column({
         type: 'enum',
         enum: unit_type_enum_1.UnitTypeTableEnum,
+        default: unit_type_enum_1.UnitTypeTableEnum.UNIT_GENERIC,
+        nullable: true,
     }),
     __metadata("design:type", String)
 ], UnitEntity.prototype, "unitTypeTable", void 0);

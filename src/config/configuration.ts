@@ -32,3 +32,6 @@ export default () => ({
     path: '/logs',
   },
 });
+
+
+// /var/lib/docker/volumes/foo-emqx-etc/_data/certs

@@ -62,6 +62,8 @@ export class UnitEntity {
   @Column({
     type: 'enum',
     enum: UnitTypeTableEnum,
+    default: UnitTypeTableEnum.UNIT_GENERIC,
+    nullable: true,
   })
   unitTypeTable: UnitTypeTableEnum;
 

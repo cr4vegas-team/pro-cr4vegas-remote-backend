@@ -4,7 +4,7 @@ import {
   Inject,
   Module,
   OnApplicationBootstrap,
-  ValidationPipe
+  ValidationPipe,
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
@@ -12,7 +12,7 @@ import {
   ClientProxy,
   ClientProxyFactory,
   ClientsModule,
-  Transport
+  Transport,
 } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -34,14 +34,15 @@ import { WrapModule } from './modules/wrap/wrap.module';
       load: [configuration],
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: (configService: ConfigService) =>
-        configService.get<any>(CONFIG.DATABASE),
+      useFactory: (configService: ConfigService) => {
+        return configService.get<any>(CONFIG.DATABASE);
+      },
       inject: [ConfigService],
     }),
     ClientsModule.register([
       {
         name: 'MQTT_SERVICE',
-        transport: Transport.MQTT
+        transport: Transport.MQTT,
       },
     ]),
     AuthModule,
@@ -88,6 +89,6 @@ export class AppModule implements OnApplicationBootstrap {
   constructor(@Inject('MQTT_SERVICE') private readonly client: ClientProxy) {}
 
   async onApplicationBootstrap(): Promise<void> {
-    await this.client.connect();
+    await this.client.connect().then(() => console.log('Mqtt On!'));
   }
 }
